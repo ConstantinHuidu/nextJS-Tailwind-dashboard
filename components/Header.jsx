@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React from "react";
+import { MdLogout } from "react-icons/md";
 
 const Header = ({ message }) => {
   return (
@@ -15,7 +16,10 @@ const Header = ({ message }) => {
         <Link href="/login" className="md:px-4 text-purple-700 ">
           Login
         </Link>
-        <button className="md:px-4 text-purple-700 ">Logout </button>
+        <div className="flex justify-end items-center md:px-4 cursor-pointer">
+          <MdLogout className="text-purple-700" size={20} />
+          <p className=" text-purple-700 ">Logout </p>
+        </div>
       </div>
     </div>
   );
