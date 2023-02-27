@@ -3,10 +3,13 @@ import Header from "./Header";
 import { useRouter } from "next/router";
 import LoadingSpinner from "./LoadingSpinner";
 import Link from "next/link";
+import { validateEmail } from "@/helpers/auth";
 
 const Signup = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const nameRef = useRef();
   const userNameRef = useRef();
@@ -21,7 +24,7 @@ const Signup = () => {
     const signUpData = {
       name: name,
       userName: userName,
-      email: email,
+      email: email.toLowerCase(),
       password: password,
     };
     const response = await fetch("/api/auth/signup", {
@@ -42,22 +45,51 @@ const Signup = () => {
 
   const submitFormHandler = async (e) => {
     e.preventDefault();
+
+    //=== CLEAR ANY ERROR FROM PREVIOUS SIGNUP ATTEMPTS ===
+    setError(false);
+    setErrorMessage("");
+
+    //=== GET USERINPUT ===
     const enteredName = nameRef.current.value;
     const enteredUserName = userNameRef.current.value;
     const enteredEmail = emailRef.current.value;
     const enteredPassword = passwordRef.current.value;
     const enteredConfirmation = confirmRef.current.value;
 
+    // === CHECK EMAIL IS VALID ===
+    const emailIsValid = validateEmail(enteredEmail);
+
+    //=== BASIC VALIDATION === TO BE REFACTORED
+
     if (
       !enteredName ||
       !enteredUserName ||
-      !enteredEmail ||
       !enteredPassword ||
       enteredPassword.trim().length < 6 ||
       !enteredConfirmation
     ) {
+      setError(true);
+      setErrorMessage(`Fields can't be empty`);
       return;
     }
+
+    if (!emailIsValid) {
+      setError(true);
+      setErrorMessage("Invalid email format");
+      return;
+    }
+
+    if (enteredPassword !== enteredConfirmation) {
+      setError(true);
+      setErrorMessage(`The passwords don't match`);
+      return;
+    }
+
+    //===  END BASIC VALIDATION === TO BE REFACTORED
+
+    // === SEND USER INFO TO DB ===
+
     try {
       const result = await createUser(
         enteredName,
@@ -66,11 +98,12 @@ const Signup = () => {
         enteredPassword
       );
 
-      console.log(result);
+      // console.log(result);
       setIsLoading(false);
       router.push("/");
     } catch (error) {
-      console.log(error);
+      setError(true);
+      setErrorMessage(error.message || "Something went wrong");
     }
   };
 
@@ -127,6 +160,13 @@ const Signup = () => {
             I accept the Terms & Conditions
           </p>
         </div>
+
+        {error && (
+          <p className="text-sm text-red-500 bg-red-100 p-2 mb-5 border rounded-lg">
+            {errorMessage}
+          </p>
+        )}
+
         <Link
           href="/login"
           className="text-sm pb-10 underline text-blue-600 hover:text-blue-800 visited:text-purple-600"

@@ -1,10 +1,16 @@
 import Sidebar from "@/components/Sidebar";
 import "@/styles/globals.css";
+import { SessionProvider } from "next-auth/react";
 
-export default function App({ Component, pageProps }) {
+export default function App({
+  Component,
+  pageProps: { session, ...pageProps },
+}) {
   return (
-    <Sidebar>
-      <Component {...pageProps} />
-    </Sidebar>
+    <SessionProvider session={session}>
+      <Sidebar>
+        <Component {...pageProps} />
+      </Sidebar>
+    </SessionProvider>
   );
 }

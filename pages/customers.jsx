@@ -1,19 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import CustomerRow from "@/components/CustomerRow";
 import Header from "@/components/Header";
-
 import data from "@/data/data";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 const customers = () => {
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status !== "authenticated") {
+      router.push("/login");
+    }
+  }, []);
+
   return (
     <div className="bg-gray-100 min-h-screen">
       <Header message={"Customers"} />
-      {/* <div className="bg-gray-100 min-h-screen">
-      <div className="flex justify-between p-4">
-        <h2>Customers</h2>
-        <h2>Welcome back, Constantin</h2>
-      </div>
-    </div> */}
 
       <div className="p-4">
         <div className="w-full m-auto p-4 border rounded-lg bg-white overflow-y-auto">
