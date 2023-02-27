@@ -1,19 +1,62 @@
 import Link from "next/link";
 import React, { useState, useRef } from "react";
 import Header from "./Header";
+import { signIn } from "next-auth/react";
+
+import { useRouter } from "next/router";
+import LoadingSpinner from "./LoadingSpinner";
+import { validateEmail } from "@/helpers/auth";
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
   const emailRef = useRef();
   const passwordRef = useRef();
 
-  const submitFormHandler = (e) => {
+  const router = useRouter();
+
+  const submitFormHandler = async (e) => {
     e.preventDefault();
-    const enteredEmail = emailRef.current.value;
+    //=== CLEAR ANY ERROR FROM PREVIOUS LOGIN ATTEMPTS ===
+    setError(false);
+
+    // === GETTING USERINPUT ===
+    const enteredEmail = emailRef.current.value.toLowerCase();
     const enteredPassword = passwordRef.current.value;
 
-    console.log({ enteredEmail, enteredPassword });
+    // ===CHECK FOR VALID EMAIL ===
+    const emailIsValid = validateEmail(enteredEmail);
+
+    //=== IGNORE LOGIN REQUESTS WITH INVALID DATA (EMPTY PASSWORD / INVALID EMAIL) ===
+    if (!enteredPassword || !emailIsValid) {
+      return;
+    }
+
+    //=== INITIATE SIGNIN
+    setIsLoading(true);
+    const result = await signIn("credentials", {
+      redirect: false,
+      email: enteredEmail,
+      password: enteredPassword,
+    });
+    // console.log(result);
+
+    //=== THROW ERRORS ON THE UI IF SIGNIN IS NOT SUCCESSFULL ===
+    if (result.error) {
+      // console.log(result);
+      setError(true);
+      setErrorMessage(result.error || "Something went Wrong");
+      setIsLoading(false);
+      return;
+    }
+
+    //=== CLEAR LOADING STATE AND REDIRECT ===
+    router.push("/");
+    setIsLoading(false);
   };
+
   return (
     <div className="bg-gray-100 min-h-screen">
       <Header message={"Log in"} />
@@ -37,6 +80,11 @@ const Login = () => {
           required
           className="sm:w-[55%] mb-6 border border-purple-300 rounded-lg text-xl p-2 focus:outline-none focus:border-purple-500"
         />
+        {error && (
+          <p className="text-sm text-red-500 bg-red-100 p-2 mb-5 border rounded-lg">
+            {errorMessage}
+          </p>
+        )}
 
         <Link
           href="/signup"
@@ -50,7 +98,7 @@ const Login = () => {
             LOG IN
           </button>
         )}
-        {isLoading && <LoadingSpinner />}
+        {isLoading && <LoadingSpinner className="mt-20" />}
       </form>
     </div>
   );

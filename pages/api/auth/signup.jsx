@@ -21,7 +21,7 @@ export default async function handler(req, res) {
   const result = await db.collection("users").insertOne({
     name: name,
     userName: userName,
-    email: email,
+    email: email.toLowerCase(),
     password: hashedPassword,
   });
 
