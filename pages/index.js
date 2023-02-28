@@ -1,23 +1,11 @@
 import Head from "next/head";
-
 import Header from "@/components/Header";
 import TopCards from "@/components/TopCards";
 import BarChart from "@/components/BarChart";
 import RecentOrders from "@/components/RecentOrders";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { getSession } from "next-auth/react";
 
 export default function Home() {
-  const { data: session, status } = useSession();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (status !== "authenticated") {
-      router.push("/login");
-    }
-  }, []);
-
   return (
     <>
       <Head>
@@ -36,4 +24,22 @@ export default function Home() {
       </main>
     </>
   );
+}
+
+// === SERVER-SIDE REDIRECT IF USER IS NOT AUTHENTICATED ===
+export async function getServerSideProps(context) {
+  const session = await getSession({ req: context.req });
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: { session },
+  };
 }

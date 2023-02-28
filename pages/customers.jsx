@@ -1,20 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import CustomerRow from "@/components/CustomerRow";
 import Header from "@/components/Header";
 import data from "@/data/data";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
+import { getSession } from "next-auth/react";
 
 const customers = () => {
-  const { data: session, status } = useSession();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (status !== "authenticated") {
-      router.push("/login");
-    }
-  }, []);
-
   return (
     <div className="bg-gray-100 min-h-screen">
       <Header message={"Customers"} />
@@ -37,5 +27,23 @@ const customers = () => {
     </div>
   );
 };
+
+// === SERVER-SIDE REDIRECT IF USER IS NOT AUTHENTICATED ===
+export async function getServerSideProps(context) {
+  const session = await getSession({ req: context.req });
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: { session },
+  };
+}
 
 export default customers;
