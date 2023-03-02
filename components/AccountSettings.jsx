@@ -1,12 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Header from "./Header";
-import { useSession, getSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { BsFillPersonFill } from "react-icons/bs";
 import Modal from "./generic/Modal";
 
+const defaultErrorState = {
+  error: false,
+  errorMessage: "",
+};
+const defaultSuccessState = {
+  success: false,
+  successMessage: "",
+};
+
 const AccountSettings = () => {
   const [showModal, setShowModal] = useState(false);
-  const [userName, setUserName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [updateError, setUpdateError] = useState(defaultErrorState);
+  const [updateSuccess, setUpdateSuccess] = useState(defaultSuccessState);
 
   const { data: session, status } = useSession();
 
@@ -16,6 +28,13 @@ const AccountSettings = () => {
 
   async function updateUserInfo(newName, newPassword) {
     //ADD LOADING SPINNER
+    setIsLoading(true);
+
+    // === CLEAR ANY PREVIOUS ERRORS ===
+    setUpdateError({ error: false, errorMessage: "" });
+    setUpdateSuccess({ success: false, successMessage: "" });
+
+    // === API CALL
     const response = await fetch("/api/editinfo", {
       method: "PATCH",
       body: JSON.stringify({ newName, newPassword }),
@@ -33,16 +52,23 @@ const AccountSettings = () => {
   }
 
   async function confirmModalHandler(newName, newPassword) {
+    // TRY TO SEND DATA TO DB
     try {
       const result = await updateUserInfo(newName, newPassword);
-      console.log(result);
+      setUpdateSuccess({
+        success: true,
+        successMessage: "Details updated successfully",
+      });
       closeModalHandler();
+      setIsLoading(false);
     } catch (error) {
       //==THROW ERRORS ON THE UI ===
-      // setError(true);
-      // setErrorMessage(error.message || "Something went wrong");
+      setUpdateError({
+        error: true,
+        errorMessage: error.message || "Something went wrong",
+      });
+      setIsLoading(false);
     }
-    // === REMOVE LOADING SPINNER
   }
 
   return (
@@ -56,39 +82,32 @@ const AccountSettings = () => {
           <label htmlFor="name" className="w-[25%]">
             Name
           </label>
-          <input
-            type="text"
-            value={session?.user?.name || ""}
+
+          <p
             id="name"
-            required
-            className="border border-purple-300 rounded-lg text-xl p-2 mx-auto w-[65%] focus:outline-none focus:border-purple-500 "
-          />
+            className="border border-purple-300 rounded-lg text-xl p-2 mx-auto w-[65%] "
+          >
+            {session?.user?.name || ""}
+          </p>
         </div>
 
         <div className="sm:w-[75%] flex justify-start items-center mb-6">
           <label htmlFor="email" className="w-[25%]">
             E-mail
           </label>
-          <input
-            type="email"
-            value={session?.user?.email || ""}
-            id="email"
-            required
-            className=" border border-purple-300 rounded-lg text-xl p-2 mx-auto w-[65%] focus:outline-none focus:border-purple-500"
-          />
+          <p
+            id="name"
+            className="border border-purple-300 rounded-lg text-xl p-2 mx-auto w-[65%] "
+          >
+            {session?.user?.email || ""}
+          </p>
         </div>
 
-        <div className="sm:w-[75%] flex justify-start items-center mb-6">
-          <label htmlFor="password" className="w-[25%]">
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            required
-            className=" border border-purple-300 rounded-lg text-xl p-2 mx-auto w-[65%] focus:outline-none focus:border-purple-500"
-          />
-        </div>
+        {updateSuccess.success && (
+          <p className="text-sm text-green-500 bg-green-100 p-2 mb-5 border rounded-lg">
+            {updateSuccess.successMessage}
+          </p>
+        )}
 
         <button
           className="text-lg text-white border rounded-lg p-2 mt-10 bg-gray-500 hover:bg-gray-600 hover:text-white disabled:opacity-50 disabled:hover:text-white disabled:hover:bg-gray-500 "
@@ -99,10 +118,10 @@ const AccountSettings = () => {
       </div>
       {showModal && (
         <Modal
-          modalTitle={"Edit account info"}
+          isLoading={isLoading}
           onClose={closeModalHandler}
-          onConfirmMessage={"Update user"}
           onConfirm={confirmModalHandler}
+          updateError={updateError}
         />
       )}
     </div>

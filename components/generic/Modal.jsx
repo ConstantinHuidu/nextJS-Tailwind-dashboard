@@ -1,13 +1,13 @@
 import { useSession } from "next-auth/react";
 import React, { useState } from "react";
+import LoadingSpinner from "../LoadingSpinner";
 
 export default function Modal(props) {
-  const { onClose, modalTitle, modalBody, onConfirm, onConfirmMessage } = props;
-
-  const [newName, setNewName] = useState("");
-  const [newPassword, setNewPassword] = useState("");
+  const { onClose, onConfirm, isLoading, updateError } = props;
 
   const { data: session, status } = useSession();
+  const [newName, setNewName] = useState(session.user.name);
+  const [newPassword, setNewPassword] = useState("");
 
   const handleNameChange = (userInput) => {
     setNewName(userInput);
@@ -26,7 +26,7 @@ export default function Modal(props) {
             <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
               {/*header*/}
               <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                <h3 className="text-3xl font-semibold">{modalTitle}</h3>
+                <h3 className="text-3xl font-semibold">Edit account info</h3>
                 <button
                   className="p-1 ml-auto bg-transparent border-0 text-black float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                   onClick={onClose}
@@ -37,7 +37,7 @@ export default function Modal(props) {
                 </button>
               </div>
               {/*body*/}
-              <div className="w-[75%] m-5 flex flex-col justify-center items-center">
+              <div className="w-[100%] m-5 flex flex-col justify-center items-center ">
                 <div className="sm:w-[75%] flex justify-start items-center mb-6">
                   <label for="name" className="w-[25%]">
                     Name
@@ -64,6 +64,12 @@ export default function Modal(props) {
                     className=" border border-purple-300 rounded-lg text-xl p-2 mx-auto w-[65%] focus:outline-none focus:border-purple-500"
                   />
                 </div>
+
+                {updateError.error && (
+                  <p className="text-sm text-red-500 bg-red-100 p-2 mb-5 border rounded-lg">
+                    {updateError.errorMessage}
+                  </p>
+                )}
               </div>
               {/*footer*/}
               <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
@@ -74,13 +80,24 @@ export default function Modal(props) {
                 >
                   Close
                 </button>
-                <button
-                  className="bg-emerald-400 text-white active:bg-emerald-500 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                  type="button"
-                  onClick={() => onConfirm(newName, newPassword)}
-                >
-                  {onConfirmMessage}
-                </button>
+                {!isLoading && (
+                  <button
+                    className="bg-emerald-400 text-white active:bg-emerald-500 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    type="button"
+                    onClick={() => onConfirm(newName, newPassword)}
+                  >
+                    Update user
+                  </button>
+                )}
+                {isLoading && (
+                  <button
+                    className="bg-emerald-400 text-white active:bg-emerald-500 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    type="button"
+                    onClick={() => onConfirm(newName, newPassword)}
+                  >
+                    <LoadingSpinner />
+                  </button>
+                )}
               </div>
             </div>
           </div>

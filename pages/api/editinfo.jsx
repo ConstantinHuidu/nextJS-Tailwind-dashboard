@@ -11,8 +11,17 @@ export default async function handler(req, res) {
 
   const { newName, newPassword } = data;
 
-  if (!newName || !newPassword) {
-    res.status(422).json({ message: "Please fill in the form" });
+  if (!newName || newName.trim().length < 3) {
+    res
+      .status(422)
+      .json({ message: "Name needs to be at least 3 characters long" });
+    return;
+  }
+
+  if (!newPassword || newPassword.trim().length < 6) {
+    res
+      .status(422)
+      .json({ message: "Password needs to be at least 6 characters long" });
     return;
   }
 
@@ -22,9 +31,6 @@ export default async function handler(req, res) {
 
   const hashedPassword = await hashPassword(newPassword);
   const userEmail = session.user.email;
-
-  const usersCollection = client.db().collection("users");
-  const user = await usersCollection.findOne({ email: userEmail });
 
   const result = await db
     .collection("users")
