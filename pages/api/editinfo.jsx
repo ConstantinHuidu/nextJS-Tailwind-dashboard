@@ -21,7 +21,7 @@ export default async function handler(req, res) {
   if (!newPassword || newPassword.trim().length < 6) {
     res
       .status(422)
-      .json({ message: "Password needs to be at least 3 characters long" });
+      .json({ message: "Password needs to be at least 6 characters long" });
     return;
   }
 
