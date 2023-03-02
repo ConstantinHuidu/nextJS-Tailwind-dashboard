@@ -1,18 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Header from "./Header";
-import { useSession, getSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { BsFillPersonFill } from "react-icons/bs";
 import Modal from "./generic/Modal";
+
+const defaultErrorState = {
+  error: false,
+  errorMessage: "",
+};
+const defaultSuccessState = {
+  success: false,
+  successMessage: "",
+};
 
 const AccountSettings = () => {
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [success, setSuccess] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
 
-  const [userName, setUserName] = useState("");
+  const [updateError, setUpdateError] = useState(defaultErrorState);
+  const [updateSuccess, setUpdateSuccess] = useState(defaultSuccessState);
 
   const { data: session, status } = useSession();
 
@@ -23,9 +29,12 @@ const AccountSettings = () => {
   async function updateUserInfo(newName, newPassword) {
     //ADD LOADING SPINNER
     setIsLoading(true);
-    setError(false);
-    setErrorMessage("");
-    setSuccess(false);
+
+    // === CLEAR ANY PREVIOUS ERRORS ===
+    setUpdateError({ error: false, errorMessage: "" });
+    setUpdateSuccess({ success: false, successMessage: "" });
+
+    // === API CALL
     const response = await fetch("/api/editinfo", {
       method: "PATCH",
       body: JSON.stringify({ newName, newPassword }),
@@ -43,17 +52,21 @@ const AccountSettings = () => {
   }
 
   async function confirmModalHandler(newName, newPassword) {
+    // TRY TO SEND DATA TO DB
     try {
       const result = await updateUserInfo(newName, newPassword);
-      console.log(result);
+      setUpdateSuccess({
+        success: true,
+        successMessage: "Details updated successfully",
+      });
       closeModalHandler();
       setIsLoading(false);
-      setSuccess(true);
-      setSuccessMessage("Details updated successfully");
     } catch (error) {
       //==THROW ERRORS ON THE UI ===
-      setError(true);
-      setErrorMessage(error.message || "Something went wrong");
+      setUpdateError({
+        error: true,
+        errorMessage: error.message || "Something went wrong",
+      });
       setIsLoading(false);
     }
   }
@@ -90,9 +103,9 @@ const AccountSettings = () => {
           </p>
         </div>
 
-        {success && (
+        {updateSuccess.success && (
           <p className="text-sm text-green-500 bg-green-100 p-2 mb-5 border rounded-lg">
-            {successMessage}
+            {updateSuccess.successMessage}
           </p>
         )}
 
@@ -106,12 +119,9 @@ const AccountSettings = () => {
       {showModal && (
         <Modal
           isLoading={isLoading}
-          modalTitle={"Edit account info"}
           onClose={closeModalHandler}
-          onConfirmMessage={"Update user"}
           onConfirm={confirmModalHandler}
-          error={error}
-          errorMessage={errorMessage}
+          updateError={updateError}
         />
       )}
     </div>

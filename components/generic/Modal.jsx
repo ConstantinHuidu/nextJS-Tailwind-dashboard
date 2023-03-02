@@ -3,15 +3,7 @@ import React, { useState } from "react";
 import LoadingSpinner from "../LoadingSpinner";
 
 export default function Modal(props) {
-  const {
-    onClose,
-    modalTitle,
-    onConfirm,
-    onConfirmMessage,
-    isLoading,
-    error,
-    errorMessage,
-  } = props;
+  const { onClose, onConfirm, isLoading, updateError } = props;
 
   const { data: session, status } = useSession();
   const [newName, setNewName] = useState(session.user.name);
@@ -34,7 +26,7 @@ export default function Modal(props) {
             <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
               {/*header*/}
               <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                <h3 className="text-3xl font-semibold">{modalTitle}</h3>
+                <h3 className="text-3xl font-semibold">Edit account info</h3>
                 <button
                   className="p-1 ml-auto bg-transparent border-0 text-black float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                   onClick={onClose}
@@ -73,9 +65,9 @@ export default function Modal(props) {
                   />
                 </div>
 
-                {error && (
+                {updateError.error && (
                   <p className="text-sm text-red-500 bg-red-100 p-2 mb-5 border rounded-lg">
-                    {errorMessage}
+                    {updateError.errorMessage}
                   </p>
                 )}
               </div>
@@ -94,7 +86,7 @@ export default function Modal(props) {
                     type="button"
                     onClick={() => onConfirm(newName, newPassword)}
                   >
-                    {onConfirmMessage}
+                    Update user
                   </button>
                 )}
                 {isLoading && (

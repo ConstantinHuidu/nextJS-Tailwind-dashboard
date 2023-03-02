@@ -32,9 +32,6 @@ export default async function handler(req, res) {
   const hashedPassword = await hashPassword(newPassword);
   const userEmail = session.user.email;
 
-  const usersCollection = client.db().collection("users");
-  const user = await usersCollection.findOne({ email: userEmail });
-
   const result = await db
     .collection("users")
     .updateOne(
