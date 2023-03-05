@@ -1,6 +1,5 @@
 import LoadingSpinner from "@/components/LoadingSpinner";
-import { useSession } from "next-auth/react";
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 
 export default function AddNewExpenseModal({
   onClose,
@@ -8,25 +7,21 @@ export default function AddNewExpenseModal({
   isLoading,
   expenseCategories,
 }) {
-  // console.log(expenseCategories);
-  const { data: session, status } = useSession();
   const expenseCategory = useRef();
   const expenseAmount = useRef();
   const expenseDate = useRef();
   const expenseDescription = useRef();
 
   const handleSubmitExpense = () => {
-    const enteredCategory = expenseCategory.current.value;
-    const enteredAmount = expenseAmount.current.value;
-    const enteredDate = expenseDate.current.value;
-    const enteredDescription = expenseDescription.current.value;
-    const userEmail = session.user.email;
+    const categoryName = expenseCategory.current.value;
+    const amount = +expenseAmount.current.value;
+    const date = expenseDate.current.value;
+    const description = expenseDescription.current.value;
     onConfirm({
-      enteredCategory,
-      enteredAmount,
-      enteredDate,
-      enteredDescription,
-      userEmail,
+      categoryName,
+      amount,
+      date,
+      description,
     });
   };
 

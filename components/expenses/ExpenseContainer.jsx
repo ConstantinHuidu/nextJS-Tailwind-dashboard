@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Header from "../Header";
-import { getSession, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import AddExpenseCategoryModal from "./components/AddExpenseCategoryModal";
 import TopControls from "./components/TopControls";
 import Toaster from "../generic/Toaster";
 import AddNewExpenseModal from "./components/AddNewExpenseModal";
+import RecentExpenses from "./components/RecentExpenses";
+import BarChart from "../BarChart";
 
 const defaultErrorState = {
   error: false,
@@ -19,11 +21,22 @@ const ExpenseContainer = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [taskStatus, setTaskStatus] = useState(defaultErrorState);
   const [isReloading, setIsReloading] = useState(true);
-  const [expenseCategories, setExpenses] = useState([]);
+  const [expenseCategories, setExpenseCategories] = useState([]);
+  const [expenses, setExpenses] = useState([]);
+
+  console.log(expenses);
 
   const fetchExpenseCategories = async () => {
     const userEmail = session?.user?.email;
     const response = await fetch(`api/categories/expenses/${userEmail}`);
+    const data = await response.json();
+    setIsReloading(false);
+    setExpenseCategories(data);
+  };
+
+  const fetchExpensesByUserEmail = async () => {
+    const userEmail = session?.user?.email;
+    const response = await fetch(`api/expenses/${userEmail}`);
     const data = await response.json();
     setIsReloading(false);
     setExpenses(data);
@@ -32,6 +45,7 @@ const ExpenseContainer = () => {
   useEffect(() => {
     if (isReloading) {
       fetchExpenseCategories();
+      fetchExpensesByUserEmail();
     }
   }, [isReloading]);
 
@@ -51,11 +65,15 @@ const ExpenseContainer = () => {
     setShowNewExpenseModal(false);
   };
 
-  const handleToaster = (timeout) => {
+  const handleToaster = (timeout, errorStatus, errorMessage) => {
     setShowToaster(true);
     setTimeout(() => {
       setShowToaster(false);
     }, timeout);
+    setTaskStatus({
+      error: errorStatus,
+      statusMessage: errorMessage,
+    });
   };
 
   const addExpenseCategory = async (categoryName) => {
@@ -80,13 +98,37 @@ const ExpenseContainer = () => {
     return data;
   };
 
-  const handleModalConfirm = async (categoryName) => {
+  const addExpense = async ({ categoryName, amount, date, description }) => {
+    setIsLoading(true);
+    setTaskStatus({ error: false, statusMessage: "" });
+
+    const userEmail = session.user.email;
+
+    const response = await fetch("/api/expenses", {
+      method: "POST",
+      body: JSON.stringify({
+        categoryName,
+        amount,
+        date,
+        description,
+        userEmail,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || "Something went wrong");
+    }
+
+    return data;
+  };
+
+  const handleAddCategory = async (categoryName) => {
     if (categoryName.trim().length === 0) {
-      handleToaster(3000);
-      setTaskStatus({
-        error: true,
-        statusMessage: "Category name is empty",
-      });
+      handleToaster(6000, true, "Category name can't be empty");
       return;
     }
 
@@ -97,34 +139,55 @@ const ExpenseContainer = () => {
       setIsLoading(false);
 
       handleCloseModal();
-      //Show toaster and close after 3sec
-      handleToaster(3000);
-      //update state to reflect on success toaster
-      setTaskStatus({
-        error: false,
-        statusMessage: result.message,
-      });
+      //Show success toaster and close after 3sec
+      handleToaster(3000, false, result.message);
       setIsReloading(true);
     } catch (err) {
-      //update state to reflect on error toaster
-      setTaskStatus({
-        error: true,
-        statusMessage: err.message,
-      });
-      //show toaster and close after 6sec
-      handleToaster(6000);
+      // show error toaster
+      handleToaster(6000, true, err.message);
     }
     setIsLoading(false);
   };
 
-  const handleAddExpense = (expenseData) => {
-    console.log(expenseData);
+  const handleAddExpense = async ({
+    categoryName,
+    amount,
+    date,
+    description,
+  }) => {
+    if (!amount) {
+      handleToaster(6000, true, "Amount can't be empty");
+      return;
+    }
+
+    if (!date) {
+      handleToaster(6000, true, "Date can't be empty");
+      return;
+    }
+
+    try {
+      const result = await addExpense({
+        categoryName,
+        amount,
+        date,
+        description,
+      });
+      setIsLoading(false);
+
+      handleCloseNewExpenseModal();
+      //Show success toaster and close after 3sec
+      handleToaster(3000, false, result.message);
+      setIsReloading(true);
+    } catch (err) {
+      //show error toaster and close after 6sec
+      handleToaster(6000, false, err.message);
+    }
+    setIsLoading(false);
   };
 
   return (
     <div className="bg-gray-100 min-h-screen">
       <Header message={"Your expenses"} />
-      {/* {expenses} */}
       <TopControls
         onOpenModal={handleOpenModal}
         onOpenNewExpenseModal={handleOpenNewExpenseModal}
@@ -132,7 +195,7 @@ const ExpenseContainer = () => {
       {showModal && (
         <AddExpenseCategoryModal
           onClose={handleCloseModal}
-          onConfirm={handleModalConfirm}
+          onConfirm={handleAddCategory}
           isLoading={isLoading}
         />
       )}
@@ -141,6 +204,7 @@ const ExpenseContainer = () => {
           onClose={handleCloseNewExpenseModal}
           expenseCategories={expenseCategories}
           onConfirm={handleAddExpense}
+          isLoading={isLoading}
         />
       )}
       {showToaster && !taskStatus.error && (
@@ -150,9 +214,10 @@ const ExpenseContainer = () => {
           color={"green"}
         />
       )}
-      {expenseCategories.map((categ) => (
-        <p key={categ._id}>{categ.expenseCategory}</p>
-      ))}
+      <div className="p-4 grid md:grid-cols-3 grid-cols-1 gap-4">
+        <BarChart />
+        <RecentExpenses expenses={expenses} />
+      </div>
       {showToaster && taskStatus.error && (
         <Toaster title={taskStatus.statusMessage} status={"❌"} color={"red"} />
       )}
