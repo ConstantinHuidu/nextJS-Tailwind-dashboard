@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../Header";
-import { useSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import AddExpenseCategoryModal from "./components/AddExpenseCategoryModal";
 import TopControls from "./components/TopControls";
 import Toaster from "../generic/Toaster";
+import AddNewExpenseModal from "./components/AddNewExpenseModal";
 
 const defaultErrorState = {
   error: false,
@@ -13,9 +14,26 @@ const defaultErrorState = {
 const ExpenseContainer = () => {
   const { data: session, status } = useSession();
   const [showModal, setShowModal] = useState(false);
+  const [showNewExpenseModal, setShowNewExpenseModal] = useState(false);
   const [showToaster, setShowToaster] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [taskStatus, setTaskStatus] = useState(defaultErrorState);
+  const [isReloading, setIsReloading] = useState(true);
+  const [expenseCategories, setExpenses] = useState([]);
+
+  const fetchExpenseCategories = async () => {
+    const userEmail = session?.user?.email;
+    const response = await fetch(`api/categories/expenses/${userEmail}`);
+    const data = await response.json();
+    setIsReloading(false);
+    setExpenses(data);
+  };
+
+  useEffect(() => {
+    if (isReloading) {
+      fetchExpenseCategories();
+    }
+  }, [isReloading]);
 
   const handleOpenModal = () => {
     setShowModal(true);
@@ -23,6 +41,14 @@ const ExpenseContainer = () => {
 
   const handleCloseModal = () => {
     setShowModal(false);
+  };
+
+  const handleOpenNewExpenseModal = () => {
+    setShowNewExpenseModal(true);
+  };
+
+  const handleCloseNewExpenseModal = () => {
+    setShowNewExpenseModal(false);
   };
 
   const handleToaster = (timeout) => {
@@ -78,6 +104,7 @@ const ExpenseContainer = () => {
         error: false,
         statusMessage: result.message,
       });
+      setIsReloading(true);
     } catch (err) {
       //update state to reflect on error toaster
       setTaskStatus({
@@ -90,15 +117,30 @@ const ExpenseContainer = () => {
     setIsLoading(false);
   };
 
+  const handleAddExpense = (expenseData) => {
+    console.log(expenseData);
+  };
+
   return (
     <div className="bg-gray-100 min-h-screen">
       <Header message={"Your expenses"} />
-      <TopControls onOpenModal={handleOpenModal} />
+      {/* {expenses} */}
+      <TopControls
+        onOpenModal={handleOpenModal}
+        onOpenNewExpenseModal={handleOpenNewExpenseModal}
+      />
       {showModal && (
         <AddExpenseCategoryModal
           onClose={handleCloseModal}
           onConfirm={handleModalConfirm}
           isLoading={isLoading}
+        />
+      )}
+      {showNewExpenseModal && (
+        <AddNewExpenseModal
+          onClose={handleCloseNewExpenseModal}
+          expenseCategories={expenseCategories}
+          onConfirm={handleAddExpense}
         />
       )}
       {showToaster && !taskStatus.error && (
@@ -108,6 +150,9 @@ const ExpenseContainer = () => {
           color={"green"}
         />
       )}
+      {expenseCategories.map((categ) => (
+        <p key={categ._id}>{categ.expenseCategory}</p>
+      ))}
       {showToaster && taskStatus.error && (
         <Toaster title={taskStatus.statusMessage} status={"❌"} color={"red"} />
       )}

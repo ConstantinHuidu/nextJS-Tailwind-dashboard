@@ -29,6 +29,6 @@ export default async function handler(req, res) {
       expenseCategory: categoryName,
     });
 
-    res.status(201).json({ message: "Created new expense category" });
+    res.status(201).json({ message: "Created a new expense category" });
   }
 }
