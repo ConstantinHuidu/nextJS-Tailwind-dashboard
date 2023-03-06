@@ -11,9 +11,9 @@ const ExpenseCard = ({ expense }) => {
   const formattedDate = new Date(`${expense.date}`).toLocaleDateString(
     "en-US",
     {
-      weekday: "long",
+      weekday: "short",
       year: "numeric",
-      month: "long",
+      month: "short",
       day: "numeric",
     }
   );
@@ -35,7 +35,7 @@ const ExpenseCard = ({ expense }) => {
           </span>
         </p>
         {expense.description && (
-          <p className="text-amber-800 text-sm font-semibold max-w-[60%]">
+          <p className="text-amber-800 text-sm font-semibold max-w-[65%]">
             Description:
             <span className="text-amber-600 text-sm px-2">
               {expense.description}
@@ -43,7 +43,7 @@ const ExpenseCard = ({ expense }) => {
           </p>
         )}
       </div>
-      <p className="lg:flex md:hidden absolute right-6 text-sm">
+      <p className="lg:flex md:hidden absolute right-6 text-sm max-w-[30%]">
         {formattedDate}
       </p>
     </li>
