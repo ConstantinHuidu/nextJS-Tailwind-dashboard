@@ -17,5 +17,6 @@ export default async function handler(req, res) {
       .toArray();
 
     res.status(201).json(result);
+    client.close();
   }
 }

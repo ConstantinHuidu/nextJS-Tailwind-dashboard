@@ -6,7 +6,7 @@ import TopControls from "./components/TopControls";
 import Toaster from "../generic/Toaster";
 import AddNewExpenseModal from "./components/AddNewExpenseModal";
 import RecentExpenses from "./components/RecentExpenses";
-import BarChart from "../BarChart";
+import ExpenseChart from "./components/ExpenseChart";
 
 const defaultErrorState = {
   error: false,
@@ -24,7 +24,7 @@ const ExpenseContainer = () => {
   const [expenseCategories, setExpenseCategories] = useState([]);
   const [expenses, setExpenses] = useState([]);
 
-  console.log(expenses);
+  // console.log(expenses);
 
   const fetchExpenseCategories = async () => {
     const userEmail = session?.user?.email;
@@ -43,6 +43,13 @@ const ExpenseContainer = () => {
   };
 
   useEffect(() => {
+    fetchExpenseCategories();
+    fetchExpensesByUserEmail();
+  }, []);
+
+  useEffect(() => {
+    // fetchExpenseCategories();
+    // fetchExpensesByUserEmail();
     if (isReloading) {
       fetchExpenseCategories();
       fetchExpensesByUserEmail();
@@ -215,7 +222,7 @@ const ExpenseContainer = () => {
         />
       )}
       <div className="p-4 grid md:grid-cols-3 grid-cols-1 gap-4">
-        <BarChart />
+        <ExpenseChart expenses={expenses} />
         <RecentExpenses expenses={expenses} />
       </div>
       {showToaster && taskStatus.error && (

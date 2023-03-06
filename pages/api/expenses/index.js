@@ -13,11 +13,13 @@ export default async function handler(req, res) {
 
     if (!amount) {
       res.status(422).json({ message: "Amount can't be empty" });
+      client.close();
       return;
     }
 
     if (!date) {
       res.status(422).json({ message: "Date can't be empty" });
+      client.close();
       return;
     }
 
@@ -36,5 +38,6 @@ export default async function handler(req, res) {
     const result = await db.collection("expenses").insertOne(newExpense);
 
     res.status(201).json({ message: "New expense added" });
+    client.close();
   }
 }

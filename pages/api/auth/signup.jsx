@@ -37,4 +37,6 @@ export default async function handler(req, res) {
   const result = await db.collection("users").insertOne(newUser);
   newUser.id = result.insertedId;
   res.status(201).json({ message: "Created new user", user: newUser });
+
+  client.close();
 }
