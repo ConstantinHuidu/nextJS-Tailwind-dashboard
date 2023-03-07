@@ -8,6 +8,7 @@ export default async function handler(req, res) {
 
     if (!categoryName) {
       res.status(422).json({ message: "Category name can't be empty" });
+      client.close();
       return;
     }
 
