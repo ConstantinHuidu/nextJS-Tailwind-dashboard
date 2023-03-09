@@ -88,7 +88,7 @@ const ExpenseChart = ({ expenses }) => {
 
   return (
     <>
-      <div className="w-full md:col-span-2 relative lg:h-[70vh] h-[50vh] m-auto p-4 border rounded-lg bg-white">
+      <div className="w-full md:col-span-2 lg:h-[70vh] h-[50vh] m-auto p-4 border rounded-lg bg-white">
         {expenses.length > 0 ? (
           <Pie data={chartData} options={chartOptions} />
         ) : (

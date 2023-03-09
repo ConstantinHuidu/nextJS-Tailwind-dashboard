@@ -16,7 +16,7 @@ const Header = ({ message }) => {
       <div className="grid md:flex w-[50vw] justify-between items-center">
         {session && (
           <div className="flex justify-center items-center">
-            <div className="border rounded-full border-purple-700 ">
+            <div className="border rounded-full border-purple-700">
               <BsFillPersonFill size={50} className="text-gray-400 p-1" />
             </div>
             <h2 className="text-2xl text-purple-700 p-2">
@@ -29,10 +29,16 @@ const Header = ({ message }) => {
       <div className="grid md:flex justify-between items-center">
         {!session && (
           <>
-            <Link href="/signup" className="md:px-4 text-purple-700 ">
+            <Link
+              href="/signup"
+              className="md:px-4 bg-purple-400 text-black font-semibold text-lg hover:bg-purple-700 hover:text-white border rounded p-2"
+            >
               Sign Up
             </Link>
-            <Link href="/login" className="md:px-4 text-purple-700 ">
+            <Link
+              href="/login"
+              className="md:px-4  bg-purple-400 text-black font-semibold text-lg hover:bg-purple-700 hover:text-white border rounded p-2 ml-2"
+            >
               Login
             </Link>
           </>
@@ -40,10 +46,10 @@ const Header = ({ message }) => {
         {session && (
           <div
             onClick={logoutHandler}
-            className="flex justify-end items-center md:px-4 cursor-pointer"
+            className="flex justify-end items-center md:px-4 cursor-pointer bg-purple-400 text-black font-semibold text-lg hover:bg-purple-700 hover:text-white border rounded p-2"
           >
-            <MdLogout className="text-purple-700" size={20} />
-            <p className=" text-purple-700 ">Logout </p>
+            <MdLogout size={20} />
+            <p>Logout </p>
           </div>
         )}
       </div>
