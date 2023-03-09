@@ -100,11 +100,12 @@ const Signup = () => {
 
       // console.log(result);
       setIsLoading(false);
-      router.push("/");
+      router.push("/login");
     } catch (error) {
       setError(true);
       setErrorMessage(error.message || "Something went wrong");
     }
+    setIsLoading(false);
   };
 
   return (

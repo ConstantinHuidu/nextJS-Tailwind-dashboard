@@ -15,6 +15,7 @@ export default async function handler(req, res) {
     res
       .status(422)
       .json({ message: "Name needs to be at least 3 characters long" });
+    client.close();
     return;
   }
 
@@ -22,6 +23,7 @@ export default async function handler(req, res) {
     res
       .status(422)
       .json({ message: "Password needs to be at least 6 characters long" });
+    client.close();
     return;
   }
 

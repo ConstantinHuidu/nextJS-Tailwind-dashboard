@@ -16,14 +16,27 @@ export default async function handler(req, res) {
 
   const db = client.db();
 
+  const existingUser = await db.collection("users").findOne({ email: email });
+
+  if (existingUser) {
+    res.status(422).json({
+      message: "This e-mail address is already associated with an account",
+    });
+    return;
+  }
+
   const hashedPassword = await hashPassword(password);
 
-  const result = await db.collection("users").insertOne({
+  const newUser = {
     name: name,
     userName: userName,
     email: email.toLowerCase(),
     password: hashedPassword,
-  });
+  };
 
-  res.status(201).json({ message: "Create new user" });
+  const result = await db.collection("users").insertOne(newUser);
+  newUser.id = result.insertedId;
+  res.status(201).json({ message: "Created new user", user: newUser });
+
+  client.close();
 }

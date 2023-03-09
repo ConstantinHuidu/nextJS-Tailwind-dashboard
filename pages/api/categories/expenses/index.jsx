@@ -8,6 +8,7 @@ export default async function handler(req, res) {
 
     if (!categoryName) {
       res.status(422).json({ message: "Category name can't be empty" });
+      client.close();
       return;
     }
 
@@ -21,6 +22,7 @@ export default async function handler(req, res) {
 
     if (expenses) {
       res.status(422).json({ message: "This category already exists" });
+      client.close();
       return;
     }
 
@@ -29,6 +31,7 @@ export default async function handler(req, res) {
       expenseCategory: categoryName,
     });
 
-    res.status(201).json({ message: "Created new expense category" });
+    res.status(201).json({ message: "Created a new expense category" });
+    client.close();
   }
 }
