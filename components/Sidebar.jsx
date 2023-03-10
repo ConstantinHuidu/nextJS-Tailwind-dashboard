@@ -5,7 +5,7 @@ import { HiOutlineShoppingBag } from "react-icons/hi";
 import { FiSettings } from "react-icons/fi";
 import { BsCartPlus } from "react-icons/bs";
 import { useSession } from "next-auth/react";
-import Tooltip from "./generic/Tooltip";
+import SidebarItem from "./SidebarItem";
 
 const Sidebar = ({ children }) => {
   const { data: session, status } = useSession();
@@ -24,41 +24,21 @@ const Sidebar = ({ children }) => {
           {/* === ONLY SHOW THE SIDEBAR MENU IF USER IS LOGGED IN === */}
           {session && (
             <>
-              <Tooltip tooltip={"Dashboard"}>
-                <Link href="/">
-                  <div className="bg-gray-100 hover:bg-gray-200 cursor-pointer mt-10 p-3 rounded-lg inline-block">
-                    <RxDashboard size={20} />
-                  </div>
-                </Link>
-              </Tooltip>
-              <Tooltip tooltip={"Customers"}>
-                <Link href="/customers">
-                  <div className="bg-gray-100 hover:bg-gray-200 cursor-pointer mt-10 p-3 rounded-lg inline-block">
-                    <RxPerson size={20} />
-                  </div>
-                </Link>
-              </Tooltip>
-              <Tooltip tooltip={"Orders "}>
-                <Link href="/orders">
-                  <div className="bg-gray-100 hover:bg-gray-200 cursor-pointer mt-10 p-3 rounded-lg inline-block">
-                    <HiOutlineShoppingBag size={20} />
-                  </div>
-                </Link>
-              </Tooltip>
-              <Tooltip tooltip={"Expenses"}>
-                <Link href="/expenses">
-                  <div className="bg-gray-100 hover:bg-gray-200 cursor-pointer mt-10 p-3 rounded-lg inline-block">
-                    <BsCartPlus size={20} />
-                  </div>
-                </Link>
-              </Tooltip>
-              <Tooltip tooltip={"Account info"}>
-                <Link href="/accountInfo">
-                  <div className="bg-gray-100 hover:bg-gray-200 cursor-pointer mt-10 p-3 rounded-lg inline-block">
-                    <FiSettings size={20} />
-                  </div>
-                </Link>
-              </Tooltip>
+              <SidebarItem href="/" title="Dashboard">
+                <RxDashboard className="text-[1rem] md:text-2xl" />
+              </SidebarItem>
+              <SidebarItem href="/customers" title="Customers">
+                <RxPerson className="text-[1rem] md:text-2xl" />
+              </SidebarItem>
+              <SidebarItem href="/orders" title="Orders">
+                <HiOutlineShoppingBag className="text-[1rem] md:text-2xl" />
+              </SidebarItem>
+              <SidebarItem href="/expenses" title="Expenses">
+                <BsCartPlus className="text-[1rem] md:text-2xl" />
+              </SidebarItem>
+              <SidebarItem href="/accountInfo" title="Account info">
+                <FiSettings className="text-[1rem] md:text-2xl" />
+              </SidebarItem>
             </>
           )}
         </div>
