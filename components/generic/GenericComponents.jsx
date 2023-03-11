@@ -1,6 +1,11 @@
 import React from "react";
 
-export const CustomInput = ({ labelName, onHandleChange }) => {
+export const CustomInput = ({
+  inputType,
+  labelName,
+  onHandleChange,
+  defaultValue,
+}) => {
   const handleInputChange = (e) => {
     onHandleChange(e.target.value);
   };
@@ -8,8 +13,9 @@ export const CustomInput = ({ labelName, onHandleChange }) => {
   return (
     <label htmlFor="categoryName" className="relative mt-8">
       <input
-        type="text"
+        type={inputType}
         onChange={handleInputChange}
+        defaultValue={defaultValue}
         id="categoryName"
         placeholder=" "
         className="h-8 w-72 md:w-96 px-2 text-sm md:text-md border-2 rounded-lg border-slate-500 border-opacity-50 outline-none focus:border-blue-500 focus:text-black transition duration-200 peer"
