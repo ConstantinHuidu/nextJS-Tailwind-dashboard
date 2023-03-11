@@ -1,4 +1,4 @@
-import LoadingSpinner from "@/components/LoadingSpinner";
+import LoadingSpinner from "@/components/generic/LoadingSpinner";
 import React, { useRef } from "react";
 
 export default function AddNewExpenseModal({

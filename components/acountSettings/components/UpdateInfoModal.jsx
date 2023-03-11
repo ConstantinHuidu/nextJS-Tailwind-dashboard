@@ -1,14 +1,14 @@
 import { useSession } from "next-auth/react";
 import React, { useState } from "react";
-import LoadingSpinner from "../LoadingSpinner";
+import LoadingSpinner from "../../generic/LoadingSpinner";
 import {
   CustomInput,
   ModalCloseButton,
   ModalConfirmButton,
   ModalXButton,
-} from "./GenericComponents";
+} from "../../generic/GenericComponents";
 
-export default function Modal(props) {
+export default function UpdateInfoModal(props) {
   const { onClose, onConfirm, isLoading, updateError } = props;
 
   const { data: session, status } = useSession();

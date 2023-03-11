@@ -4,7 +4,7 @@ import {
   ModalConfirmButton,
   ModalXButton,
 } from "@/components/generic/GenericComponents";
-import LoadingSpinner from "@/components/LoadingSpinner";
+import LoadingSpinner from "@/components/generic/LoadingSpinner";
 import React, { useState } from "react";
 
 export default function AddExpenseCategoryModal({

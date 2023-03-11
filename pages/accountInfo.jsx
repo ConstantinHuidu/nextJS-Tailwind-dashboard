@@ -1,5 +1,5 @@
 import React from "react";
-import AccountSettings from "@/components/AccountSettings";
+import AccountSettings from "@/components/acountSettings/AccountSettings";
 import { getSession } from "next-auth/react";
 
 const accountInfo = () => {

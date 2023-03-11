@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Header from "./Header";
+import Header from "../Header";
 import { useSession } from "next-auth/react";
 import { BsFillPersonFill } from "react-icons/bs";
-import Modal from "./generic/Modal";
+import UpdateInfoModal from "./components/UpdateInfoModal";
 
 const defaultErrorState = {
   error: false,
@@ -117,7 +117,7 @@ const AccountSettings = () => {
         </button>
       </div>
       {showModal && (
-        <Modal
+        <UpdateInfoModal
           isLoading={isLoading}
           onClose={closeModalHandler}
           onConfirm={confirmModalHandler}
