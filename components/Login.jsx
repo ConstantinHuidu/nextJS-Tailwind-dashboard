@@ -4,7 +4,7 @@ import Header from "./Header";
 import { signIn } from "next-auth/react";
 
 import { useRouter } from "next/router";
-import LoadingSpinner from "./LoadingSpinner";
+import LoadingSpinner from "./generic/LoadingSpinner";
 import { validateEmail } from "@/helpers/auth";
 
 const Login = () => {

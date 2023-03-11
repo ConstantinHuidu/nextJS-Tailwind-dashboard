@@ -18,13 +18,15 @@ const ExpenseCard = ({ expense }) => {
     }
   );
 
+  // TODO: the money sign below should be either red or green depending on the transaction type
+
   return (
     <li
       key={expense._id}
       className="bg-gray-50 hover:bg-gray-100 rounded-lg my-3 p-2 flex items-center cursor-pointer"
     >
-      <div className="bg-purple-100 rounded-lg p-3">
-        <MdOutlineAttachMoney className="text-purple-800" />
+      <div className="bg-cyan-100 rounded-lg p-3">
+        <MdOutlineAttachMoney className="text-cyan-800" />
       </div>
       <div className="pl-4">
         <p className="text-gray-800 font-bold text-xl">{formattedAmount}</p>

@@ -5,6 +5,7 @@ import { HiOutlineShoppingBag } from "react-icons/hi";
 import { FiSettings } from "react-icons/fi";
 import { BsCartPlus } from "react-icons/bs";
 import { useSession } from "next-auth/react";
+import SidebarItem from "./SidebarItem";
 
 const Sidebar = ({ children }) => {
   const { data: session, status } = useSession();
@@ -14,7 +15,7 @@ const Sidebar = ({ children }) => {
       <div className="fixed w-20 h-screen p-4 bg-white border-r-[1px] flex flex-col justify-between">
         <div className="flex flex-col items-center">
           <Link href="/">
-            <div className="bg-purple-800 text-white p-3 rounded-lg inline-block">
+            <div className="bg-cyan-800 text-white p-3 rounded-lg inline-block">
               <RxSketchLogo size={20} />
             </div>
           </Link>
@@ -23,31 +24,21 @@ const Sidebar = ({ children }) => {
           {/* === ONLY SHOW THE SIDEBAR MENU IF USER IS LOGGED IN === */}
           {session && (
             <>
-              <Link href="/">
-                <div className="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block">
-                  <RxDashboard size={20} />
-                </div>
-              </Link>
-              <Link href="/customers">
-                <div className="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block">
-                  <RxPerson size={20} />
-                </div>
-              </Link>
-              <Link href="/orders">
-                <div className="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block">
-                  <HiOutlineShoppingBag size={20} />
-                </div>
-              </Link>
-              <Link href="/expenses">
-                <div className="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block">
-                  <BsCartPlus size={20} />
-                </div>
-              </Link>
-              <Link href="/accountInfo">
-                <div className="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block">
-                  <FiSettings size={20} />
-                </div>
-              </Link>
+              <SidebarItem href="/" title="Dashboard">
+                <RxDashboard className="text-[1rem] md:text-2xl" />
+              </SidebarItem>
+              <SidebarItem href="/customers" title="Customers">
+                <RxPerson className="text-[1rem] md:text-2xl" />
+              </SidebarItem>
+              <SidebarItem href="/orders" title="Orders">
+                <HiOutlineShoppingBag className="text-[1rem] md:text-2xl" />
+              </SidebarItem>
+              <SidebarItem href="/expenses" title="Expenses">
+                <BsCartPlus className="text-[1rem] md:text-2xl" />
+              </SidebarItem>
+              <SidebarItem href="/accountInfo" title="Account info">
+                <FiSettings className="text-[1rem] md:text-2xl" />
+              </SidebarItem>
             </>
           )}
         </div>

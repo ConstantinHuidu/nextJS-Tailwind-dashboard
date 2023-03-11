@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import Header from "./Header";
 import { useRouter } from "next/router";
-import LoadingSpinner from "./LoadingSpinner";
+import LoadingSpinner from "./generic/LoadingSpinner";
 import Link from "next/link";
 import { validateEmail } from "@/helpers/auth";
 

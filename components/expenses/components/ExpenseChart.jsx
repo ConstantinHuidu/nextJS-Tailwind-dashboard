@@ -19,21 +19,21 @@ const defaultChartOptions = {
 };
 
 const backgroundColors = [
-  "rgba(255, 99, 132, 0.2)",
-  "rgba(54, 162, 235, 0.2)",
-  "rgba(255, 206, 86, 0.2)",
-  "rgba(75, 192, 192, 0.2)",
-  "rgba(153, 102, 255, 0.2)",
-  "rgba(255, 159, 64, 0.2)",
-];
-
-const borderColors = [
-  "rgba(255, 99, 132, 1)",
-  "rgba(54, 162, 235, 1)",
-  "rgba(255, 206, 86, 1)",
-  "rgba(75, 192, 192, 1)",
-  "rgba(153, 102, 255, 1)",
-  "rgba(255, 159, 64, 1)",
+  "rgba(158, 135, 5, 0.8)",
+  "rgba(29, 178, 55, 0.8)",
+  "rgba(202, 204, 24, 0.8)",
+  "rgba(97, 144, 65, 0.8",
+  "rgba(255, 56, 25, 0.8)",
+  "rgba(54, 162, 235, 0.8)",
+  "rgba(255, 99, 132, 0.8)",
+  "rgba(75, 192, 192, 0.8)",
+  "rgba(20, 206, 20, 0.8)",
+  "rgba(255, 206, 86, 0.8)",
+  "rgba(255, 159, 64, 0.8)",
+  "rgba(55, 192, 164, 0.8)",
+  "rgba(153, 102, 255, 0.8)",
+  "rgba(86, 8, 220, 0.8)",
+  "rgba(29, 26, 55, 0.8)",
 ];
 
 const ExpenseChart = ({ expenses }) => {
@@ -47,7 +47,7 @@ const ExpenseChart = ({ expenses }) => {
         {
           label: "RON",
           data: expenseData,
-          borderColor: borderColors,
+          borderColor: backgroundColors,
           backgroundColor: backgroundColors,
         },
       ],
@@ -88,7 +88,7 @@ const ExpenseChart = ({ expenses }) => {
 
   return (
     <>
-      <div className="w-full md:col-span-2 relative lg:h-[70vh] h-[50vh] m-auto p-4 border rounded-lg bg-white">
+      <div className="w-full md:col-span-2 lg:h-[70vh] h-[50vh] m-auto p-4 border rounded-lg bg-white ">
         {expenses.length > 0 ? (
           <Pie data={chartData} options={chartOptions} />
         ) : (

@@ -193,7 +193,7 @@ const ExpenseContainer = () => {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen">
+    <main className="bg-gray-100 min-h-screen">
       <Header message={"Your expenses"} />
       <TopControls
         onOpenModal={handleOpenModal}
@@ -228,7 +228,7 @@ const ExpenseContainer = () => {
       {showToaster && taskStatus.error && (
         <Toaster title={taskStatus.statusMessage} status={"❌"} color={"red"} />
       )}
-    </div>
+    </main>
   );
 };
 
