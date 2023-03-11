@@ -39,6 +39,7 @@ export default function AddExpenseCategoryModal({
                 <div className="w-[100%] m-5 flex flex-col justify-center items-center ">
                   <div className="sm:w-[75%] flex justify-start items-center mb-6">
                     <CustomInput
+                      labelFor="categoryName"
                       inputType="text"
                       labelName="Category name"
                       onHandleChange={handleCategoryChange}

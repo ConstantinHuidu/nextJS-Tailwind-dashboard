@@ -45,12 +45,14 @@ export default function UpdateInfoModal(props) {
               <form onSubmit={handleSubmit}>
                 <div className="w-[100%] m-5 flex flex-col justify-center items-center ">
                   <CustomInput
+                    labelFor="name"
                     inputType="text"
                     labelName="Name"
                     onHandleChange={handleNameChange}
                     defaultValue={session.user.name}
                   />
                   <CustomInput
+                    labelFor="password"
                     inputType="password"
                     labelName="Password"
                     onHandleChange={handlePasswordChange}

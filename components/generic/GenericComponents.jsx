@@ -1,6 +1,7 @@
 import React from "react";
 
 export const CustomInput = ({
+  labelFor,
   inputType,
   labelName,
   onHandleChange,
@@ -11,14 +12,63 @@ export const CustomInput = ({
   };
 
   return (
-    <label htmlFor="categoryName" className="relative mt-8">
+    <label htmlFor={labelFor} className="relative mt-8">
       <input
         type={inputType}
         onChange={handleInputChange}
         defaultValue={defaultValue}
-        id="categoryName"
+        id={labelFor}
         placeholder=" "
-        className="h-8 w-72 md:w-96 px-2 text-sm md:text-md border-2 rounded-lg border-slate-500 border-opacity-50 outline-none focus:border-blue-500 focus:text-black transition duration-200 peer"
+        className="h-10 w-72 md:w-96 px-2 text-sm md:text-md border-2 rounded-lg border-slate-500 border-opacity-50 outline-none focus:border-blue-500 focus:text-black transition duration-200 peer"
+      />
+      <span className="text-md md:text-xl text-slate-600 font-semibold text-opacity-80 absolute -left-7 -top-8 mx-6 px-2 transition duration-200 input-text peer-focus:font-bold ">
+        {labelName}
+      </span>
+    </label>
+  );
+};
+
+export const CustomSelect = ({ data, labelFor, labelName, onHandleChange }) => {
+  const handleInputChange = (e) => {
+    onHandleChange(e.target.value);
+  };
+
+  return (
+    <label htmlFor={labelFor} className="relative mt-8">
+      <select
+        onChange={handleInputChange}
+        id={labelFor}
+        placeholder=" "
+        className="h-10 w-72 md:w-96 px-2 text-sm md:text-md border-2 rounded-lg border-slate-500 border-opacity-50 outline-none focus:border-blue-500 focus:text-black transition duration-200 peer"
+      >
+        {data &&
+          data.map((category) => (
+            <option key={category._id} value={category.expenseCategory}>
+              {category.expenseCategory}
+            </option>
+          ))}
+      </select>
+      <span className="text-md md:text-xl text-slate-600 font-semibold text-opacity-80 absolute -left-7 -top-8 mx-6 px-2 transition duration-200 input-text peer-focus:font-bold ">
+        {labelName}
+      </span>
+    </label>
+  );
+};
+
+export const CustomTextarea = ({ labelFor, labelName, onHandleChange }) => {
+  const handleInputChange = (e) => {
+    onHandleChange(e.target.value);
+  };
+
+  return (
+    <label htmlFor={labelFor} className="relative mt-8">
+      <textarea
+        onChange={handleInputChange}
+        id={labelFor}
+        rows="4"
+        cols="30"
+        placeholder=" "
+        className="w-72 md:w-96 px-2 text-sm md:text-md border-2 rounded-lg border-slate-500 border-opacity-50 outline-none focus:border-blue-500 focus:text-black transition duration-200 peer"
       />
       <span className="text-md md:text-xl text-slate-600 font-semibold text-opacity-80 absolute -left-7 -top-8 mx-6 px-2 transition duration-200 input-text peer-focus:font-bold ">
         {labelName}
