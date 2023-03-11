@@ -85,7 +85,7 @@ const AccountSettings = () => {
 
           <p
             id="name"
-            className="border border-purple-300 rounded-lg text-xl p-2 mx-auto w-[65%] "
+            className="border border-gray-500 rounded-lg text-xl p-2 mx-auto w-[65%] "
           >
             {session?.user?.name || ""}
           </p>
@@ -97,7 +97,7 @@ const AccountSettings = () => {
           </label>
           <p
             id="name"
-            className="border border-purple-300 rounded-lg text-xl p-2 mx-auto w-[65%] "
+            className="border border-gray-500 rounded-lg text-xl p-2 mx-auto w-[65%] "
           >
             {session?.user?.email || ""}
           </p>
@@ -110,7 +110,7 @@ const AccountSettings = () => {
         )}
 
         <button
-          className="text-lg text-white border rounded-lg p-2 mt-10 bg-gray-500 hover:bg-gray-600 hover:text-white disabled:opacity-50 disabled:hover:text-white disabled:hover:bg-gray-500 "
+          className="text-lg text-black border rounded-lg p-2 mt-10 bg-cyan-500 hover:bg-cyan-700 hover:text-white disabled:opacity-50 disabled:hover:text-white disabled:hover:bg-gray-500 "
           onClick={() => setShowModal(true)}
         >
           EDIT INFO
