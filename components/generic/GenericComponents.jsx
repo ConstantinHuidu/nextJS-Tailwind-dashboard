@@ -25,7 +25,7 @@ export const CustomInput = ({ labelName, onHandleChange }) => {
 export const ModalXButton = ({ onClose }) => (
   <button
     className="p-1 ml-auto bg-transparent border-0 text-black float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-    onClick={() => onClose()}
+    onClick={onClose}
   >
     <span className="bg-transparent text-black h-6 w-6 text-2xl block outline-none focus:outline-none">
       ×
