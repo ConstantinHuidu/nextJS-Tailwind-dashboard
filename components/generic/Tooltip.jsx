@@ -15,8 +15,7 @@ const Tooltip = ({ children, tooltip }) => {
       {children}
       <span
         ref={tooltipRef}
-        className="invisible md:group-hover:visible opacity-0 group-hover:opacity-100 transition bg-purple-600 text-white font-semibold p-1 rounded absolute top-full  whitespace-nowrap"
-        style={{ zIndex: "999" }}
+        className="invisible md:group-hover:visible z-10 opacity-0 group-hover:opacity-100 transition bg-cyan-600 text-white font-semibold p-1 rounded absolute top-full  whitespace-nowrap"
       >
         {tooltip}
       </span>

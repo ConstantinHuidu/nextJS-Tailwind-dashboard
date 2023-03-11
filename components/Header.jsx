@@ -16,10 +16,10 @@ const Header = ({ message }) => {
       <div className="hidden md:flex  justify-between items-center ">
         {session ? (
           <div className="flex justify-center items-center">
-            <div className="border rounded-full border-purple-700">
+            <div className="border rounded-full border-cyan-700">
               {/* <BsFillPersonFill size={50} className="text-gray-400 p-1" /> */}
             </div>
-            <h2 className="text-sm md:text-2xl text-purple-700">
+            <h2 className="text-sm md:text-2xl text-cyan-700">
               Hello {session.user.name}!
             </h2>
           </div>
@@ -34,8 +34,8 @@ const Header = ({ message }) => {
         <h2
           className={
             session
-              ? "hidden md:block text-blue-800 text-md md:text-4xl font-bold"
-              : " block md:block text-blue-800 text-md md:text-4xl font-bold"
+              ? "hidden md:block text-cyan-800 text-md md:text-4xl font-bold"
+              : " block md:block text-cyan-800 text-md md:text-4xl font-bold"
           }
         >
           {message}
@@ -61,7 +61,7 @@ const Header = ({ message }) => {
         {session && (
           <div
             onClick={logoutHandler}
-            className="flex justify-end items-center cursor-pointer bg-purple-400 text-black font-semibold text-xs md:text-lg hover:bg-purple-700 hover:text-white border rounded-xl p-2"
+            className="flex justify-end items-center cursor-pointer bg-cyan-500 text-black font-semibold text-xs md:text-lg hover:bg-cyan-700 hover:text-white border rounded-xl p-2"
           >
             <MdLogout className="hidden md:block" />
             <p>Logout </p>
