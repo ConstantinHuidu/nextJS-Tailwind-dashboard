@@ -10,7 +10,6 @@ export const CustomInput = ({ labelName, onHandleChange }) => {
       <input
         type="text"
         onChange={handleInputChange}
-        required
         id="categoryName"
         placeholder=" "
         className="h-8 w-72 md:w-96 px-2 text-sm md:text-md border-2 rounded-lg border-slate-500 border-opacity-50 outline-none focus:border-blue-500 focus:text-black transition duration-200 peer"
@@ -22,13 +21,33 @@ export const CustomInput = ({ labelName, onHandleChange }) => {
   );
 };
 
-export const ModalXButton = ({ onClose }) => (
+export const ModalXButton = ({ handleClose }) => (
   <button
     className="p-1 ml-auto bg-transparent border-0 text-black float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-    onClick={onClose}
+    onClick={handleClose}
   >
     <span className="bg-transparent text-black h-6 w-6 text-2xl block outline-none focus:outline-none">
       ×
     </span>
+  </button>
+);
+
+export const ModalCloseButton = ({ handleClose }) => (
+  <button
+    className="text-gray-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+    type="button"
+    onClick={handleClose}
+  >
+    Close
+  </button>
+);
+
+export const ModalConfirmButton = ({ buttonText, children }) => (
+  <button
+    className="bg-emerald-400 text-white active:bg-emerald-500 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+    type="submit"
+  >
+    {buttonText}
+    {children}
   </button>
 );
