@@ -61,7 +61,7 @@ const Header = ({ message }) => {
         {session && (
           <div
             onClick={logoutHandler}
-            className="flex justify-end items-center cursor-pointer bg-cyan-500 text-black font-semibold text-xs md:text-lg hover:bg-cyan-700 hover:text-white border rounded-xl p-2"
+            className="flex justify-end items-center cursor-pointer bg-cyan-600 text-black font-semibold text-xs md:text-lg hover:bg-cyan-800 opacity-75 hover:text-white ease-linear transition-all duration-200 border rounded-lg p-2"
           >
             <MdLogout className="hidden md:block" />
             <p>Logout </p>
