@@ -9,7 +9,7 @@ import {
 } from "../../generic/GenericComponents";
 
 export default function UpdateInfoModal(props) {
-  const { onClose, onConfirm, isLoading, updateError } = props;
+  const { onClose, onConfirm, isLoading } = props;
 
   const { data: session, status } = useSession();
   const [newName, setNewName] = useState(session.user.name);
@@ -25,7 +25,7 @@ export default function UpdateInfoModal(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onConfirm(newName, newPassword);
+    onConfirm(newName.trim(), newPassword.trim());
   };
 
   return (
@@ -57,11 +57,6 @@ export default function UpdateInfoModal(props) {
                     labelName="Password"
                     onHandleChange={handlePasswordChange}
                   />
-                  {updateError.error && (
-                    <p className="text-sm text-red-500 bg-red-100 p-2 mb-5 border rounded-lg">
-                      {updateError.errorMessage}
-                    </p>
-                  )}
                 </div>
                 {/*footer*/}
                 <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
