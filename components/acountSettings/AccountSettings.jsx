@@ -103,7 +103,7 @@ const AccountSettings = () => {
         </div>
 
         <button
-          className="text-md text-black border rounded-lg p-2 mt-10 bg-cyan-500 hover:bg-cyan-700 hover:text-white  uppercase"
+          className="text-md text-black border rounded-lg p-2 mt-10 bg-cyan-500 hover:bg-cyan-700 hover:text-white ease-linear transition-all duration-200 uppercase"
           onClick={() => setShowModal(true)}
         >
           Edit info
