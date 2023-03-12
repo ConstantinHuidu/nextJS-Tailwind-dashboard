@@ -214,19 +214,16 @@ const ExpenseContainer = () => {
           isLoading={isLoading}
         />
       )}
-      {showToaster && !taskStatus.error && (
-        <Toaster
-          title={taskStatus.statusMessage}
-          status={"✔"}
-          color={"green"}
-        />
-      )}
       <div className="p-4 grid md:grid-cols-3 grid-cols-1 gap-4">
         <ExpenseChart expenses={expenses} />
         <RecentExpenses expenses={expenses} />
       </div>
-      {showToaster && taskStatus.error && (
-        <Toaster title={taskStatus.statusMessage} status={"❌"} color={"red"} />
+      {showToaster && (
+        <Toaster
+          title={taskStatus.statusMessage}
+          status={taskStatus.error ? "❌" : "✔"}
+          color={taskStatus.error ? "red" : "green"}
+        />
       )}
     </main>
   );

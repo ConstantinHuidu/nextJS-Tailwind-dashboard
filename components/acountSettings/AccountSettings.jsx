@@ -3,22 +3,19 @@ import Header from "../Header";
 import { useSession } from "next-auth/react";
 import { BsFillPersonFill } from "react-icons/bs";
 import UpdateInfoModal from "./components/UpdateInfoModal";
+import Toaster from "../generic/Toaster";
 
 const defaultErrorState = {
   error: false,
-  errorMessage: "",
-};
-const defaultSuccessState = {
-  success: false,
-  successMessage: "",
+  statusMessage: "",
 };
 
 const AccountSettings = () => {
   const [showModal, setShowModal] = useState(false);
+  const [showToaster, setShowToaster] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const [updateError, setUpdateError] = useState(defaultErrorState);
-  const [updateSuccess, setUpdateSuccess] = useState(defaultSuccessState);
+  const [taskStatus, setTaskStatus] = useState(defaultErrorState);
 
   const { data: session, status } = useSession();
 
@@ -26,13 +23,23 @@ const AccountSettings = () => {
     setShowModal(false);
   }
 
+  const handleToaster = (timeout, errorStatus, errorMessage) => {
+    setShowToaster(true);
+    setTimeout(() => {
+      setShowToaster(false);
+    }, timeout);
+    setTaskStatus({
+      error: errorStatus,
+      statusMessage: errorMessage,
+    });
+  };
+
   async function updateUserInfo(newName, newPassword) {
     //ADD LOADING SPINNER
     setIsLoading(true);
 
     // === CLEAR ANY PREVIOUS ERRORS ===
-    setUpdateError({ error: false, errorMessage: "" });
-    setUpdateSuccess({ success: false, successMessage: "" });
+    setTaskStatus({ error: false, statusMessage: "" });
 
     // === API CALL
     const response = await fetch("/api/editinfo", {
@@ -52,68 +59,54 @@ const AccountSettings = () => {
   }
 
   async function confirmModalHandler(newName, newPassword) {
+    if (!newName || !newPassword) {
+      handleToaster(6000, true, "Fields can't be empty");
+      return;
+    }
+
     // TRY TO SEND DATA TO DB
     try {
       const result = await updateUserInfo(newName, newPassword);
-      setUpdateSuccess({
-        success: true,
-        successMessage: "Details updated successfully",
-      });
       closeModalHandler();
       setIsLoading(false);
-    } catch (error) {
+      handleToaster(3000, false, "Details updated successfully");
+    } catch (err) {
       //==THROW ERRORS ON THE UI ===
-      setUpdateError({
-        error: true,
-        errorMessage: error.message || "Something went wrong",
-      });
+      handleToaster(6000, true, err.message || "Something went wrong");
       setIsLoading(false);
     }
   }
 
   return (
     <div className="bg-gray-100 min-h-screen">
-      <Header message={"Account info"} />
-      <div className="flex flex-col justify-center items-center max-w-4xl m-auto align-middle h-[650px]">
-        <div className="border-gray-700 border rounded-full mb-3">
-          <BsFillPersonFill size={180} className="text-gray-600 p-1" />
-        </div>
-        <div className="sm:w-[75%] flex justify-start items-center mb-6">
-          <label htmlFor="name" className="w-[25%]">
-            Name
-          </label>
+      <Header message={"Account settings"} />
+      <div className="flex flex-col justify-start items-center w-[88%] md:w-2/5 max-w-4xl mx-auto mt-10 md:mt-20 align-middle h-[550px] border rounded-lg border-gray-300 bg-slate-50">
+        <BsFillPersonFill
+          size={150}
+          className="text-cyan-800 p-1 opacity-75 shadow-cyan-800 shadow-lg rounded-full mb-10 mt-4 md:mt-10"
+        />
+        <div className="flex flex-col items-start">
+          <div className="flex justify-start items-center mb-6">
+            <p className="text-md uppercase font-semibold">Name:</p>
+            <p className=" p-2">{session?.user?.name || ""}</p>
+          </div>
 
-          <p
-            id="name"
-            className="border border-gray-500 rounded-lg text-xl p-2 mx-auto w-[65%] "
-          >
-            {session?.user?.name || ""}
-          </p>
-        </div>
+          <div className="flex justify-start items-center mb-6">
+            <p className="text-md uppercase font-semibold">E-mail:</p>
+            <p className=" p-2">{session?.user?.email || ""}</p>
+          </div>
 
-        <div className="sm:w-[75%] flex justify-start items-center mb-6">
-          <label htmlFor="email" className="w-[25%]">
-            E-mail
-          </label>
-          <p
-            id="name"
-            className="border border-gray-500 rounded-lg text-xl p-2 mx-auto w-[65%] "
-          >
-            {session?.user?.email || ""}
-          </p>
+          <div className="flex justify-start items-center mb-6">
+            <p className="text-md uppercase font-semibold">Currency:</p>
+            <p className=" p-2">{session?.user?.currency || "RON"}</p>
+          </div>
         </div>
-
-        {updateSuccess.success && (
-          <p className="text-sm text-green-500 bg-green-100 p-2 mb-5 border rounded-lg">
-            {updateSuccess.successMessage}
-          </p>
-        )}
 
         <button
-          className="text-lg text-black border rounded-lg p-2 mt-10 bg-cyan-500 hover:bg-cyan-700 hover:text-white disabled:opacity-50 disabled:hover:text-white disabled:hover:bg-gray-500 "
+          className="text-md text-black border rounded-lg p-2 mt-10 bg-cyan-500 hover:bg-cyan-700 hover:text-white  uppercase"
           onClick={() => setShowModal(true)}
         >
-          EDIT INFO
+          Edit info
         </button>
       </div>
       {showModal && (
@@ -121,7 +114,13 @@ const AccountSettings = () => {
           isLoading={isLoading}
           onClose={closeModalHandler}
           onConfirm={confirmModalHandler}
-          updateError={updateError}
+        />
+      )}
+      {showToaster && (
+        <Toaster
+          title={taskStatus.statusMessage}
+          status={taskStatus.error ? "❌" : "✔"}
+          color={taskStatus.error ? "red" : "green"}
         />
       )}
     </div>
