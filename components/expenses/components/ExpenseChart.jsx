@@ -20,21 +20,26 @@ const defaultChartOptions = {
 };
 
 const backgroundColors = [
-  "rgba(158, 135, 5, 0.8)",
-  "rgba(29, 178, 55, 0.8)",
-  "rgba(202, 204, 24, 0.8)",
-  "rgba(97, 144, 65, 0.8",
-  "rgba(255, 56, 25, 0.8)",
-  "rgba(54, 162, 235, 0.8)",
-  "rgba(255, 99, 132, 0.8)",
-  "rgba(75, 192, 192, 0.8)",
-  "rgba(20, 206, 20, 0.8)",
-  "rgba(255, 206, 86, 0.8)",
-  "rgba(255, 159, 64, 0.8)",
-  "rgba(55, 192, 164, 0.8)",
-  "rgba(153, 102, 255, 0.8)",
-  "rgba(86, 8, 220, 0.8)",
-  "rgba(29, 26, 55, 0.8)",
+  "rgba(244, 67, 54, 0.6)",
+  "rgba(156, 39, 176, 0.6)",
+  "rgba(255, 193, 7, 0.6)",
+  "rgba(63, 81, 181, 0.6)",
+  "rgba(3, 169, 244, 0.6)",
+  "rgba(0, 150, 136, 0.6)",
+  "rgba(139, 195, 74, 0.6)",
+  "rgba(0, 188, 212, 0.6)",
+  "rgba(255, 235, 59, 0.6)",
+  "rgba(255, 152, 0, 0.6)",
+  "rgba(255, 87, 34, 0.6)",
+  "rgba(103, 58, 183, 0.6)",
+  "rgba(121, 85, 72, 0.6)",
+  "rgba(33, 150, 243, 0.6)",
+  "rgba(158, 158, 158, 0.6)",
+  "rgba(76, 175, 80, 0.6)",
+  "rgba(96, 125, 139, 0.6)",
+  "rgba(232, 30, 99, 0.6)",
+  "rgba(0, 188, 212, 0.6)",
+  "rgba(205, 220, 57, 0.6)",
 ];
 
 const ExpenseChart = ({ expenses }) => {
@@ -89,7 +94,7 @@ const ExpenseChart = ({ expenses }) => {
 
   return (
     <>
-      <div className="w-full lg:col-span-2 lg:h-[70vh] h-[50vh] m-auto p-4 border rounded-lg bg-white ">
+      <div className="w-full lg:col-span-3 lg:h-[70vh] h-[50vh] m-auto p-4 border rounded-lg bg-white ">
         {expenses.length > 0 ? (
           <Pie data={chartData} options={chartOptions} />
         ) : (
