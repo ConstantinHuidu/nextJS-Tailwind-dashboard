@@ -214,7 +214,7 @@ const ExpenseContainer = () => {
           isLoading={isLoading}
         />
       )}
-      <div className="p-4 grid lg:grid-cols-3 grid-cols-1 gap-4">
+      <div className="p-4 grid lg:grid-cols-5 grid-cols-1 gap-4">
         <ExpenseChart expenses={expenses} />
         <RecentExpenses expenses={expenses} />
       </div>
