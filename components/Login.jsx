@@ -45,7 +45,6 @@ const Login = () => {
     e.preventDefault();
     //=== CLEAR ANY ERROR FROM PREVIOUS LOGIN ATTEMPTS ===
     setTaskStatus({ error: false, statusMessage: "" });
-    // setError(false);
 
     // ===CHECK FOR VALID EMAIL ===
     const emailIsValid = validateEmail(enteredEmail);
@@ -62,17 +61,9 @@ const Login = () => {
       email: enteredEmail,
       password: enteredPassword,
     });
-    // console.log(result);
 
     //=== THROW ERRORS ON THE UI IF SIGNIN IS NOT SUCCESSFULL ===
     if (result.error) {
-      // console.log(result);
-      // setError(true);
-      // setErrorMessage(result.error || "Something went Wrong");
-      // setTaskStatus({
-      //   error: true,
-      //   statusMessage: result.error || "Something went Wrong",
-      // });
       handleToaster(6000, true, result.error || "Something went Wrong");
       setIsLoading(false);
       return;
@@ -111,7 +102,7 @@ const Login = () => {
         </Link>
         {!isLoading && <DefaultButton buttonText="Log in" />}
         {isLoading && (
-          <DefaultButton buttonText="Loading...">
+          <DefaultButton buttonText="Loading..." isDisabled={true}>
             <LoadingSpinner />
           </DefaultButton>
         )}
