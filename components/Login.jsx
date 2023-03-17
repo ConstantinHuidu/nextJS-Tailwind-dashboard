@@ -1,30 +1,51 @@
+import React, { useState } from "react";
 import Link from "next/link";
-import React, { useState, useRef } from "react";
-import Header from "./Header";
 import { signIn } from "next-auth/react";
-
 import { useRouter } from "next/router";
+import Header from "./Header";
 import LoadingSpinner from "./generic/LoadingSpinner";
 import { validateEmail } from "@/helpers/auth";
+import { CustomInput, DefaultButton } from "./generic/GenericComponents";
+import Toaster from "./generic/Toaster";
+
+const defaultErrorState = {
+  error: false,
+  statusMessage: "",
+};
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [enteredEmail, setEnteredEmail] = useState("");
+  const [enteredPassword, setEnteredPassword] = useState("");
+  const [showToaster, setShowToaster] = useState(false);
+  const [taskStatus, setTaskStatus] = useState(defaultErrorState);
 
-  const emailRef = useRef();
-  const passwordRef = useRef();
+  const handleEmailChange = (userInput) => {
+    setEnteredEmail(userInput);
+  };
+
+  const handlePasswordChange = (userInput) => {
+    setEnteredPassword(userInput);
+  };
+
+  const handleToaster = (timeout, errorStatus, errorMessage) => {
+    setShowToaster(true);
+    setTimeout(() => {
+      setShowToaster(false);
+    }, timeout);
+    setTaskStatus({
+      error: errorStatus,
+      statusMessage: errorMessage,
+    });
+  };
 
   const router = useRouter();
 
   const submitFormHandler = async (e) => {
     e.preventDefault();
     //=== CLEAR ANY ERROR FROM PREVIOUS LOGIN ATTEMPTS ===
-    setError(false);
-
-    // === GETTING USERINPUT ===
-    const enteredEmail = emailRef.current.value.toLowerCase();
-    const enteredPassword = passwordRef.current.value;
+    setTaskStatus({ error: false, statusMessage: "" });
+    // setError(false);
 
     // ===CHECK FOR VALID EMAIL ===
     const emailIsValid = validateEmail(enteredEmail);
@@ -46,8 +67,13 @@ const Login = () => {
     //=== THROW ERRORS ON THE UI IF SIGNIN IS NOT SUCCESSFULL ===
     if (result.error) {
       // console.log(result);
-      setError(true);
-      setErrorMessage(result.error || "Something went Wrong");
+      // setError(true);
+      // setErrorMessage(result.error || "Something went Wrong");
+      // setTaskStatus({
+      //   error: true,
+      //   statusMessage: result.error || "Something went Wrong",
+      // });
+      handleToaster(6000, true, result.error || "Something went Wrong");
       setIsLoading(false);
       return;
     }
@@ -63,43 +89,40 @@ const Login = () => {
       <form
         onSubmit={submitFormHandler}
         noValidate
-        className="flex flex-col justify-center items-center max-w-4xl m-auto align-middle h-[650px]"
+        className="flex flex-col justify-center items-center max-w-4xl m-auto align-middle h-[650px] w-10/12"
       >
-        <input
-          ref={emailRef}
-          placeholder="E-mail"
-          type="email"
-          required
-          className="sm:w-[55%] mb-6 border border-purple-300 rounded-lg text-xl p-2 focus:outline-none focus:border-purple-500"
+        <CustomInput
+          labelFor="email"
+          inputType="email"
+          labelName="E-mail"
+          onHandleChange={handleEmailChange}
         />
-
-        <input
-          ref={passwordRef}
-          placeholder="Password"
-          type="password"
-          required
-          className="sm:w-[55%] mb-6 border border-purple-300 rounded-lg text-xl p-2 focus:outline-none focus:border-purple-500"
+        <CustomInput
+          labelFor="password"
+          inputType="password"
+          labelName="Password"
+          onHandleChange={handlePasswordChange}
         />
-        {error && (
-          <p className="text-sm text-red-500 bg-red-100 p-2 mb-5 border rounded-lg">
-            {errorMessage}
-          </p>
-        )}
-
         <Link
           href="/signup"
-          className="text-sm underline text-blue-600 hover:text-blue-800 visited:text-purple-600"
+          className="text-sm underline text-blue-600 hover:text-blue-800 visited:text-purple-600 my-5"
         >
           Don't have an account? Create one
         </Link>
-
-        {!isLoading && (
-          <button className="text-lg text-purple-700 border rounded-lg p-2 mt-10 bg-purple-300 hover:bg-purple-400 hover:text-white disabled:opacity-50 disabled:hover:text-purple-700 disabled:hover:bg-purple-300">
-            LOG IN
-          </button>
+        {!isLoading && <DefaultButton buttonText="Log in" />}
+        {isLoading && (
+          <DefaultButton buttonText="Loading...">
+            <LoadingSpinner />
+          </DefaultButton>
         )}
-        {isLoading && <LoadingSpinner className="mt-20" />}
       </form>
+      {showToaster && (
+        <Toaster
+          title={taskStatus.statusMessage}
+          status={taskStatus.error ? "❌" : "✔"}
+          color={taskStatus.error ? "red" : "green"}
+        />
+      )}
     </div>
   );
 };

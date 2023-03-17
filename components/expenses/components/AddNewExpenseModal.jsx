@@ -99,7 +99,7 @@ export default function AddNewExpenseModal({
                     <ModalConfirmButton buttonText="Add expense" />
                   )}
                   {isLoading && (
-                    <ModalConfirmButton>
+                    <ModalConfirmButton buttonText="Submitting...">
                       <LoadingSpinner />
                     </ModalConfirmButton>
                   )}

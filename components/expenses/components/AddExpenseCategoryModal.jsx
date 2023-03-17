@@ -53,7 +53,7 @@ export default function AddExpenseCategoryModal({
                     <ModalConfirmButton buttonText="Add category" />
                   )}
                   {isLoading && (
-                    <ModalConfirmButton>
+                    <ModalConfirmButton buttonText="Submitting...">
                       <LoadingSpinner />
                     </ModalConfirmButton>
                   )}

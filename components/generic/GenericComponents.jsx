@@ -90,7 +90,7 @@ export const ModalXButton = ({ handleClose }) => (
 
 export const ModalCloseButton = ({ handleClose }) => (
   <button
-    className="bg-gray-500 text-white  background-transparent font-bold uppercase px-6 py-3 rounded text-xs  outline-none focus:outline-none hover:shadow-lg mr-1 mb-1 ease-linear transition-all duration-150"
+    className="bg-gray-500 text-white background-transparent font-bold uppercase px-6 py-3 rounded text-xs  outline-none focus:outline-none hover:shadow-lg mr-1 mb-1 ease-linear transition-all duration-150"
     type="button"
     onClick={handleClose}
   >
@@ -103,7 +103,21 @@ export const ModalConfirmButton = ({ buttonText, children }) => (
     className="bg-emerald-400 text-white active:bg-emerald-500 font-bold uppercase text-xs px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
     type="submit"
   >
-    {buttonText}
-    {children}
+    <div className="flex items-center">
+      {children}
+      {buttonText}
+    </div>
+  </button>
+);
+
+export const DefaultButton = ({ buttonText, children }) => (
+  <button
+    className="w-2/3 bg-cyan-600 text-black font-semibold uppercase text-xs md:text-lg hover:bg-cyan-800 opacity-75 hover:text-white ease-linear transition-all duration-200 border rounded-lg p-2 mb-4"
+    type="submit"
+  >
+    <div className="flex justify-center items-center">
+      {children}
+      {buttonText}
+    </div>
   </button>
 );
