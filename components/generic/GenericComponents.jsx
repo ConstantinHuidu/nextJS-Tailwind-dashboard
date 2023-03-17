@@ -8,7 +8,7 @@ export const CustomInput = ({
   defaultValue,
 }) => {
   const handleInputChange = (e) => {
-    onHandleChange(e.target.value);
+    onHandleChange(e.target.value, e.target.id);
   };
 
   return (

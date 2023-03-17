@@ -7,6 +7,14 @@ import { validateEmail } from "@/helpers/auth";
 import { CustomInput, DefaultButton } from "./generic/GenericComponents";
 import Toaster from "./generic/Toaster";
 
+const defaultSignupData = {
+  name: "",
+  userName: "",
+  email: "",
+  password: "",
+  confirm: "",
+};
+
 const defaultErrorState = {
   error: false,
   statusMessage: "",
@@ -17,26 +25,15 @@ const Signup = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showToaster, setShowToaster] = useState(false);
   const [taskStatus, setTaskStatus] = useState(defaultErrorState);
-  const [name, setName] = useState("");
-  const [userName, setUserName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmation, setConfirmation] = useState("");
+  const [signupData, setSignupData] = useState(defaultSignupData);
 
-  const handleNameChange = (userinput) => {
-    setName(userinput);
-  };
-  const handleUsernameChange = (userinput) => {
-    setUserName(userinput);
-  };
-  const handleEmailChange = (userinput) => {
-    setEmail(userinput);
-  };
-  const handlePasswordChange = (userinput) => {
-    setPassword(userinput);
-  };
-  const handleConfirmationChange = (userinput) => {
-    setConfirmation(userinput);
+  const handleInputChange = (userInput, formField) => {
+    //=== CREATE A COPY OF THE STATE ===
+    const userData = { ...signupData };
+    // === CHANGE THE STATE PROPERTY PERTAINING TO THE FORMFIELD CURRENTLY BEING CHANGED ===
+    userData[formField] = userInput;
+    // === UPDATE STATE WITH THIS NEWLY UPDATED OBJECT ===
+    setSignupData(userData);
   };
 
   const handleToaster = (timeout, errorStatus, errorMessage) => {
@@ -52,7 +49,7 @@ const Signup = () => {
 
   const router = useRouter();
 
-  async function createUser(name, userName, email, password) {
+  async function createUser({ name, userName, email, password }) {
     setIsLoading(true);
     const signUpData = {
       name: name,
@@ -83,16 +80,16 @@ const Signup = () => {
     setTaskStatus({ error: false, statusMessage: "" });
 
     // === CHECK EMAIL IS VALID ===
-    const emailIsValid = validateEmail(email);
+    const emailIsValid = validateEmail(signupData.email);
 
     //=== BASIC VALIDATION ===
 
     if (
-      !name ||
-      !userName ||
-      !password ||
-      password.trim().length < 6 ||
-      !confirmation
+      !signupData.name ||
+      !signupData.userName ||
+      !signupData.password ||
+      signupData.password.trim().length < 6 ||
+      !signupData.confirmation
     ) {
       handleToaster(6000, true, "Fields can't be empty");
       return;
@@ -103,7 +100,7 @@ const Signup = () => {
       return;
     }
 
-    if (password !== confirmation) {
+    if (signupData.password !== signupData.confirmation) {
       handleToaster(6000, true, "The passwords don't match");
       return;
     }
@@ -118,7 +115,7 @@ const Signup = () => {
     // === SEND USER INFO TO DB ===
 
     try {
-      const result = await createUser(name, userName, email, password);
+      const result = await createUser(signupData);
 
       setIsLoading(false);
       router.push("/login");
@@ -140,31 +137,31 @@ const Signup = () => {
           labelFor="name"
           inputType="text"
           labelName="Name"
-          onHandleChange={handleNameChange}
+          onHandleChange={handleInputChange}
         />
         <CustomInput
           labelFor="userName"
           inputType="text"
           labelName="Username"
-          onHandleChange={handleUsernameChange}
+          onHandleChange={handleInputChange}
         />
         <CustomInput
           labelFor="email"
           inputType="email"
           labelName="E-mail"
-          onHandleChange={handleEmailChange}
+          onHandleChange={handleInputChange}
         />
         <CustomInput
           labelFor="password"
           inputType="password"
           labelName="Password"
-          onHandleChange={handlePasswordChange}
+          onHandleChange={handleInputChange}
         />
         <CustomInput
           labelFor="confirmation"
           inputType="password"
           labelName="Confirm Password"
-          onHandleChange={handleConfirmationChange}
+          onHandleChange={handleInputChange}
         />
         <div className="flex py-5 ">
           <input
@@ -186,7 +183,7 @@ const Signup = () => {
           <DefaultButton buttonText="Create account" isDisabled={!isChecked} />
         )}
         {isLoading && (
-          <DefaultButton buttonText="Loading..." isDisabled="true">
+          <DefaultButton buttonText="Loading..." isDisabled={true}>
             <LoadingSpinner />
           </DefaultButton>
         )}
