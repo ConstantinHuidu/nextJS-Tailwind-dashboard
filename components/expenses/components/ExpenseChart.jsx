@@ -98,7 +98,7 @@ const ExpenseChart = ({ expenses }) => {
         {expenses.length > 0 ? (
           <Pie data={chartData} options={chartOptions} />
         ) : (
-          <p className="p-2">You don't have any expenses</p>
+          <p className="p-2">You don't have any transactions</p>
         )}
       </div>
     </>

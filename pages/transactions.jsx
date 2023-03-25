@@ -1,9 +1,9 @@
-import ExpenseContainer from "@/components/expenses/ExpenseContainer";
+import TransactionContainer from "@/components/expenses/TransactionContainer";
 import { getSession } from "next-auth/react";
 import React from "react";
 
-const expenses = () => {
-  return <ExpenseContainer />;
+const transactions = () => {
+  return <TransactionContainer />;
 };
 
 // === SERVER-SIDE REDIRECT IF USER IS NOT AUTHENTICATED ===
@@ -24,4 +24,4 @@ export async function getServerSideProps(context) {
   };
 }
 
-export default expenses;
+export default transactions;

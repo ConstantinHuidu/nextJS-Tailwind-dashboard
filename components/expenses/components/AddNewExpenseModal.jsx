@@ -7,25 +7,58 @@ import {
   ModalXButton,
 } from "@/components/generic/GenericComponents";
 import LoadingSpinner from "@/components/generic/LoadingSpinner";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { transactionTypes } from "./AddExpenseCategoryModal";
 
 export default function AddNewExpenseModal({
   onClose,
   onConfirm,
   isLoading,
-  expenseCategories,
+  transactionCategories,
 }) {
-  //get the first expenseCategory from the categories array
-  const [{ expenseCategory }] = expenseCategories;
+  // ===FILTER CATEGORIES BY TRANSACTION TYPE ===
+  const expenseCategories = transactionCategories.filter(
+    (categ) => categ.transactionType === "Expenses"
+  );
+  const incomeCategories = transactionCategories.filter(
+    (categ) => categ.transactionType === "Income"
+  );
 
-  //assign the first expenseCategory as default for the state
-  const [categoryName, setCategoryName] = useState(expenseCategory);
+  // === DEFAULT TRANSACTION TYPE ===
+  const [transactionType, setTransactionType] = useState(
+    transactionTypes[0].transactionName
+  );
+
+  // === THIS IS THE ARRAY THAT HOLDS THE CATEGORY NAMES===
+  // === WILL BE SWITCHED TO EITHER EXPENSES OR INCOME ARRAY ===
+  const [categories, setCategories] = useState(expenseCategories);
+
+  //DEFAULT CATEGORY NAME ===
+  const [transactionName, setTransactionName] = useState(
+    categories[0].transactionName
+  );
+
   const [amount, setAmount] = useState("");
   const [date, setDate] = useState("");
   const [description, setDescription] = useState("");
 
+  useEffect(() => {
+    if (transactionType === "Expenses") {
+      setCategories(expenseCategories);
+      setTransactionName(expenseCategories[0].transactionName);
+    }
+    if (transactionType === "Income") {
+      setCategories(incomeCategories);
+      setTransactionName(incomeCategories[0].transactionName);
+    }
+  }, [transactionType]);
+
+  const handleTypeChange = (userInput) => {
+    setTransactionType(userInput);
+  };
+
   const handleCategoryChange = (userInput) => {
-    setCategoryName(userInput);
+    setTransactionName(userInput);
   };
   const handleAmountChange = (userInput) => {
     setAmount(userInput);
@@ -37,9 +70,16 @@ export default function AddNewExpenseModal({
     setDescription(userInput);
   };
 
-  const handleSubmitExpense = (categoryName, amount, date, description) => {
+  const handleSubmitExpense = (
+    transactionType,
+    transactionName,
+    amount,
+    date,
+    description
+  ) => {
     onConfirm({
-      categoryName,
+      transactionType,
+      transactionName,
       amount: +amount,
       date,
       description,
@@ -48,7 +88,13 @@ export default function AddNewExpenseModal({
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    handleSubmitExpense(categoryName, amount, date, description);
+    handleSubmitExpense(
+      transactionType,
+      transactionName,
+      amount,
+      date,
+      description
+    );
   };
 
   return (
@@ -69,9 +115,15 @@ export default function AddNewExpenseModal({
               <form onSubmit={handleFormSubmit}>
                 <div className="m-5 flex flex-col justify-center items-center">
                   <CustomSelect
-                    data={expenseCategories}
+                    data={transactionTypes}
+                    onHandleChange={handleTypeChange}
+                    labelFor="transactionType"
+                    labelName="Transaction type"
+                  />
+                  <CustomSelect
+                    data={categories}
                     labelFor="expenseCategory"
-                    labelName="Expense category"
+                    labelName="Transaction category"
                     onHandleChange={handleCategoryChange}
                   />
                   <CustomInput
