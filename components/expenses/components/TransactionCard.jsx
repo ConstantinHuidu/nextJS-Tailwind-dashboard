@@ -3,7 +3,7 @@ import { BsPencil, BsEye } from "react-icons/bs";
 
 import { MdOutlineAttachMoney } from "react-icons/md";
 
-const ExpenseCard = ({ expense }) => {
+const TransactionCard = ({ expense }) => {
   const formattedAmount = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "RON",
@@ -52,4 +52,4 @@ const ExpenseCard = ({ expense }) => {
   );
 };
 
-export default ExpenseCard;
+export default TransactionCard;

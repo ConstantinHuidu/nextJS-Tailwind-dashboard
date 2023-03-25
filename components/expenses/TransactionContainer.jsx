@@ -5,7 +5,7 @@ import AddExpenseCategoryModal from "./components/AddExpenseCategoryModal";
 import TopControls from "./components/TopControls";
 import Toaster from "../generic/Toaster";
 import AddNewExpenseModal from "./components/AddNewExpenseModal";
-import RecentExpenses from "./components/RecentExpenses";
+import RecentTransactions from "./components/RecentTransactions";
 import ExpenseChart from "./components/ExpenseChart";
 
 const defaultErrorState = {
@@ -13,7 +13,7 @@ const defaultErrorState = {
   statusMessage: "",
 };
 
-const ExpenseContainer = () => {
+const TransactionContainer = () => {
   const { data: session, status } = useSession();
   const [showModal, setShowModal] = useState(false);
   const [showNewExpenseModal, setShowNewExpenseModal] = useState(false);
@@ -48,8 +48,6 @@ const ExpenseContainer = () => {
   }, []);
 
   useEffect(() => {
-    // fetchExpenseCategories();
-    // fetchExpensesByUserEmail();
     if (isReloading) {
       fetchExpenseCategories();
       fetchExpensesByUserEmail();
@@ -194,7 +192,7 @@ const ExpenseContainer = () => {
 
   return (
     <main className="bg-gray-100 min-h-screen">
-      <Header message={"Your expenses"} />
+      <Header message={"Your transactions"} />
       <TopControls
         onOpenModal={handleOpenModal}
         onOpenNewExpenseModal={handleOpenNewExpenseModal}
@@ -216,7 +214,7 @@ const ExpenseContainer = () => {
       )}
       <div className="p-4 grid lg:grid-cols-5 grid-cols-1 gap-4">
         <ExpenseChart expenses={expenses} />
-        <RecentExpenses expenses={expenses} />
+        <RecentTransactions expenses={expenses} />
       </div>
       {showToaster && (
         <Toaster
@@ -229,4 +227,4 @@ const ExpenseContainer = () => {
   );
 };
 
-export default ExpenseContainer;
+export default TransactionContainer;

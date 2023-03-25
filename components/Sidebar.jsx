@@ -33,7 +33,7 @@ const Sidebar = ({ children }) => {
               <SidebarItem href="/orders" title="Orders">
                 <HiOutlineShoppingBag className="text-[1rem] md:text-2xl" />
               </SidebarItem>
-              <SidebarItem href="/expenses" title="Expenses">
+              <SidebarItem href="/transactions" title="Transactions">
                 <BsCartPlus className="text-[1rem] md:text-2xl" />
               </SidebarItem>
               <SidebarItem href="/accountInfo" title="Account info">

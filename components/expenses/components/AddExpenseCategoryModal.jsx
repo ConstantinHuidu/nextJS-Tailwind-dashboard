@@ -1,5 +1,6 @@
 import {
   CustomInput,
+  CustomSelect,
   ModalCloseButton,
   ModalConfirmButton,
   ModalXButton,
@@ -7,16 +8,28 @@ import {
 import LoadingSpinner from "@/components/generic/LoadingSpinner";
 import React, { useState } from "react";
 
+const transactionTypes = [
+  { _id: "t1", expenseCategory: "Expense" },
+  { _id: "t2", expenseCategory: "Income" },
+];
+
 export default function AddExpenseCategoryModal({
   onClose,
   onConfirm,
   isLoading,
 }) {
   const [newCategory, setNewCategory] = useState("");
+  const [transactionType, setTransactionType] = useState(
+    transactionTypes[0].expenseCategory
+  );
 
   const handleCategoryChange = (userInput) => {
     setNewCategory(userInput);
   };
+  const handleTypeChange = (userInput) => {
+    setTransactionType(userInput);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     onConfirm(newCategory.trim());
@@ -39,6 +52,12 @@ export default function AddExpenseCategoryModal({
               {/*body*/}
               <form onSubmit={handleSubmit}>
                 <div className="m-5 flex flex-col justify-center items-center">
+                  <CustomSelect
+                    data={transactionTypes}
+                    onHandleChange={handleTypeChange}
+                    labelFor="transactionType"
+                    labelName="Transaction type"
+                  />
                   <CustomInput
                     labelFor="categoryName"
                     inputType="text"
