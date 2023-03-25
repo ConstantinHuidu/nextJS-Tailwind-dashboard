@@ -1,4 +1,4 @@
-import TransactionContainer from "@/components/expenses/TransactionContainer";
+import TransactionContainer from "@/components/transactions/TransactionContainer";
 import { getSession } from "next-auth/react";
 import React from "react";
 
