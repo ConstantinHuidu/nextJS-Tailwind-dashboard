@@ -36,6 +36,20 @@ export default async function handler(req, res) {
 
   const result = await db.collection("users").insertOne(newUser);
   newUser.id = result.insertedId;
+  const expenseDefaultCategory = await db
+    .collection("transactionCategories")
+    .insertOne({
+      email: email.toLowerCase(),
+      transactionName: "Uncategorized",
+      transactionType: "Expenses",
+    });
+  const incomeDefaultCategory = await db
+    .collection("transactionCategories")
+    .insertOne({
+      email: email.toLowerCase(),
+      transactionName: "Uncategorized",
+      transactionType: "Income",
+    });
   res.status(201).json({ message: "Created new user", user: newUser });
 
   client.close();
