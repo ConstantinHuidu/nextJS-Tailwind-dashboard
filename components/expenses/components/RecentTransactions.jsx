@@ -9,8 +9,8 @@ const RecentTransactions = ({ transactions }) => {
       </h1>
       {transactions.length > 0 ? (
         <ul>
-          {transactions.map((expense) => (
-            <TransactionCard key={expense._id} expense={expense} />
+          {transactions.map((transaction) => (
+            <TransactionCard key={transaction._id} transaction={transaction} />
           ))}
         </ul>
       ) : (
