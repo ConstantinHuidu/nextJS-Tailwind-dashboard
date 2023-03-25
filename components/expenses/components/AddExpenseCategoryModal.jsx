@@ -20,7 +20,7 @@ export default function AddExpenseCategoryModal({
 }) {
   const [newCategory, setNewCategory] = useState("");
   const [transactionType, setTransactionType] = useState(
-    transactionTypes[0].expenseCategory
+    transactionTypes[0].transactionName
   );
 
   const handleCategoryChange = (userInput) => {
