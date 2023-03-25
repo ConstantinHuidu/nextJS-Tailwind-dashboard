@@ -8,9 +8,9 @@ import {
 import LoadingSpinner from "@/components/generic/LoadingSpinner";
 import React, { useState } from "react";
 
-const transactionTypes = [
-  { _id: "t1", expenseCategory: "Expenses" },
-  { _id: "t2", expenseCategory: "Income" },
+export const transactionTypes = [
+  { _id: "t1", transactionName: "Expenses" },
+  { _id: "t2", transactionName: "Income" },
 ];
 
 export default function AddExpenseCategoryModal({

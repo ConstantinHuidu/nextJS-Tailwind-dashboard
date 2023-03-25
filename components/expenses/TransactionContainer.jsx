@@ -22,7 +22,8 @@ const TransactionContainer = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [taskStatus, setTaskStatus] = useState(defaultErrorState);
   const [isReloading, setIsReloading] = useState(true);
-  const [expenseCategories, setExpenseCategories] = useState([]);
+  // const [expenseCategories, setExpenseCategories] = useState([]);
+  const [transactionCategories, setTransactionCategories] = useState([]);
   const [expenses, setExpenses] = useState([]);
 
   // console.log(expenses);
@@ -32,7 +33,7 @@ const TransactionContainer = () => {
     const response = await fetch(`api/categories/expenses/${userEmail}`);
     const data = await response.json();
     setIsReloading(false);
-    setExpenseCategories(data);
+    setTransactionCategories(data);
   };
 
   const fetchExpensesByUserEmail = async () => {
@@ -104,7 +105,13 @@ const TransactionContainer = () => {
     return data;
   };
 
-  const addExpense = async ({ categoryName, amount, date, description }) => {
+  const addExpense = async ({
+    transactionType,
+    transactionName,
+    amount,
+    date,
+    description,
+  }) => {
     setIsLoading(true);
     setTaskStatus({ error: false, statusMessage: "" });
 
@@ -113,7 +120,8 @@ const TransactionContainer = () => {
     const response = await fetch("/api/expenses", {
       method: "POST",
       body: JSON.stringify({
-        categoryName,
+        transactionType,
+        transactionName,
         amount,
         date,
         description,
@@ -156,7 +164,8 @@ const TransactionContainer = () => {
   };
 
   const handleAddExpense = async ({
-    categoryName,
+    transactionType,
+    transactionName,
     amount,
     date,
     description,
@@ -173,7 +182,8 @@ const TransactionContainer = () => {
 
     try {
       const result = await addExpense({
-        categoryName,
+        transactionType,
+        transactionName,
         amount,
         date,
         description,
@@ -208,7 +218,7 @@ const TransactionContainer = () => {
       {showNewExpenseModal && (
         <AddNewExpenseModal
           onClose={handleCloseNewExpenseModal}
-          expenseCategories={expenseCategories}
+          transactionCategories={transactionCategories}
           onConfirm={handleAddExpense}
           isLoading={isLoading}
         />

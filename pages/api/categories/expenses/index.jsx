@@ -3,7 +3,6 @@ import { connectToDB } from "@/helpers/db";
 export default async function handler(req, res) {
   if (req.method === "POST") {
     const data = req.body;
-    console.log(data);
 
     const { userEmail, transactionType, transactionName } = data;
 

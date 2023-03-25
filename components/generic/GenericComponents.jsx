@@ -43,8 +43,8 @@ export const CustomSelect = ({ data, labelFor, labelName, onHandleChange }) => {
       >
         {data &&
           data.map((category) => (
-            <option key={category._id} value={category.expenseCategory}>
-              {category.expenseCategory}
+            <option key={category._id} value={category.transactionName}>
+              {category.transactionName}
             </option>
           ))}
       </select>

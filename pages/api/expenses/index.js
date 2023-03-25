@@ -4,10 +4,25 @@ export default async function handler(req, res) {
   if (req.method === "POST") {
     const data = req.body;
 
-    const { categoryName, amount, date, description, userEmail } = data;
+    console.log(data);
 
-    if (!categoryName) {
-      res.status(422).json({ message: "Category name can't be empty" });
+    const {
+      transactionType,
+      transactionName,
+      amount,
+      date,
+      description,
+      userEmail,
+    } = data;
+
+    if (!transactionType) {
+      res.status(422).json({ message: "Transaction type can't be empty" });
+      client.close();
+      return;
+    }
+
+    if (!transactionName) {
+      res.status(422).json({ message: "Transaction name can't be empty" });
       client.close();
       return;
     }
@@ -30,7 +45,8 @@ export default async function handler(req, res) {
 
     const newExpense = {
       userEmail: userEmail,
-      categoryName: categoryName,
+      transactionType: transactionType,
+      transactionName: transactionName,
       amount: amount,
       date: date,
       description: description,
