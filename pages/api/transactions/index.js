@@ -4,8 +4,6 @@ export default async function handler(req, res) {
   if (req.method === "POST") {
     const data = req.body;
 
-    console.log(data);
-
     const {
       transactionType,
       transactionName,
@@ -52,9 +50,9 @@ export default async function handler(req, res) {
       description: description,
     };
 
-    const result = await db.collection("expenses").insertOne(newExpense);
+    const result = await db.collection("transactions").insertOne(newExpense);
 
-    res.status(201).json({ message: "New expense added" });
+    res.status(201).json({ message: "New transaction added" });
     client.close();
   }
 }

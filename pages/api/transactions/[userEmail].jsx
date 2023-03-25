@@ -10,7 +10,7 @@ export default async function handler(req, res) {
     const db = client.db();
 
     const result = await db
-      .collection("expenses")
+      .collection("transactions")
       .find({ userEmail: userEmail })
       .sort({ date: -1 })
       .collation({ locale: "en", caseLevel: true })

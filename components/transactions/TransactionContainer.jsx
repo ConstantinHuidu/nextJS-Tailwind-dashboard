@@ -29,7 +29,7 @@ const TransactionContainer = () => {
 
   const fetchExpenseCategories = async () => {
     const userEmail = session?.user?.email;
-    const response = await fetch(`api/categories/expenses/${userEmail}`);
+    const response = await fetch(`api/categories/${userEmail}`);
     const data = await response.json();
     setIsReloading(false);
     setTransactionCategories(data);
@@ -37,7 +37,7 @@ const TransactionContainer = () => {
 
   const fetchExpensesByUserEmail = async () => {
     const userEmail = session?.user?.email;
-    const response = await fetch(`api/expenses/${userEmail}`);
+    const response = await fetch(`api/transactions/${userEmail}`);
     const data = await response.json();
     setIsReloading(false);
     setTransactions(data);
@@ -88,7 +88,7 @@ const TransactionContainer = () => {
 
     const userEmail = session.user.email;
 
-    const response = await fetch("api/categories/expenses", {
+    const response = await fetch("api/categories", {
       method: "POST",
       body: JSON.stringify({ userEmail, transactionType, transactionName }),
       headers: {
@@ -116,7 +116,7 @@ const TransactionContainer = () => {
 
     const userEmail = session.user.email;
 
-    const response = await fetch("/api/expenses", {
+    const response = await fetch("/api/transactions", {
       method: "POST",
       body: JSON.stringify({
         transactionType,

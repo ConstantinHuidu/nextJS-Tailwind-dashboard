@@ -16,7 +16,7 @@ export default async function handler(req, res) {
 
     const db = client.db();
 
-    const expenses = await db.collection("expenseCategories").findOne({
+    const expenses = await db.collection("transactionCategories").findOne({
       email: userEmail,
       transactionType: transactionType,
       transactionName: transactionName,
@@ -28,13 +28,13 @@ export default async function handler(req, res) {
       return;
     }
 
-    const result = await db.collection("expenseCategories").insertOne({
+    const result = await db.collection("transactionCategories").insertOne({
       email: userEmail,
       transactionName: transactionName,
       transactionType: transactionType,
     });
 
-    res.status(201).json({ message: "Created a new expense category" });
+    res.status(201).json({ message: "Created a new category" });
     client.close();
   }
 }
