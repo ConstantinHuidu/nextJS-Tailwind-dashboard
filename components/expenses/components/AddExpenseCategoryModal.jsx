@@ -9,7 +9,7 @@ import LoadingSpinner from "@/components/generic/LoadingSpinner";
 import React, { useState } from "react";
 
 const transactionTypes = [
-  { _id: "t1", expenseCategory: "Expense" },
+  { _id: "t1", expenseCategory: "Expenses" },
   { _id: "t2", expenseCategory: "Income" },
 ];
 
@@ -32,7 +32,7 @@ export default function AddExpenseCategoryModal({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onConfirm(newCategory.trim());
+    onConfirm(transactionType, newCategory.trim());
   };
 
   return (

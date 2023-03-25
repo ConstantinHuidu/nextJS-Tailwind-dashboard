@@ -15,6 +15,7 @@ const defaultErrorState = {
 
 const TransactionContainer = () => {
   const { data: session, status } = useSession();
+  const userEmail = session.user.email;
   const [showModal, setShowModal] = useState(false);
   const [showNewExpenseModal, setShowNewExpenseModal] = useState(false);
   const [showToaster, setShowToaster] = useState(false);
@@ -81,7 +82,7 @@ const TransactionContainer = () => {
     });
   };
 
-  const addExpenseCategory = async (categoryName) => {
+  const addExpenseCategory = async (transactionType, transactionName) => {
     setIsLoading(true);
     setTaskStatus({ error: false, statusMessage: "" });
 
@@ -89,7 +90,7 @@ const TransactionContainer = () => {
 
     const response = await fetch("api/categories/expenses", {
       method: "POST",
-      body: JSON.stringify({ userEmail, categoryName }),
+      body: JSON.stringify({ userEmail, transactionType, transactionName }),
       headers: {
         "Content-Type": "application/json",
       },
@@ -131,15 +132,15 @@ const TransactionContainer = () => {
     return data;
   };
 
-  const handleAddCategory = async (categoryName) => {
-    if (categoryName.trim().length === 0) {
+  const handleAddCategory = async (transactionName, transactionType) => {
+    if (transactionName.trim().length === 0) {
       handleToaster(6000, true, "Category name can't be empty");
       return;
     }
 
     try {
       // === Add a new cateogry
-      const result = await addExpenseCategory(categoryName);
+      const result = await addExpenseCategory(transactionName, transactionType);
       // Loader
       setIsLoading(false);
 

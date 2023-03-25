@@ -3,11 +3,12 @@ import { connectToDB } from "@/helpers/db";
 export default async function handler(req, res) {
   if (req.method === "POST") {
     const data = req.body;
+    console.log(data);
 
-    const { userEmail, categoryName } = data;
+    const { userEmail, transactionType, transactionName } = data;
 
-    if (!categoryName) {
-      res.status(422).json({ message: "Category name can't be empty" });
+    if (!transactionName || !transactionType) {
+      res.status(422).json({ message: "Fields can't be empty" });
       client.close();
       return;
     }
@@ -16,9 +17,11 @@ export default async function handler(req, res) {
 
     const db = client.db();
 
-    const expenses = await db
-      .collection("expenseCategories")
-      .findOne({ expenseCategory: categoryName });
+    const expenses = await db.collection("expenseCategories").findOne({
+      email: userEmail,
+      transactionType: transactionType,
+      transactionName: transactionName,
+    });
 
     if (expenses) {
       res.status(422).json({ message: "This category already exists" });
@@ -28,7 +31,8 @@ export default async function handler(req, res) {
 
     const result = await db.collection("expenseCategories").insertOne({
       email: userEmail,
-      expenseCategory: categoryName,
+      transactionName: transactionName,
+      transactionType: transactionType,
     });
 
     res.status(201).json({ message: "Created a new expense category" });
