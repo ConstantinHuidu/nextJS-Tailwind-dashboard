@@ -42,7 +42,10 @@ const backgroundColors = [
   "rgba(205, 220, 57, 0.6)",
 ];
 
-const ExpenseChart = ({ expenses }) => {
+const ExpenseChart = ({ transactions }) => {
+  const expensesOnly = transactions.filter(
+    (transaction) => transaction.transactionType === "Expenses"
+  );
   const [chartData, setChartData] = useState(defaultChartData);
   const [chartOptions, setChartOptions] = useState(defaultChartOptions);
 
@@ -58,25 +61,27 @@ const ExpenseChart = ({ expenses }) => {
         },
       ],
     });
-  }, [expenses]);
+  }, [transactions]);
 
   // === GET ONLY THE EXPENSE CATEGORIES THE USER LOGGED EXPENSES AGAINST ===
   // (USER MIGHT ADD CERTAIN CATEGORIES BUT NOT ADD ANY EXPENSES TO THEM)
-  const getUsedCategories = (expenses) => {
-    const expenseCategories = expenses.map((expense) => expense.categoryName);
+  const getUsedCategories = (expensesOnly) => {
+    const expenseCategories = expensesOnly.map(
+      (expense) => expense.transactionName
+    );
     const uniqueEntries = [...new Set(expenseCategories)];
     //transform the array of strings into array of objects
     const uniqueCategories = uniqueEntries.map((category) => ({ category }));
 
     return uniqueCategories;
   };
-  const uniqueExpenseCategories = getUsedCategories(expenses);
+  const uniqueExpenseCategories = getUsedCategories(expensesOnly);
 
   // === ITERATE THROUGH EXPENSES AND REDUCE IT TO AN ARRAY WITH 1 SINGLE ENTRY PER CATEGORY==
   // === AMOUNTS ARE ADDED
   const sumExpenses = (categ) => {
-    return expenses.reduce((acc, currEl) => {
-      if (currEl.categoryName === categ) {
+    return expensesOnly.reduce((acc, currEl) => {
+      if (currEl.transactionName === categ) {
         return acc + currEl.amount;
       }
       return acc;
@@ -95,7 +100,8 @@ const ExpenseChart = ({ expenses }) => {
   return (
     <>
       <div className="w-full lg:col-span-3 lg:h-[70vh] h-[50vh] m-auto p-4 border rounded-lg bg-white ">
-        {expenses.length > 0 ? (
+        <h3>Expenses chart</h3>
+        {expenseData.length > 0 ? (
           <Pie data={chartData} options={chartOptions} />
         ) : (
           <p className="p-2">You don't have any transactions</p>

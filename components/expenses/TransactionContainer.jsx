@@ -22,9 +22,8 @@ const TransactionContainer = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [taskStatus, setTaskStatus] = useState(defaultErrorState);
   const [isReloading, setIsReloading] = useState(true);
-  // const [expenseCategories, setExpenseCategories] = useState([]);
   const [transactionCategories, setTransactionCategories] = useState([]);
-  const [expenses, setExpenses] = useState([]);
+  const [transactions, setTransactions] = useState([]);
 
   // console.log(expenses);
 
@@ -41,7 +40,7 @@ const TransactionContainer = () => {
     const response = await fetch(`api/expenses/${userEmail}`);
     const data = await response.json();
     setIsReloading(false);
-    setExpenses(data);
+    setTransactions(data);
   };
 
   useEffect(() => {
@@ -224,8 +223,8 @@ const TransactionContainer = () => {
         />
       )}
       <div className="p-4 grid lg:grid-cols-5 grid-cols-1 gap-4">
-        <ExpenseChart expenses={expenses} />
-        <RecentTransactions expenses={expenses} />
+        <ExpenseChart transactions={transactions} />
+        <RecentTransactions transactions={transactions} />
       </div>
       {showToaster && (
         <Toaster
