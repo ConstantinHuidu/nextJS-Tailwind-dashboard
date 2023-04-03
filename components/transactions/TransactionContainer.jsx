@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Header from "../Header";
 import { useSession } from "next-auth/react";
 import AddExpenseCategoryModal from "./components/AddExpenseCategoryModal";
 import TopControls from "./components/TopControls";
@@ -24,8 +23,6 @@ const TransactionContainer = () => {
   const [isReloading, setIsReloading] = useState(true);
   const [transactionCategories, setTransactionCategories] = useState([]);
   const [transactions, setTransactions] = useState([]);
-
-  // console.log(expenses);
 
   const fetchExpenseCategories = async () => {
     const userEmail = session?.user?.email;
@@ -202,7 +199,6 @@ const TransactionContainer = () => {
 
   return (
     <main className="bg-gray-100 min-h-screen">
-      <Header message={"Your transactions"} />
       <TopControls
         onOpenModal={handleOpenModal}
         onOpenNewExpenseModal={handleOpenNewExpenseModal}

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Header from "./Header";
 import { useRouter } from "next/router";
 import LoadingSpinner from "./generic/LoadingSpinner";
 import Link from "next/link";
@@ -127,7 +126,6 @@ const Signup = () => {
 
   return (
     <div className="bg-gray-100 min-h-screen">
-      <Header message={"New account"} />
       <form
         onSubmit={submitFormHandler}
         noValidate
