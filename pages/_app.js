@@ -1,4 +1,4 @@
-import Sidebar from "@/components/Sidebar";
+import Layout from "@/components/Layout";
 import "@/styles/globals.css";
 import { SessionProvider } from "next-auth/react";
 
@@ -8,9 +8,9 @@ export default function App({
 }) {
   return (
     <SessionProvider session={session}>
-      <Sidebar>
+      <Layout>
         <Component {...pageProps} />
-      </Sidebar>
+      </Layout>
     </SessionProvider>
   );
 }

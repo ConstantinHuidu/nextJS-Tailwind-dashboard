@@ -79,7 +79,7 @@ const AccountSettings = () => {
 
   return (
     <div className="bg-gray-100 min-h-screen">
-      <Header message={"Account settings"} />
+      {/* <Header message={"Account settings"} /> */}
       <div className="flex flex-col justify-start items-center w-[88%] md:w-2/5 max-w-4xl mx-auto mt-10 md:mt-20 align-middle h-[550px] border rounded-lg border-gray-300 bg-slate-50">
         <BsFillPersonFill
           size={150}

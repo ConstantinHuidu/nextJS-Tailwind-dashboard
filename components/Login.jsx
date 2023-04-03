@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
-import Header from "./Header";
 import LoadingSpinner from "./generic/LoadingSpinner";
 import { validateEmail } from "@/helpers/auth";
 import { CustomInput, DefaultButton } from "./generic/GenericComponents";
@@ -69,14 +68,11 @@ const Login = () => {
       return;
     }
 
-    //=== CLEAR LOADING STATE AND REDIRECT ===
     router.push("/");
-    setIsLoading(false);
   };
 
   return (
     <div className="bg-gray-100 min-h-screen">
-      <Header message={"Log in"} />
       <form
         onSubmit={submitFormHandler}
         noValidate

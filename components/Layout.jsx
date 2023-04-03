@@ -4,10 +4,10 @@ import Sidebar from "./Sidebar";
 
 const Layout = ({ children }) => {
   return (
-    <div>
+    <div className="bg-gray-100 min-h-screen">
       <Header />
-      <Sidebar />
-      <main className="ml-20 w-full">{children}</main>
+      {/* <Sidebar /> */}
+      <main className="max-w-7xl mx-auto">{children}</main>
     </div>
   );
 };
