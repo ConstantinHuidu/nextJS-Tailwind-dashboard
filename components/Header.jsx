@@ -22,7 +22,7 @@ const Header = () => {
       <span className="absolute bottom-0 left-5 right-5 h-0.5 bg-stone-300"></span>
       <div className="flex justify-center items-center">
         <div
-          className="relative flex justify-center items-center text-6xl"
+          className="relative flex justify-center items-center text-4xl lg:text-6xl"
           onClick={() => setIsOpen(false)}
         >
           <Link href="/">
