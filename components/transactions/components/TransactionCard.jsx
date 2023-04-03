@@ -41,16 +41,14 @@ const TransactionCard = ({ transaction }) => {
           )}
         </div>
         <div className="pl-4">
-          <p className={`${textColor} font-bold lg:text-xl text:md opacity-80`}>
+          <p className={`${textColor} font-bold lg:text-xl text:md`}>
             {formattedAmount}
           </p>
 
-          <p
-            className={`text-black text-sm font-semibold opacity-70 uppercase`}
-          >
+          <p className={`text-black text-sm font-semibold uppercase`}>
             {transaction.transactionName}
           </p>
-          <p className="text-sm text-gray-700 opacity-70">{formattedDate}</p>
+          <p className="text-sm text-gray-700">{formattedDate}</p>
           <p className="text-[0.7rem] mt-1 underline text-blue-400 font-semibold hover:text-blue-800 visited:text-purple-600 cursor-pointer">
             View details
           </p>

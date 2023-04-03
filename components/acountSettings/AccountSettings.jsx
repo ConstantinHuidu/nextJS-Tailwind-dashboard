@@ -83,7 +83,7 @@ const AccountSettings = () => {
       <div className="flex flex-col justify-start items-center w-[88%] md:w-2/5 max-w-4xl mx-auto mt-10 md:mt-20 align-middle h-[550px] border rounded-lg border-gray-300 bg-slate-50">
         <BsFillPersonFill
           size={150}
-          className="text-cyan-800 p-1 opacity-75 shadow-cyan-800 shadow-lg rounded-full mb-10 mt-4 md:mt-10"
+          className="text-cyan-800 p-1 shadow-cyan-800 shadow-lg rounded-full mb-10 mt-4 md:mt-10"
         />
         <div className="flex flex-col items-start">
           <div className="flex justify-start items-center mb-6">
