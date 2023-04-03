@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@next/font": "^13.2.4",
     "bcrypt": "^5.1.0",
     "bcryptjs": "^2.4.3",
     "chart.js": "^4.2.1",
