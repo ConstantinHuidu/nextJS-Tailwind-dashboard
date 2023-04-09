@@ -73,53 +73,55 @@ const Login = () => {
   };
 
   return (
-    <div className="flex justify-around items-center w-[95%] mx-auto">
-      <div className="hidden lg:block relative w-1/2 h-[80vh]">
-        <Image
-          alt="login"
-          src="https://images.unsplash.com/photo-1579621970343-21c491b3f363?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OXx8bW9uZXl8ZW58MHwxfDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
-          fill
-          className="object-cover rounded-3xl p-5"
-        />
-      </div>
-      <div className="w-[90%] my-5 mx-auto lg:w-1/2 lg:my-0 border border-gray-300 rounded-lg h-[75vh] ">
-        <form
-          onSubmit={submitFormHandler}
-          noValidate
-          className="flex flex-col justify-center items-center max-w-4xl m-auto align-middle h-[650px] w-10/12"
-        >
-          <CustomInput
-            labelFor="email"
-            inputType="email"
-            labelName="E-mail"
-            onHandleChange={handleEmailChange}
+    <div className="flex flex-col justify-center items-center h-[80vh] ">
+      <div className="flex justify-center items-center w-[95%] mx-auto h-[70vh] bg-zinc-50 rounded-xl">
+        <div className="hidden lg:block relative w-1/2 h-[70vh]">
+          <Image
+            alt="login"
+            src="https://images.unsplash.com/photo-1561679660-d00ee1e0dc8e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80"
+            fill
+            className="object-contains rounded-l-2xl"
           />
-          <CustomInput
-            labelFor="password"
-            inputType="password"
-            labelName="Password"
-            onHandleChange={handlePasswordChange}
-          />
-          <Link
-            href="/signup"
-            className="text-sm underline text-blue-600 hover:text-blue-800 visited:text-purple-600 my-5"
+        </div>
+        <div className="w-[90%] my-5 mx-auto lg:w-1/2 lg:my-0">
+          <form
+            onSubmit={submitFormHandler}
+            noValidate
+            className="flex flex-col justify-center items-center max-w-4xl m-auto align-middle h-[650px] w-10/12"
           >
-            Don't have an account? Create one
-          </Link>
-          {!isLoading && <DefaultButton buttonText="Log in" />}
-          {isLoading && (
-            <DefaultButton buttonText="Loading..." isDisabled={true}>
-              <LoadingSpinner />
-            </DefaultButton>
+            <CustomInput
+              labelFor="email"
+              inputType="email"
+              labelName="E-mail"
+              onHandleChange={handleEmailChange}
+            />
+            <CustomInput
+              labelFor="password"
+              inputType="password"
+              labelName="Password"
+              onHandleChange={handlePasswordChange}
+            />
+            <Link
+              href="/signup"
+              className="text-sm underline text-blue-600 hover:text-blue-800 visited:text-purple-600 my-5"
+            >
+              Don't have an account? Create one
+            </Link>
+            {!isLoading && <DefaultButton buttonText="Log in" />}
+            {isLoading && (
+              <DefaultButton buttonText="Loading..." isDisabled={true}>
+                <LoadingSpinner />
+              </DefaultButton>
+            )}
+          </form>
+          {showToaster && (
+            <Toaster
+              title={taskStatus.statusMessage}
+              status={taskStatus.error ? "❌" : "✔"}
+              color={taskStatus.error ? "red" : "green"}
+            />
           )}
-        </form>
-        {showToaster && (
-          <Toaster
-            title={taskStatus.statusMessage}
-            status={taskStatus.error ? "❌" : "✔"}
-            color={taskStatus.error ? "red" : "green"}
-          />
-        )}
+        </div>
       </div>
     </div>
   );

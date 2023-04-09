@@ -113,7 +113,7 @@ export const ModalConfirmButton = ({ buttonText, children }) => (
 export const DefaultButton = ({ buttonText, children, isDisabled }) => (
   <button
     disabled={isDisabled}
-    className="w-2/3 bg-cyan-600 text-black font-semibold uppercase text-xs md:text-lg hover:bg-cyan-800 opacity-75 hover:text-white ease-linear transition-all duration-200 border rounded-lg p-2 mb-4 disabled:bg-gray-500 disabled:text-black"
+    className="w-2/3 bg-cyan-700 text-gray-100 font-semibold uppercase text-xs md:text-lg hover:shadow-lg hover:bg-cyan-800 ease-linear transition-all duration-200 border rounded-lg p-2 mb-4 disabled:bg-gray-500 disabled:text-black"
     type="submit"
   >
     <div className="flex justify-center items-center">
