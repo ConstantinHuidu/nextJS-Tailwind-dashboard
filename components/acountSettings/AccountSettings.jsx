@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Header from "../Header";
+import Header from "../Layout/Header";
 import { useSession } from "next-auth/react";
 import { BsFillPersonFill } from "react-icons/bs";
 import UpdateInfoModal from "./components/UpdateInfoModal";

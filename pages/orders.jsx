@@ -1,7 +1,7 @@
 import React from "react";
 import data from "@/data/data";
 
-import Header from "@/components/Header";
+import Header from "@/components/Layout/Header";
 import OrderRow from "../components/OrderRow";
 import { getSession } from "next-auth/react";
 
