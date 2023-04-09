@@ -198,7 +198,7 @@ const TransactionContainer = () => {
   };
 
   return (
-    <main className="bg-gray-100 min-h-screen">
+    <main className="bg-gray-100">
       <TopControls
         onOpenModal={handleOpenModal}
         onOpenNewExpenseModal={handleOpenNewExpenseModal}

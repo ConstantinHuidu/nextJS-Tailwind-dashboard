@@ -1,6 +1,6 @@
 import React from "react";
 import CustomerRow from "@/components/CustomerRow";
-import Header from "@/components/Header";
+import Header from "@/components/Layout/Header";
 import data from "@/data/data";
 import { getSession } from "next-auth/react";
 

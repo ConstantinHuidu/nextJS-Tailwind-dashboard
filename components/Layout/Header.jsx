@@ -2,7 +2,6 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { MdLogout } from "react-icons/md";
 import { useSession, signOut } from "next-auth/react";
-import Logo from "../assets/images/Logo.png";
 import Image from "next/image";
 
 const Header = () => {
@@ -18,17 +17,20 @@ const Header = () => {
   };
 
   return (
-    <div className="relative flex flex-row max-w-7xl mx-auto justify-between items-center md:items-center p-4">
+    <div className="relative flex flex-row max-w-7xl mx-auto justify-between items-center md:items-center p-4 h-[10vh]">
       <span className="absolute bottom-0 left-5 right-5 h-0.5 bg-stone-300"></span>
       <div className="flex justify-center items-center">
         <div
-          className="relative flex justify-center items-center text-4xl lg:text-6xl"
+          className="relative flex flex-col justify-center items-center text-4xl lg:text-5xl font-bold uppercase px-3 py-1 bg-cyan-800 text-gray-100 shadow-lg hover:shadow-2xl duration-200 rounded-lg"
           onClick={() => setIsOpen(false)}
         >
           <Link href="/">
-            LOGO
+            Budgetify
             {/* <Image alt="logo" src={Logo} fill className="scale-[4] ml-20" /> */}
           </Link>
+          <span className="text-xs normal-case place-self-end text-cyan-100">
+            Tame your wallet
+          </span>
         </div>
       </div>
 
