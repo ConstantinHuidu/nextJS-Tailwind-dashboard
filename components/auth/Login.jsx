@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
-import LoadingSpinner from "./generic/LoadingSpinner";
+import LoadingSpinner from "../generic/LoadingSpinner";
 import { validateEmail } from "@/helpers/auth";
-import { CustomInput, DefaultButton } from "./generic/GenericComponents";
-import Toaster from "./generic/Toaster";
+import { CustomInput, DefaultButton } from "../generic/GenericComponents";
+import Toaster from "../generic/Toaster";
 import Image from "next/image";
 
 const defaultErrorState = {
@@ -73,14 +73,14 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center h-[80vh] ">
+    <div className="flex flex-col justify-center items-center h-[80vh]">
       <div className="flex justify-center items-center w-[95%] mx-auto h-[70vh] bg-zinc-50 rounded-xl">
         <div className="hidden lg:block relative w-1/2 h-[70vh]">
           <Image
             alt="login"
             src="https://images.unsplash.com/photo-1561679660-d00ee1e0dc8e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80"
             fill
-            className="object-contains rounded-l-2xl"
+            className="object-cover rounded-l-2xl"
           />
         </div>
         <div className="w-[90%] my-5 mx-auto lg:w-1/2 lg:my-0">

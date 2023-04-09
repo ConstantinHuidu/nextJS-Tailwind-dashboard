@@ -1,5 +1,5 @@
 import React from "react";
-import Login from "@/components/Login";
+import Login from "@/components/auth/Login";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 

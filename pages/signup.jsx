@@ -1,6 +1,6 @@
 import React from "react";
 import { getSession } from "next-auth/react";
-import Signup from "@/components/Signup";
+import Signup from "@/components/auth/Signup";
 import Head from "next/head";
 
 const signup = () => {
