@@ -1,38 +1,40 @@
-import Image from "next/image";
 import React from "react";
-import homePage from "../../assets/images/homePage.png";
-import Link from "next/link";
+import { ImStatsBars2 } from "react-icons/im";
+import { HiOutlineLightBulb } from "react-icons/hi";
+import { BiHappyHeartEyes } from "react-icons/bi";
+import HeroSection from "./components/HeroSection";
+import CardComponent from "./components/CardComponent";
 
 const HomePage = () => {
   return (
-    <div className="my-5 mx-auto flex h-[1020px] w-[90%] flex-col items-start justify-start space-y-10 bg-white md:h-[80vh] md:flex-row md:space-y-0 md:space-x-5">
-      <div className="mx-auto flex h-[550px] w-full max-w-7xl flex-col items-center justify-between p-5 md:flex-row">
-        <div className="relative hidden h-full w-full md:block md:w-[60%]">
-          <Image
-            alt="home"
-            src={homePage}
-            fill
-            className="rounded-3xl object-cover"
-          />
-        </div>
-        <div className="flex h-full w-full flex-col items-center justify-center space-y-7 md:w-[40%] md:items-start md:pl-10">
-          <h1 className="text-center text-5xl font-bold text-gray-800">
-            More than just an expense tracker
-          </h1>
-          <p className="text-md text-center font-semibold text-gray-400 md:text-left">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptate
-            rerum magnam necessitatibus quo eius, explicabo quos qui, corporis
-            totam nostrum inventore neque soluta eum maiores quam obcaecati
-            facilis iusto asperiores tempora distinctio numquam accusamus minus
-            sit nulla! Quo ipsam fugit nihil quaerat perspiciatis est aut!
-          </p>
-          <Link
-            href="/transactions"
-            className="rounded-full bg-cyan-700 py-3 px-10 text-xl text-white "
-          >
-            Get started
-          </Link>
-        </div>
+    <div className="my-5 mx-auto flex  w-[90%] flex-col items-center justify-start space-y-10 bg-white">
+      <h1 className="max-w-3xl px-10 pt-10 text-center text-5xl font-bold  text-gray-700 lg:max-w-4xl lg:text-5xl">
+        More than just an expense tracker
+      </h1>
+      <div className="my-5 mx-auto flex w-[90%] flex-col items-start justify-start bg-white lg:flex-row lg:space-y-0 lg:space-x-5">
+        <HeroSection />
+      </div>
+
+      <h3 className="text-4xl font-semibold text-gray-600">Why choose us</h3>
+
+      {/* card container  */}
+
+      <div className="flex w-full flex-col items-center justify-center space-y-10 bg-white p-5  lg:flex-row lg:space-y-0 lg:space-x-5">
+        <CardComponent
+          title="Advanced statistics"
+          body="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero."
+          icon={<ImStatsBars2 />}
+        />
+        <CardComponent
+          title="Advanced statistics"
+          body="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero."
+          icon={<HiOutlineLightBulb />}
+        />
+        <CardComponent
+          title="Advanced statistics"
+          body="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero."
+          icon={<BiHappyHeartEyes />}
+        />
       </div>
     </div>
   );
