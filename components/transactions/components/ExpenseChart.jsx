@@ -99,7 +99,7 @@ const ExpenseChart = ({ transactions }) => {
 
   return (
     <>
-      <div className="w-full lg:col-span-3 lg:h-[70vh] h-[50vh] m-auto p-4 border rounded-lg bg-white ">
+      <div className="m-auto h-[50vh] w-full rounded-lg border bg-white p-4 lg:col-span-3 lg:h-[70vh] ">
         <h3>Expenses chart</h3>
         {expenseData.length > 0 ? (
           <Pie data={chartData} options={chartOptions} />

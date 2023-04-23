@@ -19,9 +19,9 @@ export const CustomInput = ({
         defaultValue={defaultValue}
         id={labelFor}
         placeholder=" "
-        className="h-10 w-full px-2 text-sm md:text-md border-2 rounded-lg border-slate-500 border-opacity-50 outline-none focus:border-cyan-500 focus:text-black transition duration-200 peer"
+        className="md:text-md peer h-10 w-full rounded-lg border-2 border-slate-500 border-opacity-50 px-2 text-sm outline-none transition duration-200 focus:border-cyan-500 focus:text-black"
       />
-      <span className="text-md md:text-xl text-slate-600 font-semibold text-opacity-80 absolute -left-7 -top-8 mx-6 px-2 transition duration-200 input-text peer-focus:text-cyan-600">
+      <span className="text-md input-text absolute -left-7 -top-8 mx-6 px-2 font-semibold text-slate-600 text-opacity-80 transition duration-200 peer-focus:text-cyan-600 md:text-xl">
         {labelName}
       </span>
     </label>
@@ -39,7 +39,7 @@ export const CustomSelect = ({ data, labelFor, labelName, onHandleChange }) => {
         onChange={handleInputChange}
         id={labelFor}
         placeholder=" "
-        className="h-10 w-full px-2 text-sm md:text-md border-2 rounded-lg border-slate-500 border-opacity-50 outline-none focus:border-cyan-500 focus:text-black transition duration-200 peer"
+        className="md:text-md peer h-10 w-full rounded-lg border-2 border-slate-500 border-opacity-50 px-2 text-sm outline-none transition duration-200 focus:border-cyan-500 focus:text-black"
       >
         {data &&
           data.map((category) => (
@@ -48,7 +48,7 @@ export const CustomSelect = ({ data, labelFor, labelName, onHandleChange }) => {
             </option>
           ))}
       </select>
-      <span className="text-md md:text-xl text-slate-600 font-semibold text-opacity-80 absolute -left-7 -top-8 mx-6 px-2 transition duration-200 input-text peer-focus:text-cyan-600">
+      <span className="text-md input-text absolute -left-7 -top-8 mx-6 px-2 font-semibold text-slate-600 text-opacity-80 transition duration-200 peer-focus:text-cyan-600 md:text-xl">
         {labelName}
       </span>
     </label>
@@ -68,9 +68,9 @@ export const CustomTextarea = ({ labelFor, labelName, onHandleChange }) => {
         rows="4"
         cols="30"
         placeholder=" "
-        className="w-full px-2 text-sm md:text-md border-2 rounded-lg border-slate-500 border-opacity-50 outline-none focus:border-cyan-500 focus:text-black transition duration-200 peer"
+        className="md:text-md peer w-full rounded-lg border-2 border-slate-500 border-opacity-50 px-2 text-sm outline-none transition duration-200 focus:border-cyan-500 focus:text-black"
       />
-      <span className="text-md md:text-xl text-slate-600 font-semibold text-opacity-80 absolute -left-7 -top-8 mx-6 px-2 transition duration-200 input-text peer-focus:text-cyan-600">
+      <span className="text-md input-text absolute -left-7 -top-8 mx-6 px-2 font-semibold text-slate-600 text-opacity-80 transition duration-200 peer-focus:text-cyan-600 md:text-xl">
         {labelName}
       </span>
     </label>
@@ -79,10 +79,10 @@ export const CustomTextarea = ({ labelFor, labelName, onHandleChange }) => {
 
 export const ModalXButton = ({ handleClose }) => (
   <button
-    className="p-1 ml-auto bg-transparent border-0 text-black float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+    className="float-right ml-auto border-0 bg-transparent p-1 text-3xl font-semibold leading-none text-black outline-none focus:outline-none"
     onClick={handleClose}
   >
-    <span className="bg-transparent text-black h-6 w-6 text-2xl block outline-none focus:outline-none">
+    <span className="block h-6 w-6 bg-transparent text-2xl text-black outline-none focus:outline-none">
       ×
     </span>
   </button>
@@ -90,7 +90,7 @@ export const ModalXButton = ({ handleClose }) => (
 
 export const ModalCloseButton = ({ handleClose }) => (
   <button
-    className="bg-gray-500 text-white background-transparent font-bold uppercase px-6 py-3 rounded text-xs  outline-none focus:outline-none hover:shadow-lg mr-1 mb-1 ease-linear transition-all duration-150"
+    className="background-transparent mr-1 mb-1 rounded bg-gray-500 px-6 py-3 text-xs font-bold  uppercase text-white outline-none transition-all duration-150 ease-linear hover:shadow-lg focus:outline-none"
     type="button"
     onClick={handleClose}
   >
@@ -100,7 +100,7 @@ export const ModalCloseButton = ({ handleClose }) => (
 
 export const ModalConfirmButton = ({ buttonText, children }) => (
   <button
-    className="bg-emerald-400 text-white active:bg-emerald-500 font-bold uppercase text-xs px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+    className="mr-1 mb-1 rounded bg-emerald-400 px-6 py-3 text-xs font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-lg focus:outline-none active:bg-emerald-500"
     type="submit"
   >
     <div className="flex items-center">
@@ -113,10 +113,10 @@ export const ModalConfirmButton = ({ buttonText, children }) => (
 export const DefaultButton = ({ buttonText, children, isDisabled }) => (
   <button
     disabled={isDisabled}
-    className="w-2/3 bg-cyan-700 text-gray-100 font-semibold uppercase text-xs md:text-lg hover:shadow-lg hover:bg-cyan-800 ease-linear transition-all duration-200 border rounded-lg p-2 mb-4 disabled:bg-gray-500 disabled:text-black"
+    className="mb-4 w-2/3 rounded-lg border bg-cyan-700 p-2 text-xs font-semibold uppercase text-gray-100 transition-all duration-200 ease-linear hover:bg-cyan-800 hover:shadow-lg disabled:bg-gray-500 disabled:text-black md:text-lg"
     type="submit"
   >
-    <div className="flex justify-center items-center">
+    <div className="flex items-center justify-center">
       {children}
       {buttonText}
     </div>

@@ -218,7 +218,7 @@ const TransactionContainer = () => {
           isLoading={isLoading}
         />
       )}
-      <div className="p-4 grid lg:grid-cols-5 grid-cols-1 gap-4">
+      <div className="grid grid-cols-1 gap-4 p-4 lg:grid-cols-5">
         <ExpenseChart transactions={transactions} />
         <RecentTransactions transactions={transactions} />
       </div>

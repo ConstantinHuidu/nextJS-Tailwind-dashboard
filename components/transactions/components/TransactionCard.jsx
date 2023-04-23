@@ -30,7 +30,7 @@ const TransactionCard = ({ transaction }) => {
   return (
     <li
       key={transaction._id}
-      className="bg-white hover:bg-gray-100 shadow-lg rounded-lg my-3 p-2 flex items-center justify-between transition-all duration-200"
+      className="my-3 flex items-center justify-between rounded-lg bg-white p-2 shadow-lg transition-all duration-200 hover:bg-gray-100"
     >
       <div className="flex items-center">
         <div className={`${bgColor} rounded-lg p-3`}>
@@ -41,22 +41,22 @@ const TransactionCard = ({ transaction }) => {
           )}
         </div>
         <div className="pl-4">
-          <p className={`${textColor} font-bold lg:text-xl text:md`}>
+          <p className={`${textColor} text:md font-bold lg:text-xl`}>
             {formattedAmount}
           </p>
 
-          <p className={`text-black text-sm font-semibold uppercase`}>
+          <p className={`text-sm font-semibold uppercase text-black`}>
             {transaction.transactionName}
           </p>
           <p className="text-sm text-gray-700">{formattedDate}</p>
-          <p className="text-[0.7rem] mt-1 underline text-blue-400 font-semibold hover:text-blue-800 visited:text-purple-600 cursor-pointer">
+          <p className="mt-1 cursor-pointer text-[0.7rem] font-semibold text-blue-400 underline visited:text-purple-600 hover:text-blue-800">
             View details
           </p>
         </div>
       </div>
 
       <div
-        className={`bg-transaprent hover:bg-cyan-800 hover:text-white ease-linear transition-all duration-200 p-1 mr-2 rounded-lg text-sm font-semibold cursor-pointer uppercase`}
+        className={`bg-transaprent mr-2 cursor-pointer rounded-lg p-1 text-sm font-semibold uppercase transition-all duration-200 ease-linear hover:bg-cyan-800 hover:text-white`}
       >
         Edit
       </div>
