@@ -7,6 +7,7 @@ import { validateEmail } from "@/helpers/auth";
 import { CustomInput, DefaultButton } from "../generic/GenericComponents";
 import Toaster from "../generic/Toaster";
 import Image from "next/image";
+import AuthImg from "../../assets/images/auth/authImg.png";
 
 const defaultErrorState = {
   error: false,
@@ -74,11 +75,12 @@ const Login = () => {
 
   return (
     <div className="flex h-[80vh] flex-col items-center justify-center">
-      <div className="mx-auto flex h-[70vh] w-[95%] items-center justify-center rounded-xl bg-zinc-50">
+      <div className="mx-auto flex h-[70vh] w-[95%] items-center justify-center rounded-xl bg-white">
         <div className="relative hidden h-[70vh] w-1/2 lg:block">
           <Image
             alt="login"
-            src="https://images.unsplash.com/photo-1561679660-d00ee1e0dc8e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80"
+            // src="https://images.unsplash.com/photo-1561679660-d00ee1e0dc8e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80"
+            src={AuthImg}
             fill
             className="rounded-l-2xl object-cover"
           />
