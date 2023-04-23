@@ -5,6 +5,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 export const authOptions = {
   session: { jwt: true },
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     CredentialsProvider({
       async authorize(credentials, req) {
