@@ -31,19 +31,19 @@ export default function UpdateInfoModal(props) {
   return (
     <>
       <>
-        <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-          <div className="relative w-[82%] lg:w-[70%] my-6 mx-auto max-w-3xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden outline-none focus:outline-none">
+          <div className="relative my-6 mx-auto w-[82%] max-w-3xl lg:w-[70%]">
             {/*content*/}
-            <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+            <div className="relative flex w-full flex-col rounded-lg border-0 bg-white shadow-lg outline-none focus:outline-none">
               {/*header*/}
-              <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                <h3 className="text-xl md:text-2xl font-semibold">Edit info</h3>
+              <div className="flex items-start justify-between rounded-t border-b border-solid border-slate-200 p-5">
+                <h3 className="text-xl font-semibold md:text-2xl">Edit info</h3>
 
                 <ModalXButton handleClose={onClose} />
               </div>
               {/*body*/}
               <form onSubmit={handleSubmit}>
-                <div className="m-5 flex flex-col justify-center items-center ">
+                <div className="m-5 flex flex-col items-center justify-center ">
                   <CustomInput
                     labelFor="name"
                     inputType="text"
@@ -59,7 +59,7 @@ export default function UpdateInfoModal(props) {
                   />
                 </div>
                 {/*footer*/}
-                <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                <div className="flex items-center justify-end rounded-b border-t border-solid border-slate-200 p-6">
                   <ModalCloseButton handleClose={onClose} />
                   {!isLoading && (
                     <ModalConfirmButton buttonText="Update info" />
@@ -74,7 +74,7 @@ export default function UpdateInfoModal(props) {
             </div>
           </div>
         </div>
-        <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+        <div className="fixed inset-0 z-40 bg-black opacity-25"></div>
       </>
     </>
   );

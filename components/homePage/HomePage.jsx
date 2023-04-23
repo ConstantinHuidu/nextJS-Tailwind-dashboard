@@ -5,21 +5,21 @@ import Link from "next/link";
 
 const HomePage = () => {
   return (
-    <div className="flex flex-col space-y-10 md:space-y-0 md:space-x-5 md:flex-row justify-start items-start w-[90%] h-[1020px] md:h-[80vh] my-5 bg-white mx-auto">
-      <div className="flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto w-full h-[550px] p-5">
-        <div className="hidden relative md:block w-full md:w-[60%] h-full">
+    <div className="my-5 mx-auto flex h-[1020px] w-[90%] flex-col items-start justify-start space-y-10 bg-white md:h-[80vh] md:flex-row md:space-y-0 md:space-x-5">
+      <div className="mx-auto flex h-[550px] w-full max-w-7xl flex-col items-center justify-between p-5 md:flex-row">
+        <div className="relative hidden h-full w-full md:block md:w-[60%]">
           <Image
             alt="home"
             src={homePage}
             fill
-            className="object-cover rounded-3xl"
+            className="rounded-3xl object-cover"
           />
         </div>
-        <div className="flex flex-col justify-center items-center md:items-start w-full md:w-[40%] h-full space-y-7 md:pl-10">
-          <h1 className="text-5xl text-gray-800 font-bold text-center">
+        <div className="flex h-full w-full flex-col items-center justify-center space-y-7 md:w-[40%] md:items-start md:pl-10">
+          <h1 className="text-center text-5xl font-bold text-gray-800">
             More than just an expense tracker
           </h1>
-          <p className="text-gray-400 text-md font-semibold text-center md:text-left">
+          <p className="text-md text-center font-semibold text-gray-400 md:text-left">
             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptate
             rerum magnam necessitatibus quo eius, explicabo quos qui, corporis
             totam nostrum inventore neque soluta eum maiores quam obcaecati
@@ -28,7 +28,7 @@ const HomePage = () => {
           </p>
           <Link
             href="/transactions"
-            className="bg-cyan-700 py-3 px-10 rounded-full text-white text-xl"
+            className="rounded-full bg-cyan-700 py-3 px-10 text-xl text-white "
           >
             Get started
           </Link>

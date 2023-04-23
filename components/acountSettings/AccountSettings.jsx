@@ -78,32 +78,32 @@ const AccountSettings = () => {
   }
 
   return (
-    <div className="pt-10 md:mp-20">
+    <div className="md:mp-20 pt-10">
       {/* <Header message={"Account settings"} /> */}
-      <div className="flex flex-col justify-start items-center w-[88%] md:w-2/5 max-w-4xl mx-auto  align-middle h-[550px] border rounded-lg border-gray-300 bg-slate-50">
+      <div className="mx-auto flex h-[550px] w-[88%] max-w-4xl flex-col items-center justify-start  rounded-lg border border-gray-300 bg-slate-50 align-middle md:w-2/5">
         <BsFillPersonFill
           size={150}
-          className="text-cyan-800 p-1 shadow-cyan-800 shadow-lg rounded-full mb-10 mt-4 md:mt-10"
+          className="mb-10 mt-4 rounded-full p-1 text-cyan-800 shadow-lg shadow-cyan-800 md:mt-10"
         />
         <div className="flex flex-col items-start">
-          <div className="flex justify-start items-center mb-6">
-            <p className="text-md uppercase font-semibold">Name:</p>
+          <div className="mb-6 flex items-center justify-start">
+            <p className="text-md font-semibold uppercase">Name:</p>
             <p className=" p-2">{session?.user?.name || ""}</p>
           </div>
 
-          <div className="flex justify-start items-center mb-6">
-            <p className="text-md uppercase font-semibold">E-mail:</p>
+          <div className="mb-6 flex items-center justify-start">
+            <p className="text-md font-semibold uppercase">E-mail:</p>
             <p className=" p-2">{session?.user?.email || ""}</p>
           </div>
 
-          <div className="flex justify-start items-center mb-6">
-            <p className="text-md uppercase font-semibold">Currency:</p>
+          <div className="mb-6 flex items-center justify-start">
+            <p className="text-md font-semibold uppercase">Currency:</p>
             <p className=" p-2">{session?.user?.currency || "RON"}</p>
           </div>
         </div>
 
         <button
-          className="text-md text-black border rounded-lg p-2 mt-10 bg-cyan-500 hover:bg-cyan-700 hover:text-white ease-linear transition-all duration-200 uppercase"
+          className="text-md mt-10 rounded-lg border bg-cyan-500 p-2 uppercase text-black transition-all duration-200 ease-linear hover:bg-cyan-700 hover:text-white"
           onClick={() => setShowModal(true)}
         >
           Edit info

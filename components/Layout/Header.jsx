@@ -17,29 +17,29 @@ const Header = () => {
   };
 
   return (
-    <div className="relative flex flex-row max-w-7xl mx-auto justify-between items-center md:items-center p-4 h-[10vh]">
+    <div className="relative mx-auto flex h-[10vh] max-w-7xl flex-row items-center justify-between p-4 md:items-center">
       <span className="absolute bottom-0 left-5 right-5 h-0.5 bg-stone-300"></span>
-      <div className="flex justify-center items-center">
+      <div className="flex items-center justify-center">
         <div
-          className="relative flex flex-col justify-center items-center text-4xl lg:text-5xl font-bold uppercase px-3 py-1 bg-cyan-800 text-gray-100 shadow-lg hover:shadow-2xl duration-200 rounded-lg"
+          className="relative flex flex-col items-center justify-center rounded-lg bg-cyan-800 px-3 py-1 text-4xl font-bold uppercase text-gray-100 shadow-lg duration-200 hover:shadow-2xl lg:text-5xl"
           onClick={() => setIsOpen(false)}
         >
           <Link href="/">
             Budgetify
             {/* <Image alt="logo" src={Logo} fill className="scale-[4] ml-20" /> */}
           </Link>
-          <span className="text-xs normal-case place-self-end text-cyan-100">
+          <span className="place-self-end text-xs normal-case text-cyan-100">
             Tame your wallet
           </span>
         </div>
       </div>
 
       {/* DESKTOP NAVBAR */}
-      <div className="hidden md:flex justify-between items-center gap-16">
+      <div className="hidden items-center justify-between gap-16 md:flex">
         {!session && (
           <Link
             href="/login"
-            className="text-gray-800 font-semibold text-sm lg:text-xl p-2 border-2 rounded-lg border-gray-700 border-opacity-0 hover:border-opacity-100 duration-200"
+            className="rounded-lg border-2 border-gray-700 border-opacity-0 p-2 text-sm font-semibold text-gray-800 duration-200 hover:border-opacity-100 lg:text-xl"
           >
             Log in
           </Link>
@@ -48,19 +48,19 @@ const Header = () => {
           <>
             <Link
               href="/transactions"
-              className="text-gray-800 font-semibold text-sm lg:text-xl p-2 border-b-2 border-gray-700 border-opacity-0 hover:border-opacity-100 duration-200"
+              className="border-b-2 border-gray-700 border-opacity-0 p-2 text-sm font-semibold text-gray-800 duration-200 hover:border-opacity-100 lg:text-xl"
             >
               Transactions
             </Link>
             <Link
               href="/accountInfo"
-              className="text-gray-800 font-semibold text-sm lg:text-xl p-2 border-b-2 border-gray-700 border-opacity-0 hover:border-opacity-100 duration-200"
+              className="border-b-2 border-gray-700 border-opacity-0 p-2 text-sm font-semibold text-gray-800 duration-200 hover:border-opacity-100 lg:text-xl"
             >
               Account settings
             </Link>
             <div
               onClick={logoutHandler}
-              className="flex justify-end items-center cursor-pointer text-gray-800 font-semibold text-xs lg:text-xl ease-linear transition-all duration-200 p-2 border-2 rounded-lg border-gray-700 border-opacity-0 hover:border-opacity-100"
+              className="flex cursor-pointer items-center justify-end rounded-lg border-2 border-gray-700 border-opacity-0 p-2 text-xs font-semibold text-gray-800 transition-all duration-200 ease-linear hover:border-opacity-100 lg:text-xl"
             >
               <MdLogout className="hidden md:block" />
               <p>Logout </p>
@@ -71,47 +71,47 @@ const Header = () => {
 
       {/* BURGER MENU  */}
       <div
-        className="relative flex flex-col justify-center items-center md:hidden p-2 space-y-1 rounded border border-gray-700 border-opacity-0 hover:border-opacity-100 duration-200 rotate-360"
+        className="rotate-360 relative flex flex-col items-center justify-center space-y-1 rounded border border-gray-700 border-opacity-0 p-2 duration-200 hover:border-opacity-100 md:hidden"
         onClick={handleBurgerMenu}
       >
         <span
           className={`${
-            isOpen ? "-rotate-45 translate-y-2 bg-gray-800" : "bg-gray-400"
-          } w-7 h-1 rounded duration-300`}
+            isOpen ? "translate-y-2 -rotate-45 bg-gray-800" : "bg-gray-400"
+          } h-1 w-7 rounded duration-300`}
         ></span>
         <span
           className={`${
             isOpen ? "opacity-0" : "bg-gray-400"
-          } w-7 h-1 rounded duration-300`}
+          } h-1 w-7 rounded duration-300`}
         ></span>
         <span
           className={`${
-            isOpen ? "rotate-45 -translate-y-2 bg-gray-800" : "bg-gray-400"
-          } w-7 h-1 rounded duration-300`}
+            isOpen ? "-translate-y-2 rotate-45 bg-gray-800" : "bg-gray-400"
+          } h-1 w-7 rounded duration-300`}
         ></span>
       </div>
       {/* MOBILE NAVBAR  */}
       <div
         className={`${
           isOpen ? "right-0" : "-right-full hidden"
-        } absolute flex flex-col md:hidden pt-10 text-center top-20 w-full h-screen text-2xl bg-gray-100 duration-500`}
+        } absolute top-20 flex h-screen w-full flex-col bg-gray-100 pt-10 text-center text-2xl duration-500 md:hidden`}
         onClick={handleBurgerMenu}
       >
         <Link
           href="/transactions"
-          className="text-gray-800 font-semibold w-1/2 mx-auto p-2 mb-5 border-b-2 border-gray-700 border-opacity-0 hover:border-opacity-100 duration-200"
+          className="mx-auto mb-5 w-1/2 border-b-2 border-gray-700 border-opacity-0 p-2 font-semibold text-gray-800 duration-200 hover:border-opacity-100"
         >
           Transactions
         </Link>
         <Link
           href="/accountInfo"
-          className="text-gray-800 font-semibold w-1/2 mx-auto p-2 mb-7 border-b-2 border-gray-700 border-opacity-0 hover:border-opacity-100 duration-200"
+          className="mx-auto mb-7 w-1/2 border-b-2 border-gray-700 border-opacity-0 p-2 font-semibold text-gray-800 duration-200 hover:border-opacity-100"
         >
           Account settings
         </Link>
         <div
           onClick={logoutHandler}
-          className="flex justify-center items-center w-1/2 mx-auto cursor-pointer text-gray-800 font-semibold ease-linear transition-all duration-200 p-2 border-2 rounded-lg mt-5 border-gray-700"
+          className="mx-auto mt-5 flex w-1/2 cursor-pointer items-center justify-center rounded-lg border-2 border-gray-700 p-2 font-semibold text-gray-800 transition-all duration-200 ease-linear"
         >
           <MdLogout className="hidden md:block" />
           <p>Logout </p>

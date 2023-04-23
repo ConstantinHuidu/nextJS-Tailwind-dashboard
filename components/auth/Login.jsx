@@ -73,21 +73,21 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center h-[80vh]">
-      <div className="flex justify-center items-center w-[95%] mx-auto h-[70vh] bg-zinc-50 rounded-xl">
-        <div className="hidden lg:block relative w-1/2 h-[70vh]">
+    <div className="flex h-[80vh] flex-col items-center justify-center">
+      <div className="mx-auto flex h-[70vh] w-[95%] items-center justify-center rounded-xl bg-zinc-50">
+        <div className="relative hidden h-[70vh] w-1/2 lg:block">
           <Image
             alt="login"
             src="https://images.unsplash.com/photo-1561679660-d00ee1e0dc8e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80"
             fill
-            className="object-cover rounded-l-2xl"
+            className="rounded-l-2xl object-cover"
           />
         </div>
-        <div className="w-[90%] my-5 mx-auto lg:w-1/2 lg:my-0">
+        <div className="my-5 mx-auto w-[90%] lg:my-0 lg:w-1/2">
           <form
             onSubmit={submitFormHandler}
             noValidate
-            className="flex flex-col justify-center items-center max-w-4xl m-auto align-middle h-[650px] w-10/12"
+            className="m-auto flex h-[650px] w-10/12 max-w-4xl flex-col items-center justify-center align-middle"
           >
             <CustomInput
               labelFor="email"
@@ -103,7 +103,7 @@ const Login = () => {
             />
             <Link
               href="/signup"
-              className="text-sm underline text-blue-600 hover:text-blue-800 visited:text-purple-600 my-5"
+              className="my-5 text-sm text-blue-600 underline visited:text-purple-600 hover:text-blue-800"
             >
               Don't have an account? Create one
             </Link>
