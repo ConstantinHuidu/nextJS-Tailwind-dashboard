@@ -6,7 +6,7 @@ const Toaster = (props) => {
   return (
     <div
       id="toast-success"
-      className={`absolute bottom-5 right-5 mb-4 flex w-full max-w-xs items-center p-4 text-gray-500 bg-${color}-200 z-10 rounded-lg shadow dark:bg-gray-800 dark:text-gray-400`}
+      className={`absolute bottom-5 right-5 mb-4 flex w-full max-w-xs items-center p-4 text-gray-500 bg-${color}-200  z-10 rounded-lg shadow dark:bg-gray-800 dark:text-gray-400`}
       role="alert"
     >
       <div
