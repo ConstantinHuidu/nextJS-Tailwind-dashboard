@@ -2,7 +2,6 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { MdLogout } from "react-icons/md";
 import { useSession, signOut } from "next-auth/react";
-import Image from "next/image";
 
 const Header = () => {
   const { data: session, status } = useSession();
@@ -24,10 +23,7 @@ const Header = () => {
           className="relative flex flex-col items-center justify-center rounded-lg bg-cyan-800 px-3 py-1 text-4xl font-bold uppercase text-gray-100 shadow-lg duration-200 hover:shadow-2xl lg:text-5xl"
           onClick={() => setIsOpen(false)}
         >
-          <Link href="/">
-            Budgetify
-            {/* <Image alt="logo" src={Logo} fill className="scale-[4] ml-20" /> */}
-          </Link>
+          <Link href="/">Budgetify</Link>
           <span className="place-self-end text-xs normal-case text-cyan-100">
             Tame your wallet
           </span>

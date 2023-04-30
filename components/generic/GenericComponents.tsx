@@ -29,7 +29,7 @@ export const CustomInput = ({
 };
 
 export const CustomSelect = ({ data, labelFor, labelName, onHandleChange }) => {
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: any) => {
     onHandleChange(e.target.value);
   };
 
@@ -56,7 +56,7 @@ export const CustomSelect = ({ data, labelFor, labelName, onHandleChange }) => {
 };
 
 export const CustomTextarea = ({ labelFor, labelName, onHandleChange }) => {
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: any) => {
     onHandleChange(e.target.value);
   };
 
@@ -65,8 +65,8 @@ export const CustomTextarea = ({ labelFor, labelName, onHandleChange }) => {
       <textarea
         onChange={handleInputChange}
         id={labelFor}
-        rows="4"
-        cols="30"
+        rows={4}
+        cols={30}
         placeholder=" "
         className="md:text-md peer w-full rounded-lg border-2 border-slate-500 border-opacity-50 px-2 text-sm outline-none transition duration-200 focus:border-cyan-500 focus:text-black"
       />

@@ -1,7 +1,11 @@
-import { connectToDB } from "@/helpers/db";
-import { hashPassword } from "@/helpers/auth";
+import { connectToDB } from "../../../helpers/db";
+import { hashPassword } from "../../../helpers/auth";
+import { NextApiRequest, NextApiResponse } from "next";
 
-export default async function handler(req, res) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   if (req.method !== "POST") return;
   const data = req.body;
 
@@ -32,6 +36,7 @@ export default async function handler(req, res) {
     userName: userName,
     email: email.toLowerCase(),
     password: hashedPassword,
+    id: null,
   };
 
   const result = await db.collection("users").insertOne(newUser);

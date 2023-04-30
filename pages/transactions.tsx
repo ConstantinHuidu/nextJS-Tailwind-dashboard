@@ -1,4 +1,5 @@
-import TransactionContainer from "@/components/transactions/TransactionContainer";
+import { GetServerSideProps } from "next";
+import TransactionContainer from "../components/transactions/TransactionContainer";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 import React from "react";
@@ -18,7 +19,7 @@ const transactions = () => {
 };
 
 // === SERVER-SIDE REDIRECT IF USER IS NOT AUTHENTICATED ===
-export async function getServerSideProps(context) {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession({ req: context.req });
 
   if (!session) {
@@ -33,6 +34,6 @@ export async function getServerSideProps(context) {
   return {
     props: { session },
   };
-}
+};
 
 export default transactions;

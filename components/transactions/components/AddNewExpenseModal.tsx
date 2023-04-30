@@ -5,8 +5,8 @@ import {
   ModalCloseButton,
   ModalConfirmButton,
   ModalXButton,
-} from "@/components/generic/GenericComponents";
-import LoadingSpinner from "@/components/generic/LoadingSpinner";
+} from "../../../components/generic/GenericComponents";
+import LoadingSpinner from "../../../components/generic/LoadingSpinner";
 import React, { useEffect, useState } from "react";
 import { transactionTypes } from "./AddExpenseCategoryModal";
 
@@ -130,12 +130,14 @@ export default function AddNewExpenseModal({
                     labelFor="amount"
                     inputType="text"
                     labelName="Amount"
+                    defaultValue={""}
                     onHandleChange={handleAmountChange}
                   />
                   <CustomInput
                     labelFor="date"
                     inputType="date"
                     labelName="Date"
+                    defaultValue={""}
                     onHandleChange={handleDateChange}
                   />
                   <CustomTextarea
@@ -148,7 +150,10 @@ export default function AddNewExpenseModal({
                 <div className="flex items-center justify-end rounded-b border-t border-solid border-slate-200 p-6">
                   <ModalCloseButton handleClose={onClose} />
                   {!isLoading && (
-                    <ModalConfirmButton buttonText="Add expense" />
+                    <ModalConfirmButton
+                      buttonText="Add expense"
+                      children={null}
+                    />
                   )}
                   {isLoading && (
                     <ModalConfirmButton buttonText="Submitting...">

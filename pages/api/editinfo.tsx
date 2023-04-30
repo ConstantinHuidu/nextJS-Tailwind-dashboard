@@ -1,9 +1,13 @@
-import { connectToDB } from "@/helpers/db";
-import { hashPassword } from "@/helpers/auth";
+import { connectToDB } from "../../helpers/db";
+import { hashPassword } from "../../helpers/auth";
 
 import { getSession } from "next-auth/react";
+import { NextApiRequest, NextApiResponse } from "next";
 
-export default async function handler(req, res) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   if (req.method !== "PATCH") return;
   const session = await getSession({ req: req });
 
@@ -15,7 +19,6 @@ export default async function handler(req, res) {
     res
       .status(422)
       .json({ message: "Name needs to be at least 3 characters long" });
-    client.close();
     return;
   }
 
@@ -23,7 +26,6 @@ export default async function handler(req, res) {
     res
       .status(422)
       .json({ message: "Password needs to be at least 6 characters long" });
-    client.close();
     return;
   }
 
