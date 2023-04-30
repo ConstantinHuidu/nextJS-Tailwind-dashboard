@@ -1,6 +1,10 @@
-import { connectToDB } from "@/helpers/db";
+import { connectToDB } from "../../../helpers/db";
+import { NextApiRequest, NextApiResponse } from "next";
 
-export default async function handler(req, res) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   if (req.method === "POST") {
     const data = req.body;
 
@@ -15,25 +19,21 @@ export default async function handler(req, res) {
 
     if (!transactionType) {
       res.status(422).json({ message: "Transaction type can't be empty" });
-      client.close();
       return;
     }
 
     if (!transactionName) {
       res.status(422).json({ message: "Transaction name can't be empty" });
-      client.close();
       return;
     }
 
     if (!amount) {
       res.status(422).json({ message: "Amount can't be empty" });
-      client.close();
       return;
     }
 
     if (!date) {
       res.status(422).json({ message: "Date can't be empty" });
-      client.close();
       return;
     }
 

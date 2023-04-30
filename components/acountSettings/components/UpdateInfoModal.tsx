@@ -55,6 +55,7 @@ export default function UpdateInfoModal(props) {
                     labelFor="password"
                     inputType="password"
                     labelName="Password"
+                    defaultValue={""}
                     onHandleChange={handlePasswordChange}
                   />
                 </div>
@@ -62,12 +63,16 @@ export default function UpdateInfoModal(props) {
                 <div className="flex items-center justify-end rounded-b border-t border-solid border-slate-200 p-6">
                   <ModalCloseButton handleClose={onClose} />
                   {!isLoading && (
-                    <ModalConfirmButton buttonText="Update info" />
+                    <ModalConfirmButton
+                      buttonText="Update info"
+                      children={null}
+                    />
                   )}
                   {isLoading && (
-                    <ModalConfirmButton>
-                      <LoadingSpinner />
-                    </ModalConfirmButton>
+                    <ModalConfirmButton
+                      buttonText=""
+                      children={<LoadingSpinner />}
+                    />
                   )}
                 </div>
               </form>

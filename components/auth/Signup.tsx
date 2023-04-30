@@ -2,12 +2,20 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import LoadingSpinner from "../generic/LoadingSpinner";
 import Link from "next/link";
-import { validateEmail } from "@/helpers/auth";
+import { validateEmail } from "../../helpers/auth";
 import { CustomInput, DefaultButton } from "../generic/GenericComponents";
 import Toaster from "../generic/Toaster";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
 import AuthImg from "../../assets/images/auth/authImg.png";
+
+export type SignupDataType = {
+  name: string;
+  userName: string;
+  email: string;
+  password: string;
+  confirm: string;
+};
 
 const defaultSignupData = {
   name: "",
@@ -27,7 +35,8 @@ const Signup = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showToaster, setShowToaster] = useState(false);
   const [taskStatus, setTaskStatus] = useState(defaultErrorState);
-  const [signupData, setSignupData] = useState(defaultSignupData);
+  const [signupData, setSignupData] =
+    useState<SignupDataType>(defaultSignupData);
 
   const handleInputChange = (userInput, formField) => {
     //=== CREATE A COPY OF THE STATE ===
@@ -91,7 +100,7 @@ const Signup = () => {
       !signupData.userName ||
       !signupData.password ||
       signupData.password.trim().length < 6 ||
-      !signupData.confirmation
+      !signupData.confirm
     ) {
       handleToaster(6000, true, "Fields can't be empty");
       return;
@@ -102,7 +111,7 @@ const Signup = () => {
       return;
     }
 
-    if (signupData.password !== signupData.confirmation) {
+    if (signupData.password !== signupData.confirm) {
       handleToaster(6000, true, "The passwords don't match");
       return;
     }
@@ -160,30 +169,35 @@ const Signup = () => {
               labelFor="name"
               inputType="text"
               labelName="Name"
+              defaultValue={""}
               onHandleChange={handleInputChange}
             />
             <CustomInput
               labelFor="userName"
               inputType="text"
               labelName="Username"
+              defaultValue={""}
               onHandleChange={handleInputChange}
             />
             <CustomInput
               labelFor="email"
               inputType="email"
               labelName="E-mail"
+              defaultValue={""}
               onHandleChange={handleInputChange}
             />
             <CustomInput
               labelFor="password"
               inputType="password"
               labelName="Password"
+              defaultValue={""}
               onHandleChange={handleInputChange}
             />
             <CustomInput
               labelFor="confirmation"
               inputType="password"
               labelName="Confirm Password"
+              defaultValue={""}
               onHandleChange={handleInputChange}
             />
             <p
@@ -206,6 +220,7 @@ const Signup = () => {
               <DefaultButton
                 buttonText="Create account"
                 isDisabled={!isChecked}
+                children={null}
               />
             )}
             {isLoading && (

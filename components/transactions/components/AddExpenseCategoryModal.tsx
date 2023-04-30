@@ -4,8 +4,8 @@ import {
   ModalCloseButton,
   ModalConfirmButton,
   ModalXButton,
-} from "@/components/generic/GenericComponents";
-import LoadingSpinner from "@/components/generic/LoadingSpinner";
+} from "../../../components/generic/GenericComponents";
+import LoadingSpinner from "../../../components/generic/LoadingSpinner";
 import React, { useState } from "react";
 
 export const transactionTypes = [
@@ -62,6 +62,7 @@ export default function AddExpenseCategoryModal({
                     labelFor="categoryName"
                     inputType="text"
                     labelName="Category name"
+                    defaultValue={""}
                     onHandleChange={handleCategoryChange}
                   />
                 </div>
@@ -69,7 +70,10 @@ export default function AddExpenseCategoryModal({
                 <div className="flex items-center justify-end rounded-b border-t border-solid border-slate-200 p-6">
                   <ModalCloseButton handleClose={onClose} />
                   {!isLoading && (
-                    <ModalConfirmButton buttonText="Add category" />
+                    <ModalConfirmButton
+                      buttonText="Add category"
+                      children={null}
+                    />
                   )}
                   {isLoading && (
                     <ModalConfirmButton buttonText="Submitting...">
