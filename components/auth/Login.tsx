@@ -3,11 +3,17 @@ import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import LoadingSpinner from "../generic/LoadingSpinner";
-import { validateEmail } from "../../helpers/auth";
-import { CustomInput, DefaultButton } from "../generic/GenericComponents";
 import Toaster from "../generic/Toaster";
 import Image from "next/image";
 import AuthImg from "../../assets/images/auth/authImg.png";
+import { z, ZodType } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+export type LoginFormType = {
+  email: string;
+  password: string;
+};
 
 const defaultErrorState = {
   error: false,
@@ -16,20 +22,29 @@ const defaultErrorState = {
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [enteredEmail, setEnteredEmail] = useState("");
-  const [enteredPassword, setEnteredPassword] = useState("");
   const [showToaster, setShowToaster] = useState(false);
   const [taskStatus, setTaskStatus] = useState(defaultErrorState);
 
-  const handleEmailChange = (userInput) => {
-    setEnteredEmail(userInput);
-  };
+  const schema: ZodType = z.object({
+    email: z.string().email({ message: "Invalid email format" }),
+    password: z
+      .string()
+      .min(5, { message: "Password needs to be at least 5 characters long" }),
+  });
 
-  const handlePasswordChange = (userInput) => {
-    setEnteredPassword(userInput);
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormType>({
+    resolver: zodResolver(schema),
+  });
 
-  const handleToaster = (timeout, errorStatus, errorMessage) => {
+  const handleToaster = (
+    timeout: number,
+    errorStatus: boolean,
+    errorMessage: string
+  ) => {
     setShowToaster(true);
     setTimeout(() => {
       setShowToaster(false);
@@ -42,30 +57,21 @@ const Login = () => {
 
   const router = useRouter();
 
-  const submitFormHandler = async (e) => {
-    e.preventDefault();
+  const submitFormHandler = async (data: LoginFormType) => {
     //=== CLEAR ANY ERROR FROM PREVIOUS LOGIN ATTEMPTS ===
     setTaskStatus({ error: false, statusMessage: "" });
-
-    // ===CHECK FOR VALID EMAIL ===
-    const emailIsValid = validateEmail(enteredEmail);
-
-    //=== IGNORE LOGIN REQUESTS WITH INVALID DATA (EMPTY PASSWORD / INVALID EMAIL) ===
-    if (!enteredPassword || !emailIsValid) {
-      return;
-    }
 
     //=== INITIATE SIGNIN
     setIsLoading(true);
     const result = await signIn("credentials", {
       redirect: false,
-      email: enteredEmail,
-      password: enteredPassword,
+      email: data.email,
+      password: data.password,
     });
 
     //=== THROW ERRORS ON THE UI IF SIGNIN IS NOT SUCCESSFULL ===
     if (result.error) {
-      handleToaster(6000, true, result.error || "Something went Wrong");
+      handleToaster(6000, true, result.error || "Something went wrong");
       setIsLoading(false);
       return;
     }
@@ -79,7 +85,6 @@ const Login = () => {
         <div className="relative hidden h-[70vh] w-1/2 lg:block">
           <Image
             alt="login"
-            // src="https://images.unsplash.com/photo-1561679660-d00ee1e0dc8e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80"
             src={AuthImg}
             fill
             className="rounded-l-2xl object-cover"
@@ -87,42 +92,76 @@ const Login = () => {
         </div>
         <div className="my-5 mx-auto w-[90%] lg:my-0 lg:w-1/2">
           <form
-            onSubmit={submitFormHandler}
+            onSubmit={handleSubmit(submitFormHandler)}
             noValidate
-            className="m-auto flex h-[650px] w-10/12 max-w-4xl flex-col items-center justify-center align-middle"
+            className="m-auto flex h-[650px] w-10/12 max-w-4xl flex-col items-center justify-center space-y-5"
           >
-            <CustomInput
-              labelFor="email"
-              inputType="email"
-              labelName="E-mail"
-              defaultValue={""}
-              onHandleChange={handleEmailChange}
-            />
-            <CustomInput
-              labelFor="password"
-              inputType="password"
-              labelName="Password"
-              defaultValue={""}
-              onHandleChange={handlePasswordChange}
-            />
+            <div className="group flex w-full flex-col md:w-2/3">
+              <label
+                htmlFor="email"
+                className={`text-md font-semibold ${
+                  errors.email ? "text-red-500" : "text-slate-700"
+                }`}
+              >
+                Email
+              </label>
+              <input
+                {...register("email")}
+                type="email"
+                id="email"
+                className={`md:text-md peer peer h-9 w-full rounded-lg border-2 border-slate-500 border-opacity-50 px-2 text-sm outline-none transition duration-200 focus:border-cyan-500 focus:text-black ${
+                  errors.email ? "border-red-400" : "border-slate-500"
+                }`}
+              />
+              {errors.email && (
+                <span className="text-xs text-red-500">
+                  {errors.email.message}
+                </span>
+              )}
+            </div>
+
+            <div className="group flex w-full flex-col md:w-2/3">
+              <label
+                htmlFor="email"
+                className={`text-md font-semibold ${
+                  errors.password ? "text-red-500" : "text-slate-700"
+                }`}
+              >
+                Password
+              </label>
+              <input
+                {...register("password")}
+                type="password"
+                id="password"
+                className={`md:text-md peer peer h-9 w-full rounded-lg border-2 border-slate-500 border-opacity-50 px-2 text-sm outline-none transition duration-200 focus:border-cyan-500 focus:text-black ${
+                  errors.password ? "border-red-400" : "border-slate-500"
+                }`}
+              />
+              {errors.password && (
+                <span className="text-xs text-red-500">
+                  {errors.password.message}
+                </span>
+              )}
+            </div>
+
             <Link
               href="/signup"
               className="my-5 text-sm text-blue-600 underline visited:text-purple-600 hover:text-blue-800"
             >
               Don't have an account? Create one
             </Link>
-            {!isLoading && (
-              <DefaultButton
-                buttonText="Log in"
-                isDisabled={false}
-                children={null}
-              />
-            )}
-            {isLoading && (
-              <DefaultButton buttonText="Loading..." isDisabled={true}>
-                <LoadingSpinner />
-              </DefaultButton>
-            )}
+
+            <button
+              disabled={isLoading}
+              className="mb-4 w-full rounded-lg border bg-cyan-700 p-2 text-xs font-semibold uppercase text-gray-100 transition-all duration-200 ease-linear hover:bg-cyan-800 hover:shadow-lg disabled:bg-gray-500 disabled:text-black md:w-2/3 md:text-lg"
+              type="submit"
+            >
+              <div className="flex items-center justify-center">
+                {isLoading && <LoadingSpinner />}
+                {isLoading && "Logging you in"}
+                {!isLoading && " Log in"}
+              </div>
+            </button>
           </form>
           {showToaster && (
             <Toaster
