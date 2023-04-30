@@ -1,23 +1,36 @@
 import React from "react";
 
-const Toaster = (props) => {
-  const { title, status, color } = props;
+export type ToasterProps = {
+  title: string;
+  status: string;
+  color: string;
+};
 
+const Toaster = ({ title, status, color }: ToasterProps) => {
+  console.log(color);
   return (
     <div
       id="toast-success"
-      className={`absolute bottom-5 right-5 mb-4 flex w-full max-w-xs items-center p-4 text-gray-500 bg-${color}-200  z-10 rounded-lg shadow dark:bg-gray-800 dark:text-gray-400`}
+      className={`absolute bottom-5 right-5 mb-4 flex w-full max-w-xs items-center p-4 text-gray-500 ${
+        color === "red" ? "bg-red-200" : "bg-green-200"
+      }  z-10 rounded-lg shadow dark:bg-gray-800 dark:text-gray-400`}
       role="alert"
     >
       <div
-        className={`inline-flex h-8 w-8 flex-shrink-0 items-center justify-center text-${color}-500 bg-${color}-100 rounded-lg dark:bg-${color}-800 dark:text-${color}-200`}
+        className={`inline-flex h-8 w-8 flex-shrink-0 items-center justify-center ${
+          color === "red"
+            ? "bg-red-100 text-red-500 dark:bg-red-800 dark:text-red-200"
+            : "bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200"
+        }  rounded-lg `}
       >
         {status}
       </div>
       <div className={`ml-3 text-sm text-black`}>{title}</div>
       <button
         type="button"
-        className={`-mx-1.5 -my-1.5 ml-auto bg-${color}-100 inline-flex h-8 w-8 rounded-lg p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-900 focus:ring-2 focus:ring-gray-300 dark:bg-gray-800 dark:text-gray-500 dark:hover:bg-gray-700 dark:hover:text-white`}
+        className={`-mx-1.5 -my-1.5 ml-auto ${
+          color === "red" ? "bg-red-100" : "bg-green-100"
+        }  inline-flex h-8 w-8 rounded-lg p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-900 focus:ring-2 focus:ring-gray-300 dark:bg-gray-800 dark:text-gray-500 dark:hover:bg-gray-700 dark:hover:text-white`}
         data-dismiss-target="#toast-success"
         aria-label="Close"
       >
