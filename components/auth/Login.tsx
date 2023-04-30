@@ -29,7 +29,7 @@ const Login = () => {
     email: z.string().email({ message: "Invalid email format" }),
     password: z
       .string()
-      .min(5, { message: "Password needs to be at least 5 characters long" }),
+      .min(6, { message: "Password needs to be at least 6 characters long" }),
   });
 
   const {
@@ -109,8 +109,8 @@ const Login = () => {
                 {...register("email")}
                 type="email"
                 id="email"
-                className={`md:text-md peer peer h-9 w-full rounded-lg border-2 border-slate-500 border-opacity-50 px-2 text-sm outline-none transition duration-200 focus:border-cyan-500 focus:text-black ${
-                  errors.email ? "border-red-400" : "border-slate-500"
+                className={`md:text-md peer peer h-9 w-full rounded-lg border-2 border-opacity-50 px-2 text-sm outline-none transition duration-200 focus:border-cyan-500 focus:text-black ${
+                  errors.email ? "border-red-300" : "border-slate-500"
                 }`}
               />
               {errors.email && (
@@ -133,8 +133,8 @@ const Login = () => {
                 {...register("password")}
                 type="password"
                 id="password"
-                className={`md:text-md peer peer h-9 w-full rounded-lg border-2 border-slate-500 border-opacity-50 px-2 text-sm outline-none transition duration-200 focus:border-cyan-500 focus:text-black ${
-                  errors.password ? "border-red-400" : "border-slate-500"
+                className={`md:text-md peer peer h-9 w-full rounded-lg border-2 border-opacity-50 px-2 text-sm outline-none transition duration-200 focus:border-cyan-500 focus:text-black ${
+                  errors.password ? "border-red-300" : "border-slate-500"
                 }`}
               />
               {errors.password && (
