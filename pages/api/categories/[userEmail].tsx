@@ -1,7 +1,11 @@
-import { connectToDB } from "@/helpers/db";
+import { NextApiRequest, NextApiResponse } from "next";
+import { connectToDB } from "../../../helpers/db";
 
 // === Get all expense categories for the logged in user ===
-export default async function handler(req, res) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   if (req.method === "GET") {
     const { userEmail } = req.query;
 

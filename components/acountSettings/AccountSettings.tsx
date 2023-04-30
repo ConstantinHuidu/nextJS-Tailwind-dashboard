@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Header from "../Layout/Header";
 import { useSession } from "next-auth/react";
 import { BsFillPersonFill } from "react-icons/bs";
 import UpdateInfoModal from "./components/UpdateInfoModal";
@@ -79,7 +78,6 @@ const AccountSettings = () => {
 
   return (
     <div className="md:mp-20 pt-10">
-      {/* <Header message={"Account settings"} /> */}
       <div className="mx-auto flex h-[550px] w-[88%] max-w-4xl flex-col items-center justify-start  rounded-lg border border-gray-300 bg-slate-50 align-middle md:w-2/5">
         <BsFillPersonFill
           size={150}
@@ -98,7 +96,7 @@ const AccountSettings = () => {
 
           <div className="mb-6 flex items-center justify-start">
             <p className="text-md font-semibold uppercase">Currency:</p>
-            <p className=" p-2">{session?.user?.currency || "RON"}</p>
+            <p className=" p-2">{"RON"}</p>
           </div>
         </div>
 

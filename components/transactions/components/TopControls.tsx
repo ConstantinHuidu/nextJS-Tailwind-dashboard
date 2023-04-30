@@ -1,6 +1,14 @@
 import React from "react";
 
-const TopControls = ({ onOpenModal, onOpenNewExpenseModal }) => {
+type TopControlsProps = {
+  onOpenModal: () => void;
+  onOpenNewExpenseModal: () => void;
+};
+
+const TopControls = ({
+  onOpenModal,
+  onOpenNewExpenseModal,
+}: TopControlsProps) => {
   return (
     <div className="flex flex-col items-center  justify-between space-y-3 p-4 md:flex-row md:space-y-0 md:space-x-5">
       <div

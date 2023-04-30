@@ -1,7 +1,8 @@
 import Head from "next/head";
+import { GetServerSideProps } from "next";
 
 import { getSession } from "next-auth/react";
-import HomePage from "@/components/homePage/HomePage";
+import HomePage from "../components/homePage/HomePage";
 
 export default function Home() {
   return (
@@ -18,7 +19,7 @@ export default function Home() {
 }
 
 // === SERVER-SIDE REDIRECT IF USER IS NOT AUTHENTICATED ===
-export async function getServerSideProps(context) {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession({ req: context.req });
 
   // if (!session) {
@@ -33,4 +34,4 @@ export async function getServerSideProps(context) {
   return {
     props: { session },
   };
-}
+};

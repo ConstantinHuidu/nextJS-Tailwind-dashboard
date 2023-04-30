@@ -1,6 +1,10 @@
-import { connectToDB } from "@/helpers/db";
+import { NextApiRequest, NextApiResponse } from "next";
+import { connectToDB } from "../../../helpers/db";
 
-export default async function handler(req, res) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   if (req.method === "POST") {
     const data = req.body;
 
@@ -8,7 +12,6 @@ export default async function handler(req, res) {
 
     if (!transactionName || !transactionType) {
       res.status(422).json({ message: "Fields can't be empty" });
-      client.close();
       return;
     }
 

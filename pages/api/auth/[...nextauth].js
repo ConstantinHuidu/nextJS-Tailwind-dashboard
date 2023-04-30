@@ -1,10 +1,10 @@
-import { verifyPassword } from "@/helpers/auth";
-import { connectToDB } from "@/helpers/db";
+import { verifyPassword } from "../../../helpers/auth";
+import { connectToDB } from "../../../helpers/db";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 export const authOptions = {
-  session: { jwt: true },
+  session: { strategy: "jwt" },
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
     CredentialsProvider({

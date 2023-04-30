@@ -1,6 +1,12 @@
 import React from "react";
 
-const CardComponent = ({ title, body, icon }) => {
+type CardComponentProps = {
+  title: string;
+  body: string;
+  icon: JSX.Element;
+};
+
+const CardComponent = ({ title, body, icon }: CardComponentProps) => {
   return (
     <>
       <div className="relative flex h-52 max-w-lg flex-col items-center justify-center rounded-lg border border-gray-200 bg-orange-100 p-10 lg:max-w-xs">

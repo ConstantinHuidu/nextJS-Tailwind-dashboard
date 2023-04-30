@@ -3,7 +3,7 @@ import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import LoadingSpinner from "../generic/LoadingSpinner";
-import { validateEmail } from "@/helpers/auth";
+import { validateEmail } from "../../helpers/auth";
 import { CustomInput, DefaultButton } from "../generic/GenericComponents";
 import Toaster from "../generic/Toaster";
 import Image from "next/image";
@@ -95,12 +95,14 @@ const Login = () => {
               labelFor="email"
               inputType="email"
               labelName="E-mail"
+              defaultValue={""}
               onHandleChange={handleEmailChange}
             />
             <CustomInput
               labelFor="password"
               inputType="password"
               labelName="Password"
+              defaultValue={""}
               onHandleChange={handlePasswordChange}
             />
             <Link
@@ -109,7 +111,13 @@ const Login = () => {
             >
               Don't have an account? Create one
             </Link>
-            {!isLoading && <DefaultButton buttonText="Log in" />}
+            {!isLoading && (
+              <DefaultButton
+                buttonText="Log in"
+                isDisabled={false}
+                children={null}
+              />
+            )}
             {isLoading && (
               <DefaultButton buttonText="Loading..." isDisabled={true}>
                 <LoadingSpinner />

@@ -3,9 +3,9 @@ import { ImStatsBars2 } from "react-icons/im";
 import { HiOutlineLightBulb } from "react-icons/hi";
 import { BiHappyHeartEyes } from "react-icons/bi";
 import HeroSection from "./components/HeroSection";
-import CardComponent from "./components/CardComponent";
 import ReasonsContainer from "./components/ReasonsContainer";
 import Link from "next/link";
+import CardComponent from "./components/CardComponent";
 
 const HomePage = () => {
   return (
