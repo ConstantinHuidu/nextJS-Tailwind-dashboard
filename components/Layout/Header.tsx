@@ -35,7 +35,7 @@ const Header = () => {
         {!session && (
           <Link
             href="/login"
-            className="rounded-lg border-2 border-gray-700 border-opacity-0 p-2 text-sm font-semibold text-gray-800 duration-200 hover:border-opacity-100 lg:text-xl"
+            className="rounded-lg border-2 border-gray-700 border-opacity-0 p-2 text-sm font-semibold text-gray-800 transition-all duration-300 hover:border-opacity-100 lg:text-xl"
           >
             Log in
           </Link>
@@ -93,25 +93,37 @@ const Header = () => {
         } absolute top-20 flex h-screen w-full flex-col bg-gray-100 pt-10 text-center text-2xl duration-500 md:hidden`}
         onClick={handleBurgerMenu}
       >
-        <Link
-          href="/transactions"
-          className="mx-auto mb-5 w-1/2 border-b-2 border-gray-700 border-opacity-0 p-2 font-semibold text-gray-800 duration-200 hover:border-opacity-100"
-        >
-          Transactions
-        </Link>
-        <Link
-          href="/accountInfo"
-          className="mx-auto mb-7 w-1/2 border-b-2 border-gray-700 border-opacity-0 p-2 font-semibold text-gray-800 duration-200 hover:border-opacity-100"
-        >
-          Account settings
-        </Link>
-        <div
-          onClick={logoutHandler}
-          className="mx-auto mt-5 flex w-1/2 cursor-pointer items-center justify-center rounded-lg border-2 border-gray-700 p-2 font-semibold text-gray-800 transition-all duration-200 ease-linear"
-        >
-          <MdLogout className="hidden md:block" />
-          <p>Logout </p>
-        </div>
+        {!session && (
+          <Link
+            href="/login"
+            className="mx-auto mb-7 w-1/2 border-b-2 border-gray-700 border-opacity-0 p-2 font-semibold text-gray-800 duration-200 hover:border-opacity-100"
+          >
+            Log in
+          </Link>
+        )}
+        {session && (
+          <div className="flex flex-col">
+            <Link
+              href="/transactions"
+              className="mx-auto mb-5 w-1/2 border-b-2 border-gray-700 border-opacity-0 p-2 font-semibold text-gray-800 duration-200 hover:border-opacity-100"
+            >
+              Transactions
+            </Link>
+            <Link
+              href="/accountInfo"
+              className="mx-auto mb-7 w-1/2 border-b-2 border-gray-700 border-opacity-0 p-2 font-semibold text-gray-800 duration-200 hover:border-opacity-100"
+            >
+              Account settings
+            </Link>
+            <div
+              onClick={logoutHandler}
+              className="mx-auto mt-5 flex w-1/2 cursor-pointer items-center justify-center rounded-lg border-2 border-gray-700 p-2 font-semibold text-gray-800 transition-all duration-200 ease-linear"
+            >
+              <MdLogout />
+              <p>Logout </p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
