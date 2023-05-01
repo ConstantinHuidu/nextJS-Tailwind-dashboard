@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import LoadingSpinner from "../generic/LoadingSpinner";
 import Link from "next/link";
-import { validateEmail } from "../../helpers/auth";
-import { CustomInput, DefaultButton } from "../generic/GenericComponents";
 import Toaster from "../generic/Toaster";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
 import AuthImg from "../../assets/images/auth/authImg.png";
+import { z, ZodType } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export type SignupDataType = {
   name: string;
@@ -15,14 +16,6 @@ export type SignupDataType = {
   email: string;
   password: string;
   confirm: string;
-};
-
-const defaultSignupData = {
-  name: "",
-  userName: "",
-  email: "",
-  password: "",
-  confirm: "",
 };
 
 const defaultErrorState = {
@@ -35,19 +28,47 @@ const Signup = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showToaster, setShowToaster] = useState(false);
   const [taskStatus, setTaskStatus] = useState(defaultErrorState);
-  const [signupData, setSignupData] =
-    useState<SignupDataType>(defaultSignupData);
 
-  const handleInputChange = (userInput, formField) => {
-    //=== CREATE A COPY OF THE STATE ===
-    const userData = { ...signupData };
-    // === CHANGE THE STATE PROPERTY PERTAINING TO THE FORMFIELD CURRENTLY BEING CHANGED ===
-    userData[formField] = userInput;
-    // === UPDATE STATE WITH THIS NEWLY UPDATED OBJECT ===
-    setSignupData(userData);
+  const schema: ZodType = z
+    .object({
+      name: z
+        .string()
+        .min(3, { message: "Name needs to be at least 3 characters long" }),
+      userName: z
+        .string()
+        .min(3, { message: "Username needs to be at least 3 characters long" }),
+      email: z.string().email({ message: "Invalid email format" }),
+      password: z
+        .string()
+        .min(6, { message: "Password needs to be at least 6 characters long" }),
+      confirm: z
+        .string()
+        .min(6, { message: "Password needs to be at least 6 characters long" }),
+    })
+    .refine((data) => data.password === data.confirm, {
+      message: "Passwords don't match",
+      path: ["confirm"],
+    });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignupDataType>({
+    resolver: zodResolver(schema),
+  });
+
+  const computeFieldClassName = (hasErrors: boolean) => {
+    return `md:text-md peer peer h-9 w-full rounded-lg border-2 border-opacity-50 px-2 text-sm outline-none transition duration-200 focus:border-cyan-500 focus:text-black ${
+      hasErrors ? "border-red-300" : "border-slate-500"
+    }`;
   };
 
-  const handleToaster = (timeout, errorStatus, errorMessage) => {
+  const handleToaster = (
+    timeout: number,
+    errorStatus: boolean,
+    errorMessage: string
+  ) => {
     setShowToaster(true);
     setTimeout(() => {
       setShowToaster(false);
@@ -60,13 +81,11 @@ const Signup = () => {
 
   const router = useRouter();
 
-  async function createUser({ name, userName, email, password }) {
+  async function createUser(formData: SignupDataType) {
     setIsLoading(true);
     const signUpData = {
-      name: name,
-      userName: userName,
-      email: email.toLowerCase(),
-      password: password,
+      ...formData,
+      email: formData.email.toLowerCase(),
     };
     const response = await fetch("/api/auth/signup", {
       method: "POST",
@@ -84,54 +103,19 @@ const Signup = () => {
     return data;
   }
 
-  const submitFormHandler = async (e) => {
-    e.preventDefault();
-
+  const submitFormHandler = async (data: SignupDataType) => {
     //=== CLEAR ANY ERROR FROM PREVIOUS SIGNUP ATTEMPTS ===
     setTaskStatus({ error: false, statusMessage: "" });
 
-    // === CHECK EMAIL IS VALID ===
-    const emailIsValid = validateEmail(signupData.email);
-
-    //=== BASIC VALIDATION ===
-
-    if (
-      !signupData.name ||
-      !signupData.userName ||
-      !signupData.password ||
-      signupData.password.trim().length < 6 ||
-      !signupData.confirm
-    ) {
-      handleToaster(6000, true, "Fields can't be empty");
-      return;
-    }
-
-    if (!emailIsValid) {
-      handleToaster(6000, true, "Invalid email format");
-      return;
-    }
-
-    if (signupData.password !== signupData.confirm) {
-      handleToaster(6000, true, "The passwords don't match");
-      return;
-    }
-
-    if (!isChecked) {
-      handleToaster(6000, true, "You need to accept the T&Cs");
-      return;
-    }
-
-    //===  END BASIC VALIDATION ===
-
     try {
       // === SEND USER INFO TO DB ===
-      const result = await createUser(signupData);
+      const result = await createUser(data);
 
       // === TRY TO LOGIN WITH THE SAME CREDENTIALS ===
       const login = await signIn("credentials", {
         redirect: false,
-        email: signupData.email,
-        password: signupData.password,
+        email: data.email,
+        password: data.password,
       });
 
       // === THROW ERRORS ===
@@ -161,50 +145,130 @@ const Signup = () => {
         </div>
         <div className="my-5 mx-auto w-[90%] lg:my-0 lg:w-1/2">
           <form
-            onSubmit={submitFormHandler}
+            onSubmit={handleSubmit(submitFormHandler)}
             noValidate
-            className="m-auto flex h-[650px] w-10/12 max-w-4xl flex-col items-center justify-center align-middle"
+            className="m-auto flex h-[650px] w-10/12 max-w-4xl flex-col items-center justify-center space-y-3"
           >
-            <CustomInput
-              labelFor="name"
-              inputType="text"
-              labelName="Name"
-              defaultValue={""}
-              onHandleChange={handleInputChange}
-            />
-            <CustomInput
-              labelFor="userName"
-              inputType="text"
-              labelName="Username"
-              defaultValue={""}
-              onHandleChange={handleInputChange}
-            />
-            <CustomInput
-              labelFor="email"
-              inputType="email"
-              labelName="E-mail"
-              defaultValue={""}
-              onHandleChange={handleInputChange}
-            />
-            <CustomInput
-              labelFor="password"
-              inputType="password"
-              labelName="Password"
-              defaultValue={""}
-              onHandleChange={handleInputChange}
-            />
-            <CustomInput
-              labelFor="confirmation"
-              inputType="password"
-              labelName="Confirm Password"
-              defaultValue={""}
-              onHandleChange={handleInputChange}
-            />
+            <div className="group flex w-full flex-col md:w-2/3">
+              <label
+                htmlFor="name"
+                className={`text-md font-semibold ${
+                  errors.name ? "text-red-500" : "text-slate-700"
+                }`}
+              >
+                Name
+              </label>
+              <input
+                {...register("name")}
+                type="text"
+                id="name"
+                className={computeFieldClassName(!!errors.name)}
+              />
+              {errors.name && (
+                <span className="text-xs text-red-500">
+                  {errors.name.message}
+                </span>
+              )}
+            </div>
+
+            <div className="group flex w-full flex-col md:w-2/3">
+              <label
+                htmlFor="userName"
+                className={`text-md font-semibold ${
+                  errors.userName ? "text-red-500" : "text-slate-700"
+                }`}
+              >
+                Username
+              </label>
+              <input
+                {...register("userName")}
+                type="text"
+                id="userName"
+                className={computeFieldClassName(!!errors.userName)}
+              />
+              {errors.userName && (
+                <span className="text-xs text-red-500">
+                  {errors.userName.message}
+                </span>
+              )}
+            </div>
+
+            <div className="group flex w-full flex-col md:w-2/3">
+              <label
+                htmlFor="email"
+                className={`text-md font-semibold ${
+                  errors.email ? "text-red-500" : "text-slate-700"
+                }`}
+              >
+                Email
+              </label>
+              <input
+                {...register("email")}
+                type="email"
+                id="email"
+                className={computeFieldClassName(!!errors.email)}
+              />
+              {errors.email && (
+                <span className="text-xs text-red-500">
+                  {errors.email.message}
+                </span>
+              )}
+            </div>
+
+            <div className="group flex w-full flex-col md:w-2/3">
+              <label
+                htmlFor="password"
+                className={`text-md font-semibold ${
+                  errors.password ? "text-red-500" : "text-slate-700"
+                }`}
+              >
+                Password
+              </label>
+              <input
+                {...register("password")}
+                type="password"
+                id="password"
+                className={computeFieldClassName(!!errors.password)}
+              />
+              {errors.password && (
+                <span className="text-xs text-red-500">
+                  {errors.password.message}
+                </span>
+              )}
+            </div>
+
+            <div className="group flex w-full flex-col md:w-2/3">
+              <label
+                htmlFor="confirm"
+                className={`text-md font-semibold ${
+                  errors.confirm ? "text-red-500" : "text-slate-700"
+                }`}
+              >
+                Password
+              </label>
+              <input
+                {...register("confirm")}
+                type="password"
+                id="confirm"
+                className={computeFieldClassName(!!errors.confirm)}
+              />
+              {errors.confirm && (
+                <span className="text-xs text-red-500">
+                  {errors.confirm.message}
+                </span>
+              )}
+            </div>
+
             <p
               className="my-5 flex cursor-pointer"
               onClick={() => setIsChecked(!isChecked)}
             >
-              <input type="checkbox" defaultChecked={isChecked} />
+              <input
+                type="checkbox"
+                checked={isChecked}
+                className="cursor-pointer"
+                onChange={() => setIsChecked(!isChecked)}
+              />
               <span className="pl-4 text-sm text-gray-400">
                 I accept the Terms & Conditions
               </span>
@@ -216,18 +280,17 @@ const Signup = () => {
             >
               Already have an account. Log in
             </Link>
-            {!isLoading && (
-              <DefaultButton
-                buttonText="Create account"
-                isDisabled={!isChecked}
-                children={null}
-              />
-            )}
-            {isLoading && (
-              <DefaultButton buttonText="Loading..." isDisabled={true}>
-                <LoadingSpinner />
-              </DefaultButton>
-            )}
+            <button
+              disabled={isLoading || !isChecked}
+              className="mb-4 w-full rounded-lg border bg-cyan-700 p-2 text-xs font-semibold uppercase text-gray-100 transition-all duration-200 ease-linear hover:bg-cyan-800 hover:shadow-lg disabled:bg-gray-500 disabled:text-black md:w-2/3 md:text-lg"
+              type="submit"
+            >
+              <div className="flex items-center justify-center">
+                {isLoading && <LoadingSpinner />}
+                {isLoading && "Creating account"}
+                {!isLoading && " Sign in"}
+              </div>
+            </button>
           </form>
           {showToaster && (
             <Toaster
