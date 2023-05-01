@@ -7,7 +7,6 @@ export type ToasterProps = {
 };
 
 const Toaster = ({ title, status, color }: ToasterProps) => {
-  console.log(color);
   return (
     <div
       id="toast-success"
