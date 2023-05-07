@@ -1,5 +1,5 @@
 import LoadingSpinner from "../../generic/LoadingSpinner";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { transactionTypes } from "./AddNewCategoryModal";
 import { z, ZodType } from "zod";
 import { useForm, useController } from "react-hook-form";
@@ -43,7 +43,7 @@ export default function AddNewTransactionModal({
     transactionType: z.string().min(3),
     transactionName: z.string().min(3),
     amount: z.coerce.number().min(1, { message: "Amount can't be zero" }),
-    date: z.string(),
+    date: z.coerce.date(),
     description: z.string(),
   });
 
@@ -53,7 +53,7 @@ export default function AddNewTransactionModal({
       (categ) => categ.transactionType === "Expenses"
     )[0].transactionName,
     amount: "0",
-    date: new Date().toLocaleString(),
+    date: "",
     description: "",
   };
 
@@ -81,9 +81,14 @@ export default function AddNewTransactionModal({
           <div className="relative flex w-full flex-col rounded-lg border-0 bg-white shadow-lg outline-none focus:outline-none">
             {/*header*/}
             <div className="flex items-start justify-between rounded-t border-b border-solid border-slate-200 p-5">
-              <h3 className="text-xl font-semibold text-cyan-700 md:text-2xl">
-                Add new transaction
-              </h3>
+              <div>
+                <h3 className="text-xl font-semibold text-cyan-700 md:text-2xl">
+                  Add new transaction
+                </h3>
+                <h4 className="text-[0.6rem] text-gray-400">
+                  Fields marked with * are required
+                </h4>
+              </div>
               <button
                 className="float-right ml-auto border-0 bg-transparent p-1 text-3xl font-semibold leading-none text-black outline-none focus:outline-none"
                 onClick={onClose}
@@ -103,7 +108,7 @@ export default function AddNewTransactionModal({
                       errors.transactionType ? "text-red-500" : "text-slate-700"
                     }`}
                   >
-                    Transaction type
+                    Transaction type*
                     <select
                       value={field.value}
                       {...register("transactionType")}
@@ -137,7 +142,7 @@ export default function AddNewTransactionModal({
                       errors.transactionType ? "text-red-500" : "text-slate-700"
                     }`}
                   >
-                    Transaction category
+                    Transaction category*
                     <select
                       {...register("transactionName")}
                       className={`md:text-md peer peer h-9 w-full rounded-lg border-2 border-opacity-50 px-2 text-sm outline-none transition duration-200 focus:border-cyan-500 focus:text-black ${
@@ -174,7 +179,7 @@ export default function AddNewTransactionModal({
                       errors.amount ? "text-red-500" : "text-slate-700"
                     }`}
                   >
-                    Amount
+                    Amount*
                   </label>
                   <input
                     {...register("amount")}
@@ -198,7 +203,7 @@ export default function AddNewTransactionModal({
                       errors.date ? "text-red-500" : "text-slate-700"
                     }`}
                   >
-                    Date
+                    Date*
                   </label>
                   <input
                     {...register("date")}
@@ -219,7 +224,7 @@ export default function AddNewTransactionModal({
                   <label
                     htmlFor="description"
                     className={`text-md font-semibold ${
-                      errors.description ? "text-red-500" : "text-slate-700"
+                      errors.description ? "text-red-500" : "text-gray-500"
                     }`}
                   >
                     Comments
@@ -253,7 +258,7 @@ export default function AddNewTransactionModal({
                   Close
                 </button>
                 <button
-                  className="mr-1 mb-1 rounded bg-emerald-400 px-6 py-3 text-xs font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-lg focus:outline-none active:bg-emerald-500"
+                  className="mr-1 mb-1 flex w-40 justify-center rounded bg-emerald-400 px-6 py-3 text-xs font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-lg focus:outline-none active:bg-emerald-500"
                   type="submit"
                 >
                   <div className="flex items-center">

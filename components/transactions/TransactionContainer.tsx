@@ -16,7 +16,7 @@ const TransactionContainer = () => {
   const { data: session, status } = useSession();
   const userEmail = session.user.email;
   const [showModal, setShowModal] = useState(false);
-  const [showNewExpenseModal, setShowNewExpenseModal] = useState(false);
+  const [showNewTransactionModal, setShowNewTransactionModal] = useState(false);
   const [showToaster, setShowToaster] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [taskStatus, setTaskStatus] = useState(defaultErrorState);
@@ -61,11 +61,11 @@ const TransactionContainer = () => {
   };
 
   const handleOpenNewExpenseModal = () => {
-    setShowNewExpenseModal(true);
+    setShowNewTransactionModal(true);
   };
 
   const handleCloseNewExpenseModal = () => {
-    setShowNewExpenseModal(false);
+    setShowNewTransactionModal(false);
   };
 
   const handleToaster = (timeout, errorStatus, errorMessage) => {
@@ -170,16 +170,6 @@ const TransactionContainer = () => {
     date,
     description,
   }) => {
-    if (!amount) {
-      handleToaster(6000, true, "Amount can't be empty");
-      return;
-    }
-
-    if (!date) {
-      handleToaster(6000, true, "Date can't be empty");
-      return;
-    }
-
     try {
       const result = await addExpense({
         transactionType,
@@ -214,7 +204,7 @@ const TransactionContainer = () => {
           isLoading={isLoading}
         />
       )}
-      {showNewExpenseModal && (
+      {showNewTransactionModal && transactionCategories.length > 0 && (
         <AddNewTransactionModal
           onClose={handleCloseNewExpenseModal}
           transactionCategories={transactionCategories}
