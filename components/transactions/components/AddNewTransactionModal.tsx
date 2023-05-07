@@ -1,172 +1,274 @@
-import {
-	CustomInput,
-	CustomSelect,
-	CustomTextarea,
-	ModalCloseButton,
-	ModalConfirmButton,
-	ModalXButton,
-} from '../../generic/GenericComponents';
-import LoadingSpinner from '../../generic/LoadingSpinner';
-import React, { useEffect, useState } from 'react';
-import { transactionTypes } from './AddNewCategoryModal';
+import LoadingSpinner from "../../generic/LoadingSpinner";
+import React, { useEffect, useState } from "react";
+import { transactionTypes } from "./AddNewCategoryModal";
+import { z, ZodType } from "zod";
+import { useForm, useController } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+type NewTransactionType = {
+  transactionType: "Expenses" | "Income";
+  transactionName: string;
+  amount: string;
+  date: string;
+  description: string;
+};
+
+type TransactionCategory = {
+  _id: string;
+  email: string;
+  transactionName: string;
+  transactionType: string;
+};
+
+type AddNewTransactionModalProps = {
+  onClose: () => void;
+  onConfirm: ({
+    transactionType,
+    transactionName,
+    amount,
+    date,
+    description,
+  }) => void;
+  isLoading: boolean;
+  transactionCategories: TransactionCategory[];
+};
 
 export default function AddNewTransactionModal({
-	onClose,
-	onConfirm,
-	isLoading,
-	transactionCategories,
-}) {
-	// ===FILTER CATEGORIES BY TRANSACTION TYPE ===
-	const expenseCategories = transactionCategories.filter(
-		(categ) => categ.transactionType === 'Expenses'
-	);
-	const incomeCategories = transactionCategories.filter(
-		(categ) => categ.transactionType === 'Income'
-	);
+  onClose,
+  onConfirm,
+  isLoading,
+  transactionCategories,
+}: AddNewTransactionModalProps) {
+  const schema: ZodType = z.object({
+    transactionType: z.string().min(3),
+    transactionName: z.string().min(3),
+    amount: z.coerce.number().min(1, { message: "Amount can't be zero" }),
+    date: z.string(),
+    description: z.string(),
+  });
 
-	// === DEFAULT TRANSACTION TYPE ===
-	const [transactionType, setTransactionType] = useState(
-		transactionTypes[0].transactionName
-	);
+  const DEFAULT_FORM_DATA: NewTransactionType = {
+    transactionType: "Expenses",
+    transactionName: transactionCategories.filter(
+      (categ) => categ.transactionType === "Expenses"
+    )[0].transactionName,
+    amount: "0",
+    date: new Date().toLocaleString(),
+    description: "",
+  };
 
-	// === THIS IS THE ARRAY THAT HOLDS THE CATEGORY NAMES===
-	// === WILL BE SWITCHED TO EITHER EXPENSES OR INCOME ARRAY ===
-	const [categories, setCategories] = useState(expenseCategories);
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<NewTransactionType>({
+    resolver: zodResolver(schema),
+    defaultValues: DEFAULT_FORM_DATA,
+  });
 
-	//DEFAULT CATEGORY NAME ===
-	const [transactionName, setTransactionName] = useState(
-		categories[0].transactionName
-	);
+  const { field } = useController({ name: "transactionType", control });
 
-	const [amount, setAmount] = useState('');
-	const [date, setDate] = useState('');
-	const [description, setDescription] = useState('');
+  const handleFormSubmit = (data: NewTransactionType) => {
+    onConfirm(data);
+  };
 
-	useEffect(() => {
-		if (transactionType === 'Expenses') {
-			setCategories(expenseCategories);
-			setTransactionName(expenseCategories[0].transactionName);
-		}
-		if (transactionType === 'Income') {
-			setCategories(incomeCategories);
-			setTransactionName(incomeCategories[0].transactionName);
-		}
-	}, [transactionType]);
+  return (
+    <>
+      <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden outline-none focus:outline-none">
+        <div className="relative my-6 mx-auto w-[82%] max-w-3xl lg:w-[70%]">
+          {/*content*/}
+          <div className="relative flex w-full flex-col rounded-lg border-0 bg-white shadow-lg outline-none focus:outline-none">
+            {/*header*/}
+            <div className="flex items-start justify-between rounded-t border-b border-solid border-slate-200 p-5">
+              <h3 className="text-xl font-semibold text-cyan-700 md:text-2xl">
+                Add new transaction
+              </h3>
+              <button
+                className="float-right ml-auto border-0 bg-transparent p-1 text-3xl font-semibold leading-none text-black outline-none focus:outline-none"
+                onClick={onClose}
+              >
+                <span className="block h-6 w-6 bg-transparent text-2xl text-black outline-none focus:outline-none">
+                  ×
+                </span>
+              </button>
+            </div>
+            {/*body*/}
+            <form onSubmit={handleSubmit(handleFormSubmit)}>
+              <div className="m-5 flex flex-col items-center justify-center space-y-3">
+                <div className="group flex w-full flex-col md:w-2/3">
+                  <label
+                    htmlFor="transactionType"
+                    className={`text-md font-semibold ${
+                      errors.transactionType ? "text-red-500" : "text-slate-700"
+                    }`}
+                  >
+                    Transaction type
+                    <select
+                      value={field.value}
+                      {...register("transactionType")}
+                      className={`md:text-md peer peer h-9 w-full rounded-lg border-2 border-opacity-50 px-2 text-sm outline-none transition duration-200 focus:border-cyan-500 focus:text-black ${
+                        errors.transactionType
+                          ? "border-red-300"
+                          : "border-slate-500"
+                      }`}
+                    >
+                      {transactionTypes.map((category) => (
+                        <option
+                          key={category._id}
+                          value={category.transactionName}
+                        >
+                          {category.transactionName}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  {errors.transactionType && (
+                    <span className="text-xs text-red-500">
+                      {errors.transactionType.message}
+                    </span>
+                  )}
+                </div>
 
-	const handleTypeChange = (userInput) => {
-		setTransactionType(userInput);
-	};
+                <div className="group flex w-full flex-col md:w-2/3">
+                  <label
+                    htmlFor="transactionType"
+                    className={`text-md font-semibold ${
+                      errors.transactionType ? "text-red-500" : "text-slate-700"
+                    }`}
+                  >
+                    Transaction category
+                    <select
+                      {...register("transactionName")}
+                      className={`md:text-md peer peer h-9 w-full rounded-lg border-2 border-opacity-50 px-2 text-sm outline-none transition duration-200 focus:border-cyan-500 focus:text-black ${
+                        errors.transactionName
+                          ? "border-red-300"
+                          : "border-slate-500"
+                      }`}
+                    >
+                      {transactionCategories
+                        .filter(
+                          (categ) => categ.transactionType === field.value
+                        )
+                        .map((category) => (
+                          <option
+                            key={category._id}
+                            value={category.transactionName}
+                          >
+                            {category.transactionName}
+                          </option>
+                        ))}
+                    </select>
+                  </label>
+                  {errors.transactionName && (
+                    <span className="text-xs text-red-500">
+                      {errors.transactionName.message}
+                    </span>
+                  )}
+                </div>
 
-	const handleCategoryChange = (userInput) => {
-		setTransactionName(userInput);
-	};
-	const handleAmountChange = (userInput) => {
-		setAmount(userInput);
-	};
-	const handleDateChange = (userInput) => {
-		setDate(userInput);
-	};
-	const handleDescriptionChange = (userInput) => {
-		setDescription(userInput);
-	};
+                <div className="group flex w-full flex-col md:w-2/3">
+                  <label
+                    htmlFor="amount"
+                    className={`text-md font-semibold ${
+                      errors.amount ? "text-red-500" : "text-slate-700"
+                    }`}
+                  >
+                    Amount
+                  </label>
+                  <input
+                    {...register("amount")}
+                    type="number"
+                    id="amount"
+                    className={`md:text-md peer peer h-9 w-full rounded-lg border-2 border-opacity-50 px-2 text-sm outline-none transition duration-200 focus:border-cyan-500 focus:text-black ${
+                      errors.amount ? "border-red-300" : "border-slate-500"
+                    }`}
+                  />
+                  {errors.amount && (
+                    <span className="text-xs text-red-500">
+                      {errors.amount.message}
+                    </span>
+                  )}
+                </div>
 
-	const handleSubmitExpense = (
-		transactionType,
-		transactionName,
-		amount,
-		date,
-		description
-	) => {
-		onConfirm({
-			transactionType,
-			transactionName,
-			amount: +amount,
-			date,
-			description,
-		});
-	};
+                <div className="group flex w-full flex-col md:w-2/3">
+                  <label
+                    htmlFor="date"
+                    className={`text-md font-semibold ${
+                      errors.date ? "text-red-500" : "text-slate-700"
+                    }`}
+                  >
+                    Date
+                  </label>
+                  <input
+                    {...register("date")}
+                    type="date"
+                    id="date"
+                    className={`md:text-md peer peer h-9 w-full rounded-lg border-2 border-opacity-50 px-2 text-sm outline-none transition duration-200 focus:border-cyan-500 focus:text-black ${
+                      errors.date ? "border-red-300" : "border-slate-500"
+                    }`}
+                  />
+                  {errors.date && (
+                    <span className="text-xs text-red-500">
+                      {errors.date.message}
+                    </span>
+                  )}
+                </div>
 
-	const handleFormSubmit = (e) => {
-		e.preventDefault();
-		handleSubmitExpense(
-			transactionType,
-			transactionName,
-			amount,
-			date,
-			description
-		);
-	};
-
-	return (
-		<>
-			<>
-				<div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden outline-none focus:outline-none">
-					<div className="relative my-6 mx-auto w-[82%] max-w-3xl lg:w-[70%]">
-						{/*content*/}
-						<div className="relative flex w-full flex-col rounded-lg border-0 bg-white shadow-lg outline-none focus:outline-none">
-							{/*header*/}
-							<div className="flex items-start justify-between rounded-t border-b border-solid border-slate-200 p-5">
-								<h3 className="text-xl font-semibold text-cyan-700 md:text-2xl">
-									Add new expense
-								</h3>
-								<ModalXButton handleClose={onClose} />
-							</div>
-							{/*body*/}
-							<form onSubmit={handleFormSubmit}>
-								<div className="m-5 flex flex-col items-center justify-center">
-									<CustomSelect
-										data={transactionTypes}
-										onHandleChange={handleTypeChange}
-										labelFor="transactionType"
-										labelName="Transaction type"
-									/>
-									<CustomSelect
-										data={categories}
-										labelFor="expenseCategory"
-										labelName="Transaction category"
-										onHandleChange={handleCategoryChange}
-									/>
-									<CustomInput
-										labelFor="amount"
-										inputType="text"
-										labelName="Amount"
-										defaultValue={''}
-										onHandleChange={handleAmountChange}
-									/>
-									<CustomInput
-										labelFor="date"
-										inputType="date"
-										labelName="Date"
-										defaultValue={''}
-										onHandleChange={handleDateChange}
-									/>
-									<CustomTextarea
-										labelFor="comments"
-										labelName="Comments"
-										onHandleChange={handleDescriptionChange}
-									/>
-								</div>
-								{/*footer*/}
-								<div className="flex items-center justify-end rounded-b border-t border-solid border-slate-200 p-6">
-									<ModalCloseButton handleClose={onClose} />
-									{!isLoading && (
-										<ModalConfirmButton
-											buttonText="Add expense"
-											children={null}
-										/>
-									)}
-									{isLoading && (
-										<ModalConfirmButton buttonText="Submitting...">
-											<LoadingSpinner />
-										</ModalConfirmButton>
-									)}
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-				<div className="fixed inset-0 z-40 bg-black opacity-25"></div>
-			</>
-		</>
-	);
+                <div className="group flex w-full flex-col md:w-2/3">
+                  <label
+                    htmlFor="description"
+                    className={`text-md font-semibold ${
+                      errors.description ? "text-red-500" : "text-slate-700"
+                    }`}
+                  >
+                    Comments
+                    <textarea
+                      placeholder="Optional"
+                      {...register("description")}
+                      id="description"
+                      rows={4}
+                      cols={30}
+                      className={`md:text-md peer peer h-9 w-full rounded-lg border-2 border-opacity-50 px-2 text-sm outline-none transition duration-200 focus:border-cyan-500 focus:text-black ${
+                        errors.description
+                          ? "border-red-300"
+                          : "border-slate-500"
+                      }`}
+                    />
+                  </label>
+                  {errors.description && (
+                    <span className="text-xs text-red-500">
+                      {errors.description.message}
+                    </span>
+                  )}
+                </div>
+              </div>
+              {/*footer*/}
+              <div className="flex items-center justify-end rounded-b border-t border-solid border-slate-200 p-6">
+                <button
+                  className="background-transparent mr-1 mb-1 rounded bg-gray-500 px-6 py-3 text-xs font-bold  uppercase text-white outline-none transition-all duration-150 ease-linear hover:shadow-lg focus:outline-none"
+                  type="button"
+                  onClick={onClose}
+                >
+                  Close
+                </button>
+                <button
+                  className="mr-1 mb-1 rounded bg-emerald-400 px-6 py-3 text-xs font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-lg focus:outline-none active:bg-emerald-500"
+                  type="submit"
+                >
+                  <div className="flex items-center">
+                    {isLoading && "Submitting..."}
+                    {isLoading && <LoadingSpinner />}
+                    {!isLoading &&
+                      `Add ${field.value === "Income" ? "Income" : "Expense"}`}
+                  </div>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div className="fixed inset-0 z-40 bg-black opacity-25"></div>
+    </>
+  );
 }
