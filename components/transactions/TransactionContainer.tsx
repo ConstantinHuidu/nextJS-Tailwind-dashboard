@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-import AddExpenseCategoryModal from './components/AddNewCategoryModal';
 import TopControls from './components/TopControls';
 import Toaster from '../generic/Toaster';
-import AddNewExpenseModal from './components/AddNewExpenseModal';
+import AddNewTransactionModal from './components/AddNewTransactionModal';
 import RecentTransactions from './components/RecentTransactions';
 import ExpenseChart from './components/ExpenseChart';
+import AddNewCategoryModal from './components/AddNewCategoryModal';
 
 const defaultErrorState = {
 	error: false,
@@ -211,14 +211,14 @@ const TransactionContainer = () => {
 				onOpenNewExpenseModal={handleOpenNewExpenseModal}
 			/>
 			{showModal && (
-				<AddExpenseCategoryModal
+				<AddNewCategoryModal
 					onClose={handleCloseModal}
 					onConfirm={handleAddCategory}
 					isLoading={isLoading}
 				/>
 			)}
 			{showNewExpenseModal && (
-				<AddNewExpenseModal
+				<AddNewTransactionModal
 					onClose={handleCloseNewExpenseModal}
 					transactionCategories={transactionCategories}
 					onConfirm={handleAddExpense}

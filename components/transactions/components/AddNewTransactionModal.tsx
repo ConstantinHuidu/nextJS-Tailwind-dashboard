@@ -5,12 +5,12 @@ import {
 	ModalCloseButton,
 	ModalConfirmButton,
 	ModalXButton,
-} from '../../../components/generic/GenericComponents';
-import LoadingSpinner from '../../../components/generic/LoadingSpinner';
+} from '../../generic/GenericComponents';
+import LoadingSpinner from '../../generic/LoadingSpinner';
 import React, { useEffect, useState } from 'react';
 import { transactionTypes } from './AddNewCategoryModal';
 
-export default function AddNewExpenseModal({
+export default function AddNewTransactionModal({
 	onClose,
 	onConfirm,
 	isLoading,
