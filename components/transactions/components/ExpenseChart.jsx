@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
+import LoadingSpinner from "../../generic/LoadingSpinner";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -42,7 +43,7 @@ const backgroundColors = [
   "rgba(205, 220, 57, 0.6)",
 ];
 
-const ExpenseChart = ({ transactions }) => {
+const ExpenseChart = ({ transactions, isLoading }) => {
   const expensesOnly = transactions.filter(
     (transaction) => transaction.transactionType === "Expenses"
   );
@@ -99,13 +100,16 @@ const ExpenseChart = ({ transactions }) => {
 
   return (
     <>
-      <div className="m-auto h-[50vh] w-full rounded-lg border bg-white p-4 lg:col-span-3 lg:h-[70vh] ">
-        <h3>Expenses chart</h3>
-        {expenseData.length > 0 ? (
+      <div className="m-auto flex h-[50vh] w-full items-center justify-center rounded-lg border bg-white p-4 lg:col-span-3 lg:h-[70vh] ">
+        {expenseData.length > 0 && !isLoading && (
           <Pie data={chartData} options={chartOptions} />
-        ) : (
-          <p className="p-2">You don't have any transactions</p>
         )}
+        {expenseData.length === 0 && !isLoading && (
+          <p className="m-auto p-2 text-xl font-semibold text-gray-400">
+            You don't have any transactions
+          </p>
+        )}
+        {isLoading && <LoadingSpinner size={"xl"} />}
       </div>
     </>
   );

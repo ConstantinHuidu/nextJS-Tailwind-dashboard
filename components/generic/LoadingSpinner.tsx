@@ -1,11 +1,36 @@
 import React from "react";
+type SpinnerSize = "xs" | "md" | "reg" | "lg" | "xl";
 
-const LoadingSpinner = () => {
+interface SpinnerProps {
+  size?: SpinnerSize;
+}
+
+const LoadingSpinner = ({ size = "xs" }: SpinnerProps) => {
+  const spinnerSize = () => {
+    if (size === "xs") {
+      return "mr-2 h-4 w-4 animate-spin fill-cyan-800 text-gray-200 dark:text-gray-600";
+    }
+    if (size === "md") {
+      return "mr-2 h-8 w-8 animate-spin fill-cyan-800 text-gray-200 dark:text-gray-600";
+    }
+    if (size === "reg") {
+      return "mr-2 h-12 w-12 animate-spin fill-cyan-800 text-gray-200 dark:text-gray-600";
+    }
+    if (size === "lg") {
+      return "mr-2 h-28 w-28 animate-spin fill-cyan-800 text-gray-200 dark:text-gray-600";
+    }
+    if (size === "xl") {
+      return "mr-2 h-56 w-56 animate-spin fill-cyan-800 text-gray-200 dark:text-gray-600";
+    }
+  };
+
+  const spinnerClassName = spinnerSize();
+
   return (
     <div role="status">
       <svg
         aria-hidden="true"
-        className="mr-2 h-4 w-4 animate-spin fill-blue-600 text-gray-200 dark:text-gray-600"
+        className={spinnerClassName}
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
