@@ -1,7 +1,6 @@
-import React from "react";
-import Hero from "../../../assets/images/homePage/Hero.png";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
+import Hero from "../../../assets/images/homePage/Hero.png";
 
 const HeroSection = () => {
   return (
@@ -25,7 +24,7 @@ const HeroSection = () => {
           </p>
           <Link
             href="/transactions"
-            className="rounded-full bg-cyan-700 py-3 px-10 text-xl uppercase text-white"
+            className="rounded-full bg-cyan-700 py-3 px-10 text-xl uppercase text-white duration-200 hover:bg-gray-900"
           >
             Get started
           </Link>

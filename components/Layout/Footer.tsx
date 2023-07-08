@@ -1,5 +1,5 @@
-import React from "react";
-import { BsTwitter, BsGithub, BsLinkedin } from "react-icons/bs";
+import Link from "next/link";
+import { BsGithub, BsLinkedin, BsTwitter } from "react-icons/bs";
 
 const Footer = () => {
   return (
@@ -28,8 +28,18 @@ const Footer = () => {
         <div className="text-xs">Constantin Huidu 2023</div>
         <div className="text-md flex items-center justify-center space-x-6">
           <BsTwitter className="cursor-pointer text-gray-500 hover:text-blue-800" />
-          <BsGithub className="cursor-pointer text-gray-500 hover:text-gray-900" />
-          <BsLinkedin className="cursor-pointer text-gray-500 hover:text-blue-800" />
+          <Link
+            href="https://github.com/ConstantinHuidu/nextJS-Tailwind-dashboard"
+            target="_blank"
+          >
+            <BsGithub className="cursor-pointer text-gray-500 hover:text-gray-900" />
+          </Link>
+          <Link
+            href="https://www.linkedin.com/in/constantinhuidu"
+            target="_blank"
+          >
+            <BsLinkedin className="cursor-pointer text-gray-500 hover:text-blue-800" />
+          </Link>
         </div>
       </div>
     </div>

@@ -1,11 +1,10 @@
-import React from "react";
-import { ImStatsBars2 } from "react-icons/im";
-import { HiOutlineLightBulb } from "react-icons/hi";
+import Link from "next/link";
 import { BiHappyHeartEyes } from "react-icons/bi";
+import { HiOutlineLightBulb } from "react-icons/hi";
+import { ImStatsBars2 } from "react-icons/im";
+import CardComponent from "./components/CardComponent";
 import HeroSection from "./components/HeroSection";
 import ReasonsContainer from "./components/ReasonsContainer";
-import Link from "next/link";
-import CardComponent from "./components/CardComponent";
 
 const HomePage = () => {
   return (
@@ -50,7 +49,7 @@ const HomePage = () => {
       <div className="flex items-center justify-center pb-10">
         <Link
           href="/transactions"
-          className="rounded-full bg-cyan-700 py-3 px-10 text-xl uppercase text-white"
+          className="rounded-full bg-cyan-700 py-3 px-10 text-xl uppercase text-white duration-200 hover:bg-gray-900"
         >
           Start tracking today!
         </Link>
