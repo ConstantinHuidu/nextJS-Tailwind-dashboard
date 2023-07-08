@@ -1,6 +1,5 @@
-import React from "react";
-import ReasonsImg from "../../../assets/images/homePage/Reasons.png";
 import Image from "next/image";
+import ReasonsImg from "../../../assets/images/homePage/Reasons.png";
 import Reason from "./Reason";
 
 const ReasonsContainer = () => {

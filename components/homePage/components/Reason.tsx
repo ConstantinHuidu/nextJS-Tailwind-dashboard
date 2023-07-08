@@ -7,7 +7,7 @@ const Reason = () => {
     <>
       <div className="mx-6 flex max-w-xs items-center justify-center space-x-10 md:max-w-md">
         <div className="text-4xl text-green-500">
-          <AiOutlineCheckSquare />
+          <AiOutlineCheckSquare className="text-cyan-700" />
         </div>
         <p className="text-gray-400">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum
