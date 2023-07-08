@@ -1,5 +1,5 @@
 import LoadingSpinner from "../../generic/LoadingSpinner";
-import React from "react";
+import React, { useRef } from "react";
 import { transactionTypes } from "./AddNewCategoryModal";
 import { z, ZodType } from "zod";
 import { useForm, useController } from "react-hook-form";
@@ -39,6 +39,8 @@ export default function AddNewTransactionModal({
   isLoading,
   transactionCategories,
 }: AddNewTransactionModalProps) {
+  const calendarRef = useRef(null);
+
   const schema: ZodType = z.object({
     transactionType: z.string().min(3),
     transactionName: z.string().min(3),
@@ -209,6 +211,10 @@ export default function AddNewTransactionModal({
                     {...register("date")}
                     type="date"
                     id="date"
+                    ref={calendarRef}
+                    onClick={() => {
+                      calendarRef.current.showPicker();
+                    }}
                     className={`md:text-md peer peer h-9 w-full rounded-lg border-2 border-opacity-50 px-2 text-sm outline-none transition duration-200 focus:border-cyan-500 focus:text-black ${
                       errors.date ? "border-red-300" : "border-slate-500"
                     }`}
