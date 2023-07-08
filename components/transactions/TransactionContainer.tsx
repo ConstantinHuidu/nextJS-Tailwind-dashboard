@@ -28,6 +28,7 @@ const TransactionContainer = () => {
     const userEmail = session?.user?.email;
     const response = await fetch(`api/categories/${userEmail}`);
     const data = await response.json();
+    setIsLoading(false);
     setIsReloading(false);
     setTransactionCategories(data);
   };
@@ -36,17 +37,20 @@ const TransactionContainer = () => {
     const userEmail = session?.user?.email;
     const response = await fetch(`api/transactions/${userEmail}`);
     const data = await response.json();
+    setIsLoading(false);
     setIsReloading(false);
     setTransactions(data);
   };
 
   useEffect(() => {
+    setIsLoading(true);
     fetchExpenseCategories();
     fetchExpensesByUserEmail();
   }, []);
 
   useEffect(() => {
     if (isReloading) {
+      setIsLoading(true);
       fetchExpenseCategories();
       fetchExpensesByUserEmail();
     }
@@ -213,7 +217,7 @@ const TransactionContainer = () => {
         />
       )}
       <div className="grid grid-cols-1 gap-4 p-4 lg:grid-cols-5">
-        <ExpenseChart transactions={transactions} />
+        <ExpenseChart transactions={transactions} isLoading={isLoading} />
         <RecentTransactions transactions={transactions} />
       </div>
       {showToaster && (

@@ -251,14 +251,15 @@ export default function AddNewTransactionModal({
               {/*footer*/}
               <div className="flex items-center justify-end rounded-b border-t border-solid border-slate-200 p-6">
                 <button
-                  className="background-transparent mr-1 mb-1 rounded bg-gray-500 px-6 py-3 text-xs font-bold  uppercase text-white outline-none transition-all duration-150 ease-linear hover:shadow-lg focus:outline-none"
+                  className="background-transparent mr-1 mb-1 rounded bg-cyan-800 px-6 py-3 text-xs font-bold  uppercase text-white outline-none transition-all duration-150 ease-linear hover:shadow-lg focus:outline-none"
                   type="button"
                   onClick={onClose}
                 >
                   Close
                 </button>
                 <button
-                  className="mr-1 mb-1 flex w-40 justify-center rounded bg-emerald-400 px-6 py-3 text-xs font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-lg focus:outline-none active:bg-emerald-500"
+                  disabled={isLoading}
+                  className="mr-1 mb-1 flex w-40 justify-center rounded bg-emerald-400 px-6 py-3 text-xs font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-lg focus:outline-none active:bg-emerald-500 disabled:bg-gray-500"
                   type="submit"
                 >
                   <div className="flex items-center">
