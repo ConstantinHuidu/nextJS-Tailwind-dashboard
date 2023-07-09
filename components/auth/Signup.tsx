@@ -143,11 +143,19 @@ const Signup = () => {
             className="rounded-l-2xl object-cover"
           />
         </div>
-        <div className="my-5 mx-auto w-[90%] lg:my-0 lg:w-1/2">
+        <div className="my-5 mx-auto flex w-[90%] flex-col items-center justify-center lg:my-0 lg:w-1/2">
+          <div className="flex flex-col text-center">
+            <p className="text-4xl font-semibold text-cyan-700">
+              Welcome to <span className="font-extrabold"> Budgetify</span>
+            </p>
+            <p className="mt-5 font-semibold text-stone-500">
+              Signup for a new account
+            </p>
+          </div>
           <form
             onSubmit={handleSubmit(submitFormHandler)}
             noValidate
-            className="m-auto flex h-[650px] w-10/12 max-w-4xl flex-col items-center justify-center space-y-3"
+            className="m-auto flex h-[530px] w-10/12 max-w-4xl flex-col items-center justify-center space-y-2"
           >
             <div className="group flex w-full flex-col md:w-2/3">
               <label
@@ -288,7 +296,7 @@ const Signup = () => {
               <div className="flex items-center justify-center">
                 {isLoading && <LoadingSpinner />}
                 {isLoading && "Creating account"}
-                {!isLoading && " Sign in"}
+                {!isLoading && " Sign up"}
               </div>
             </button>
           </form>
