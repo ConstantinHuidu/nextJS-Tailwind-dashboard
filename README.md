@@ -1,9 +1,12 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-I've used **TailwindCss** for stylying and **MongoDB** for data persistency
+Technologies used:
+* **NextJS** for FE and server endpoints
+* **TailwindCss** for stylying 
+* **MongoDB** for data persistency.
 
 
-## Application is live
+### Application is live ###
 
 Click on [`Budgetify`](https://budgetify-lemon.vercel.app/transactions).
 Use "testaccount@test.com" with password "parola" to get a sneak peak into to the app.
@@ -13,7 +16,7 @@ For feedback, you can get in touch with me on [`LinkedIn`](https://www.linkedin.
 Enjoy!
 
 
-## If you want to run the application locally
+### If you want to run the application locally ###
 
 First, run the development server:
 
