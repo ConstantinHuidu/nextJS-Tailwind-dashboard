@@ -1,8 +1,8 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is a dashboard-like application. Users can create accounts, login and track their income and expenses. Application also offers visual support of their spending habits. It includes breakdown by year, month or expense category (user defined).
 
 ### Technologies used: ###
 * **NextJS** for client-side and server endpoints
-* **TailwindCss** for stylying 
+* **Tailwindcss** for stylying 
 * **MongoDB** for data persistency.
 
 
