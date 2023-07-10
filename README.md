@@ -1,4 +1,4 @@
-Budgetify is a dashboard-like application where users can create accounts, login and track their income and expenses. Application also offers visual support of their spending habits. It includes breakdown by year, month or expense category (user defined).
+#Budgetify# is a dashboard-like application where users can create accounts, login and track their income and expenses. Application also offers visual support of their spending habits. It includes breakdown by year, month or expense category (user defined).
 
 ### Technologies used: ###
 * **NextJS** for client-side and server endpoints
